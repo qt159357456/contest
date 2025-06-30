@@ -5,8 +5,8 @@
 #include "stm32f1xx_hal.h"
 
 // 默认舵机参数
-#define SERVO_MIN_PULSE      50     // 0.5ms
-#define SERVO_MAX_PULSE      250    // 2.5ms
+#define SERVO_MIN_PULSE      500     // 0.5ms
+#define SERVO_MAX_PULSE      2500    // 2.5ms
 
 /* 舵机配置结构体 */
 typedef struct {
@@ -19,8 +19,6 @@ typedef struct {
 } Servo_Config;
 
 /* 函数声明 */
-void Servo_SetAngle(TIM_HandleTypeDef *htim, uint32_t channel, float angle);
 void Servo_SetPulse(TIM_HandleTypeDef *htim, uint32_t channel, uint16_t pulse_us);
-void Servo_Calibrate(TIM_HandleTypeDef *htim, uint32_t channel, uint16_t min_pulse, uint16_t max_pulse);
-
+void Servo_SetPWM(TIM_HandleTypeDef *htim, uint32_t channel, uint16_t pulse);
 #endif /* __SERVO_H */
