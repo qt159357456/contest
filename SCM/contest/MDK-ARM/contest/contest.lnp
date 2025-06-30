@@ -1,6 +1,11 @@
 --cpu Cortex-M3
 "contest\startup_stm32f103xb.o"
 "contest\main.o"
+"contest\gpio.o"
+"contest\dma.o"
+"contest\i2c.o"
+"contest\tim.o"
+"contest\usart.o"
 "contest\stm32f1xx_it.o"
 "contest\stm32f1xx_hal_msp.o"
 "contest\stm32f1xx_hal_timebase_tim.o"
@@ -31,10 +36,10 @@
 "contest\heap_4.o"
 "contest\pid.o"
 "contest\filter.o"
-"contest\usart.o"
 "contest\servo.o"
 "contest\oled.o"
---strict --scatter "contest\contest.sct"
+"contest\mymain.o"
+--library_type=microlib --strict --scatter "contest\contest.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
 --list "contest.map" -o contest\contest.axf

@@ -1,5 +1,5 @@
-contest\usart.o: ..\Hardware\usart.c
-contest\usart.o: ..\Hardware\usart.h
+contest\usart.o: ../Core/Src/usart.c
+contest\usart.o: ../Core/Inc/usart.h
 contest\usart.o: ../Core/Inc/main.h
 contest\usart.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h
 contest\usart.o: ../Core/Inc/stm32f1xx_hal_conf.h
@@ -31,4 +31,8 @@ contest\usart.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h
 contest\usart.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h
 contest\usart.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
 contest\usart.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdio.h
-contest\usart.o: ../Core/Inc/global.h
+contest\usart.o: ../Hardware/mymain.h
+contest\usart.o: ../Core/Inc/usart.h
+contest\usart.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\string.h
+contest\usart.o: ./contest/FreeRTOS/include/FreeRTOSConfig.h
+contest\usart.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdarg.h
