@@ -1,8 +1,8 @@
 contest\stream_buffer.o: contest\FreeRTOS\src\stream_buffer.c
-contest\stream_buffer.o: D:\project\ARM\ARMCC\Bin\..\include\stdint.h
-contest\stream_buffer.o: D:\project\ARM\ARMCC\Bin\..\include\string.h
+contest\stream_buffer.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdint.h
+contest\stream_buffer.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\string.h
 contest\stream_buffer.o: ./contest/FreeRTOS/include/FreeRTOS.h
-contest\stream_buffer.o: D:\project\ARM\ARMCC\Bin\..\include\stddef.h
+contest\stream_buffer.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stddef.h
 contest\stream_buffer.o: ./contest/FreeRTOS/include/FreeRTOSConfig.h
 contest\stream_buffer.o: ./contest/FreeRTOS/include/projdefs.h
 contest\stream_buffer.o: ./contest/FreeRTOS/include/portable.h

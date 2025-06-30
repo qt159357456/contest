@@ -1,7 +1,7 @@
 contest\croutine.o: contest\FreeRTOS\src\croutine.c
 contest\croutine.o: ./contest/FreeRTOS/include/FreeRTOS.h
-contest\croutine.o: D:\project\ARM\ARMCC\Bin\..\include\stddef.h
-contest\croutine.o: D:\project\ARM\ARMCC\Bin\..\include\stdint.h
+contest\croutine.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stddef.h
+contest\croutine.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdint.h
 contest\croutine.o: ./contest/FreeRTOS/include/FreeRTOSConfig.h
 contest\croutine.o: ./contest/FreeRTOS/include/projdefs.h
 contest\croutine.o: ./contest/FreeRTOS/include/portable.h

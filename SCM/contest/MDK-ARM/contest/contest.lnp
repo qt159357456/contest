@@ -5,8 +5,7 @@
 "contest\stm32f1xx_hal_msp.o"
 "contest\stm32f1xx_hal_timebase_tim.o"
 "contest\stm32f1xx_hal_gpio_ex.o"
-"contest\stm32f1xx_hal_tim.o"
-"contest\stm32f1xx_hal_tim_ex.o"
+"contest\stm32f1xx_hal_i2c.o"
 "contest\stm32f1xx_hal.o"
 "contest\stm32f1xx_hal_rcc.o"
 "contest\stm32f1xx_hal_rcc_ex.o"
@@ -17,6 +16,8 @@
 "contest\stm32f1xx_hal_flash.o"
 "contest\stm32f1xx_hal_flash_ex.o"
 "contest\stm32f1xx_hal_exti.o"
+"contest\stm32f1xx_hal_tim.o"
+"contest\stm32f1xx_hal_tim_ex.o"
 "contest\stm32f1xx_hal_uart.o"
 "contest\system_stm32f1xx.o"
 "contest\list.o"
@@ -32,6 +33,7 @@
 "contest\filter.o"
 "contest\usart.o"
 "contest\servo.o"
+"contest\oled.o"
 --strict --scatter "contest\contest.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

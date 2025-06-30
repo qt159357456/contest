@@ -1,8 +1,8 @@
 contest\event_groups.o: contest\FreeRTOS\src\event_groups.c
-contest\event_groups.o: D:\project\ARM\ARMCC\Bin\..\include\stdlib.h
+contest\event_groups.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdlib.h
 contest\event_groups.o: ./contest/FreeRTOS/include/FreeRTOS.h
-contest\event_groups.o: D:\project\ARM\ARMCC\Bin\..\include\stddef.h
-contest\event_groups.o: D:\project\ARM\ARMCC\Bin\..\include\stdint.h
+contest\event_groups.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stddef.h
+contest\event_groups.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdint.h
 contest\event_groups.o: ./contest/FreeRTOS/include/FreeRTOSConfig.h
 contest\event_groups.o: ./contest/FreeRTOS/include/projdefs.h
 contest\event_groups.o: ./contest/FreeRTOS/include/portable.h

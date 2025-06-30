@@ -1,12 +1,11 @@
 contest\pid.o: ..\Algorithm\pid.c
-contest\pid.o: D:\project\PACK\Keil\STM32F1xx_DFP\2.4.0\Device\Include\stm32f10x.h
-contest\pid.o: .\RTE\_contest\RTE_Components.h
+contest\pid.o: D:\keil\Keil\STM32F1xx_DFP\1.0.5\Device\Include\stm32f10x.h
 contest\pid.o: ../Drivers/CMSIS/Include/core_cm3.h
-contest\pid.o: D:\project\ARM\ARMCC\Bin\..\include\stdint.h
+contest\pid.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdint.h
 contest\pid.o: ../Drivers/CMSIS/Include/cmsis_version.h
 contest\pid.o: ../Drivers/CMSIS/Include/cmsis_compiler.h
 contest\pid.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
-contest\pid.o: D:\project\PACK\Keil\STM32F1xx_DFP\2.4.0\Device\Include\system_stm32f10x.h
+contest\pid.o: D:\keil\Keil\STM32F1xx_DFP\1.0.5\Device\Include\system_stm32f10x.h
 contest\pid.o: ..\Algorithm\PID.h
 contest\pid.o: ../Core/Inc/global.h
-contest\pid.o: D:\project\ARM\ARMCC\Bin\..\include\math.h
+contest\pid.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\math.h

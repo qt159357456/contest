@@ -32,6 +32,7 @@
 #include "filter.h"
 #include "servo.h"
 #include "stm32f1xx_hal.h"
+#include "oled.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -50,6 +51,8 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
+I2C_HandleTypeDef hi2c2;
+
 TIM_HandleTypeDef htim1;
 
 UART_HandleTypeDef huart1;
@@ -63,6 +66,7 @@ void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_USART1_UART_Init(void);
 static void MX_TIM1_Init(void);
+static void MX_I2C2_Init(void);
 /* USER CODE BEGIN PFP */
 void debug_printf(const char *fmt, ...);
 /* USER CODE END PFP */
@@ -83,6 +87,7 @@ TaskHandle_t  led1_TaskHandle_t;
 TaskHandle_t  led2_TaskHandle_t;
 TaskHandle_t  filter_TaskHandle_t;
 TaskHandle_t  servo_TaskHandle_t;
+TaskHandle_t  oled_TaskHandle_t;
 
 void led1_task(void *argument) {
   (void)argument;
@@ -245,6 +250,24 @@ void servo_task(){
     }
 }
 
+
+int my_num[5] = {1,2,3,4,5};
+void oled_task(){
+		while(1){
+//			OLED_ShowCN(20, 1,0);
+//			OLED_ShowCN(40, 1, 1);
+//			OLED_ShowCN(60, 1, 2);
+//			OLED_ShowCN(80, 1,1);
+//			OLED_ShowStr1(1,1,my_num,5,1);
+//			OLED_ShowStr(32, 0, (unsigned char *)":25C", 1); // 小字体温度值
+//			OLED_ShowStr(0,10, (unsigned char *)"System OK", 2); 
+			OLED_ShowIntNum(10,0,646556,1);
+			OLED_ShowFloatNum(10,10,65.56f,1);
+		vTaskDelay(1000);
+		}
+}
+
+
 /* USER CODE END 0 */
 
 /**
@@ -277,7 +300,10 @@ int main(void)
   MX_GPIO_Init();
   MX_USART1_UART_Init();
   MX_TIM1_Init();
+  MX_I2C2_Init();
+	
   /* USER CODE BEGIN 2 */
+	OLED_Init();
 	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
 //	xTaskCreate((TaskFunction_t )led1_task,
 //					(const char*    )"led1_task",
@@ -303,6 +329,14 @@ int main(void)
 					(void*          )NULL,
 					(UBaseType_t    )4,
 					(TaskHandle_t*  )&servo_TaskHandle_t);
+	xTaskCreate((TaskFunction_t )oled_task,
+					(const char*    )"oled_task",
+					(uint16_t       )128,
+					(void*          )NULL,
+					(UBaseType_t    )5,
+					(TaskHandle_t*  )&oled_TaskHandle_t);
+					
+					
 					
 	vTaskStartScheduler();  
   /* USER CODE END 2 */
@@ -314,10 +348,14 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-		
-  }
-  /* USER CODE END 3 */
+		vTaskDelay(10);
+		}
 }
+
+
+/* USER CODE END 0 */
+
+
 
 /**
   * @brief System Clock Configuration
@@ -356,6 +394,40 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
+}
+
+/**
+  * @brief I2C2 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_I2C2_Init(void)
+{
+
+  /* USER CODE BEGIN I2C2_Init 0 */
+
+  /* USER CODE END I2C2_Init 0 */
+
+  /* USER CODE BEGIN I2C2_Init 1 */
+
+  /* USER CODE END I2C2_Init 1 */
+  hi2c2.Instance = I2C2;
+  hi2c2.Init.ClockSpeed = 100000;
+  hi2c2.Init.DutyCycle = I2C_DUTYCYCLE_2;
+  hi2c2.Init.OwnAddress1 = 0;
+  hi2c2.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
+  hi2c2.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
+  hi2c2.Init.OwnAddress2 = 0;
+  hi2c2.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
+  hi2c2.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
+  if (HAL_I2C_Init(&hi2c2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN I2C2_Init 2 */
+
+  /* USER CODE END I2C2_Init 2 */
+
 }
 
 /**
@@ -479,6 +551,7 @@ static void MX_GPIO_Init(void)
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOD_CLK_ENABLE();
+  __HAL_RCC_GPIOB_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */

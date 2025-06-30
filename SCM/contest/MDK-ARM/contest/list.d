@@ -1,8 +1,8 @@
 contest\list.o: contest\FreeRTOS\src\list.c
-contest\list.o: D:\project\ARM\ARMCC\Bin\..\include\stdlib.h
+contest\list.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdlib.h
 contest\list.o: ./contest/FreeRTOS/include/FreeRTOS.h
-contest\list.o: D:\project\ARM\ARMCC\Bin\..\include\stddef.h
-contest\list.o: D:\project\ARM\ARMCC\Bin\..\include\stdint.h
+contest\list.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stddef.h
+contest\list.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdint.h
 contest\list.o: ./contest/FreeRTOS/include/FreeRTOSConfig.h
 contest\list.o: ./contest/FreeRTOS/include/projdefs.h
 contest\list.o: ./contest/FreeRTOS/include/portable.h

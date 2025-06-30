@@ -6,14 +6,14 @@ contest\stm32f1xx_hal_tim.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_d
 contest\stm32f1xx_hal_tim.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h
 contest\stm32f1xx_hal_tim.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h
 contest\stm32f1xx_hal_tim.o: ../Drivers/CMSIS/Include/core_cm3.h
-contest\stm32f1xx_hal_tim.o: D:\project\ARM\ARMCC\Bin\..\include\stdint.h
+contest\stm32f1xx_hal_tim.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdint.h
 contest\stm32f1xx_hal_tim.o: ../Drivers/CMSIS/Include/cmsis_version.h
 contest\stm32f1xx_hal_tim.o: ../Drivers/CMSIS/Include/cmsis_compiler.h
 contest\stm32f1xx_hal_tim.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
 contest\stm32f1xx_hal_tim.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h
 contest\stm32f1xx_hal_tim.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h
 contest\stm32f1xx_hal_tim.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
-contest\stm32f1xx_hal_tim.o: D:\project\ARM\ARMCC\Bin\..\include\stddef.h
+contest\stm32f1xx_hal_tim.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stddef.h
 contest\stm32f1xx_hal_tim.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h
 contest\stm32f1xx_hal_tim.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h
 contest\stm32f1xx_hal_tim.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio_ex.h
@@ -23,6 +23,7 @@ contest\stm32f1xx_hal_tim.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_d
 contest\stm32f1xx_hal_tim.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h
 contest\stm32f1xx_hal_tim.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h
 contest\stm32f1xx_hal_tim.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h
+contest\stm32f1xx_hal_tim.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_i2c.h
 contest\stm32f1xx_hal_tim.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h
 contest\stm32f1xx_hal_tim.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h
 contest\stm32f1xx_hal_tim.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h
