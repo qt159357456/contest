@@ -49,8 +49,11 @@ contest\main.o: ./contest/FreeRTOS/port/RVDS/ARM_CM3/portmacro.h
 contest\main.o: ./contest/FreeRTOS/include/mpu_wrappers.h
 contest\main.o: ./contest/FreeRTOS/include/task.h
 contest\main.o: ./contest/FreeRTOS/include/list.h
+contest\main.o: ./contest/FreeRTOS/include/semphr.h
+contest\main.o: ./contest/FreeRTOS/include/queue.h
 contest\main.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\math.h
 contest\main.o: ../Algorithm/filter.h
 contest\main.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdlib.h
 contest\main.o: ../Hardware/servo.h
 contest\main.o: ../Hardware/oled.h
+contest\main.o: ../Hardware/mpu6050.h

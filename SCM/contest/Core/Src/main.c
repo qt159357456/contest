@@ -30,6 +30,7 @@
 #include "FreeRTOSConfig.h"
 #include "FreeRTOS.h"
 #include "task.h"
+#include "semphr.h"
 #include <stdio.h>
 #include "math.h"
 #include <stdarg.h>
@@ -39,6 +40,7 @@
 #include "stm32f1xx_hal.h"
 #include "oled.h"
 #include "usart.h"
+#include "mpu6050.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -76,6 +78,14 @@ TaskHandle_t  filter_TaskHandle_t;
 TaskHandle_t  servo_TaskHandle_t;
 TaskHandle_t  oled_TaskHandle_t;
 TaskHandle_t  usart_TaskHandle_t;
+TaskHandle_t  mpu6050_TaskHandle_t;
+
+
+/* 在全局变量区域添加 */
+float g_accel[3] = {0};  // 全局加速度数据
+float g_gyro[3] = {0};   // 全局陀螺仪数据
+SemaphoreHandle_t xSensorMutex;  // 传感器数据互斥锁
+
 
 void led1_task(void *argument) {
   (void)argument;
@@ -239,20 +249,46 @@ void servo_task(){
 }
 
 
-int my_num[5] = {1,2,3,4,5};
-void oled_task(){
-		while(1){
-//			OLED_ShowCN(20, 1,0);
-//			OLED_ShowCN(40, 1, 1);
-//			OLED_ShowCN(60, 1, 2);
-//			OLED_ShowCN(80, 1,1);
-//			OLED_ShowStr1(1,1,my_num,5,1);
-//			OLED_ShowStr(32, 0, (unsigned char *)":25C", 1); // 小字体温度值
-//			OLED_ShowStr(0,10, (unsigned char *)"System OK", 2); 
-			OLED_ShowIntNum(10,0,646556,1);
-			OLED_ShowFloatNum(10,10,65.56f,1);
-		vTaskDelay(1000);
-		}
+/* 修改 oled_task 函数 */
+void oled_task() {
+    float accel[3], gyro[3];
+    char displayBuffer[64];  // 显示缓冲区
+    
+    while(1) {
+        // 使用互斥锁获取传感器数据
+        if(xSemaphoreTake(xSensorMutex, portMAX_DELAY) == pdTRUE) {
+            for(int i = 0; i < 3; i++) {
+                accel[i] = g_accel[i];
+                gyro[i] = g_gyro[i];
+            }
+            xSemaphoreGive(xSensorMutex);
+        }
+        
+        // 清屏
+        OLED_FullyClear();
+        
+        // 显示加速度数据
+        snprintf(displayBuffer, sizeof(displayBuffer), "A.X:%.2fg", accel[0]);
+        OLED_ShowStr(0, 0, (unsigned char *)displayBuffer, 1);
+        
+        snprintf(displayBuffer, sizeof(displayBuffer), "A.Y:%.2fg", accel[1]);
+        OLED_ShowStr(0, 10, (unsigned char *)displayBuffer, 1);
+        
+        snprintf(displayBuffer, sizeof(displayBuffer), "A.Z:%.2fg", accel[2]);
+        OLED_ShowStr(0, 20, (unsigned char *)displayBuffer, 1);
+        
+        // 显示陀螺仪数据
+        snprintf(displayBuffer, sizeof(displayBuffer), "G.X:%.2f/s", gyro[0]);
+        OLED_ShowStr(0, 35, (unsigned char *)displayBuffer, 1);
+        
+        snprintf(displayBuffer, sizeof(displayBuffer), "G.Y:%.2f/s", gyro[1]);
+        OLED_ShowStr(0, 45, (unsigned char *)displayBuffer, 1);
+        
+        snprintf(displayBuffer, sizeof(displayBuffer), "G.Z:%.2f/s", gyro[2]);
+        OLED_ShowStr(0, 55, (unsigned char *)displayBuffer, 1);
+        
+        vTaskDelay(200); // OLED刷新率控制
+    }
 }
 
 
@@ -298,6 +334,37 @@ void usart_task(){
   }
 }
 
+void mpu6050_task(){  
+    if(MPU6050_Init() != 0) {
+        // 初始化失败处理
+        while(1);
+    }
+    
+    while(1) {
+        float accel[3], gyro[3];
+        MPU6050_Read_Accel(accel);
+        MPU6050_Read_Gyro(gyro);
+        
+        // 使用互斥锁保护全局变量
+        if(xSemaphoreTake(xSensorMutex, portMAX_DELAY) == pdTRUE) {
+            for(int i = 0; i < 3; i++) {
+                g_accel[i] = accel[i];
+                g_gyro[i] = gyro[i];
+            }
+            xSemaphoreGive(xSensorMutex);
+        }
+        
+        vTaskDelay(20);
+    }
+}
+
+
+
+
+
+
+
+
 /* USER CODE END 0 */
 
 /**
@@ -333,7 +400,7 @@ int main(void)
   MX_TIM1_Init();
   MX_I2C2_Init();
   /* USER CODE BEGIN 2 */
-	OLED_Init();
+//	OLED_Init();
 	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
 	uart_init();
 //	xTaskCreate((TaskFunction_t )led1_task,
@@ -350,13 +417,13 @@ int main(void)
 					(TaskHandle_t*  )&led2_TaskHandle_t); 
 	xTaskCreate((TaskFunction_t )filter_task,
 					(const char*    )"filter_task",
-					(uint16_t       )512,
+					(uint16_t       )256,
 					(void*          )NULL,
 					(UBaseType_t    )3,
 					(TaskHandle_t*  )&filter_TaskHandle_t);
  	xTaskCreate((TaskFunction_t )servo_task,
 					(const char*    )"servo_task",
-					(uint16_t       )512,
+					(uint16_t       )256,
 					(void*          )NULL,
 					(UBaseType_t    )4,
 					(TaskHandle_t*  )&servo_TaskHandle_t);
@@ -366,12 +433,18 @@ int main(void)
 					(void*          )NULL,
 					(UBaseType_t    )5,
 					(TaskHandle_t*  )&oled_TaskHandle_t);
-	xTaskCreate((TaskFunction_t )usart_task,
-					(const char*    )"usart_task",
+//	xTaskCreate((TaskFunction_t )usart_task,
+//					(const char*    )"usart_task",
+//					(uint16_t       )128,
+//					(void*          )NULL,
+//					(UBaseType_t    )6,
+//					(TaskHandle_t*  )&usart_TaskHandle_t);				
+	xTaskCreate((TaskFunction_t )mpu6050_task,
+					(const char*    )"mpu6050_task",
 					(uint16_t       )128,
 					(void*          )NULL,
-					(UBaseType_t    )6,
-					(TaskHandle_t*  )&usart_TaskHandle_t);				
+					(UBaseType_t    )7,
+					(TaskHandle_t*  )&mpu6050_TaskHandle_t);				
 					
 					
 	vTaskStartScheduler();  

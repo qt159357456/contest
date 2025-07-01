@@ -1,8 +1,8 @@
 Dependencies for Project 'contest', Target 'contest': (DO NOT MODIFY !)
 CompilerVersion: 5060960::V5.06 update 7 (build 960)::.\ARM_Compiler_5.06u7
-F (startup_stm32f103xb.s)(0x6862A257)(--cpu Cortex-M3 -g --apcs=interwork --pd "__MICROLIB SETA 1"-I.\RTE\_contest-ID:\keil\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\keil\Keil\STM32F1xx_DFP\1.0.5\Device\Include--pd "__UVISION_VERSION SETA 537" --pd "_RTE_ SETA 1" --pd "STM32F10X_MD SETA 1" --pd "_RTE_ SETA 1"--list startup_stm32f103xb.lst --xref -o contest\startup_stm32f103xb.o --depend contest\startup_stm32f103xb.d)
+F (startup_stm32f103xb.s)(0x686354AA)(--cpu Cortex-M3 -g --apcs=interwork --pd "__MICROLIB SETA 1"-I.\RTE\_contest-ID:\keil\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\keil\Keil\STM32F1xx_DFP\1.0.5\Device\Include--pd "__UVISION_VERSION SETA 537" --pd "_RTE_ SETA 1" --pd "STM32F10X_MD SETA 1" --pd "_RTE_ SETA 1"--list startup_stm32f103xb.lst --xref -o contest\startup_stm32f103xb.o --depend contest\startup_stm32f103xb.d)
 F (..\Core\Inc\global.h)(0x686112BB)()
-F (../Core/Src/main.c)(0x68629E67)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ./contest/FreeRTOS/include -I ./contest/FreeRTOS/port/RVDS/ARM_CM3 -I ../Algorithm -I ../Hardware-I.\RTE\_contest-ID:\keil\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\keil\Keil\STM32F1xx_DFP\1.0.5\Device\Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o contest\main.o --omf_browse contest\main.crf --depend contest\main.d)
+F (../Core/Src/main.c)(0x68637CE4)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ./contest/FreeRTOS/include -I ./contest/FreeRTOS/port/RVDS/ARM_CM3 -I ../Algorithm -I ../Hardware-I.\RTE\_contest-ID:\keil\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\keil\Keil\STM32F1xx_DFP\1.0.5\Device\Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o contest\main.o --omf_browse contest\main.crf --depend contest\main.d)
 I (../Core/Inc/main.h)(0x68628805)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x683EA033)
 I (../Core/Inc/stm32f1xx_hal_conf.h)(0x68627B51)
@@ -51,11 +51,14 @@ I (./contest/FreeRTOS/port/RVDS/ARM_CM3/portmacro.h)(0x681DDB18)
 I (./contest/FreeRTOS/include/mpu_wrappers.h)(0x681DDB16)
 I (./contest/FreeRTOS/include/task.h)(0x681DDB16)
 I (./contest/FreeRTOS/include/list.h)(0x681DDB16)
+I (./contest/FreeRTOS/include/semphr.h)(0x681DDB16)
+I (./contest/FreeRTOS/include/queue.h)(0x681DDB16)
 I (D:\keil\ARM\ARM_Compiler_5.06u7\include\math.h)(0x5E8E3CC2)
 I (../Algorithm/filter.h)(0x686112BB)
 I (D:\keil\ARM\ARM_Compiler_5.06u7\include\stdlib.h)(0x5E8E3CC2)
 I (../Hardware/servo.h)(0x68623BC4)
 I (../Hardware/oled.h)(0x6862589C)
+I (../Hardware/mpu6050.h)(0x68635F63)
 F (../Core/Src/gpio.c)(0x68628804)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ./contest/FreeRTOS/include -I ./contest/FreeRTOS/port/RVDS/ARM_CM3 -I ../Algorithm -I ../Hardware-I.\RTE\_contest-ID:\keil\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\keil\Keil\STM32F1xx_DFP\1.0.5\Device\Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o contest\gpio.o --omf_browse contest\gpio.crf --depend contest\gpio.d)
 I (../Core/Inc/gpio.h)(0x68628804)
 I (../Core/Inc/main.h)(0x68628805)
@@ -118,7 +121,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h)(0x683EA033)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x683EA033)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x683EA033)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x683EA033)
-F (../Core/Src/i2c.c)(0x68628804)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ./contest/FreeRTOS/include -I ./contest/FreeRTOS/port/RVDS/ARM_CM3 -I ../Algorithm -I ../Hardware-I.\RTE\_contest-ID:\keil\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\keil\Keil\STM32F1xx_DFP\1.0.5\Device\Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o contest\i2c.o --omf_browse contest\i2c.crf --depend contest\i2c.d)
+F (../Core/Src/i2c.c)(0x68636EA9)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ./contest/FreeRTOS/include -I ./contest/FreeRTOS/port/RVDS/ARM_CM3 -I ../Algorithm -I ../Hardware-I.\RTE\_contest-ID:\keil\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\keil\Keil\STM32F1xx_DFP\1.0.5\Device\Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o contest\i2c.o --omf_browse contest\i2c.crf --depend contest\i2c.d)
 I (../Core/Inc/i2c.h)(0x68628804)
 I (../Core/Inc/main.h)(0x68628805)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x683EA033)
@@ -180,7 +183,7 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h)(0x683EA033)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x683EA033)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x683EA033)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x683EA033)
-F (../Core/Src/usart.c)(0x6862A254)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ./contest/FreeRTOS/include -I ./contest/FreeRTOS/port/RVDS/ARM_CM3 -I ../Algorithm -I ../Hardware-I.\RTE\_contest-ID:\keil\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\keil\Keil\STM32F1xx_DFP\1.0.5\Device\Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o contest\usart.o --omf_browse contest\usart.crf --depend contest\usart.d)
+F (../Core/Src/usart.c)(0x68634EDE)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ./contest/FreeRTOS/include -I ./contest/FreeRTOS/port/RVDS/ARM_CM3 -I ../Algorithm -I ../Hardware-I.\RTE\_contest-ID:\keil\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\keil\Keil\STM32F1xx_DFP\1.0.5\Device\Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o contest\usart.o --omf_browse contest\usart.crf --depend contest\usart.d)
 I (../Core/Inc/usart.h)(0x68629E9B)
 I (../Core/Inc/main.h)(0x68628805)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x683EA033)
@@ -1053,3 +1056,36 @@ I (D:\keil\ARM\ARM_Compiler_5.06u7\include\string.h)(0x5E8E3CC2)
 I (./contest/FreeRTOS/include/FreeRTOSConfig.h)(0x6862497C)
 I (D:\keil\ARM\ARM_Compiler_5.06u7\include\stdarg.h)(0x5E8E3CC2)
 F (..\Hardware\mymain.h)(0x68627FF2)()
+F (..\Hardware\mpu6050.c)(0x68637C44)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ./contest/FreeRTOS/include -I ./contest/FreeRTOS/port/RVDS/ARM_CM3 -I ../Algorithm -I ../Hardware-I.\RTE\_contest-ID:\keil\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\keil\Keil\STM32F1xx_DFP\1.0.5\Device\Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o contest\mpu6050.o --omf_browse contest\mpu6050.crf --depend contest\mpu6050.d)
+I (..\Hardware\mpu6050.h)(0x68635F63)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x683EA033)
+I (../Core/Inc/stm32f1xx_hal_conf.h)(0x68627B51)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h)(0x683EA033)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h)(0x683EA033)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h)(0x683EA033)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h)(0x683EA032)
+I (../Drivers/CMSIS/Include/core_cm3.h)(0x683EA025)
+I (D:\keil\ARM\ARM_Compiler_5.06u7\include\stdint.h)(0x6860B4D5)
+I (../Drivers/CMSIS/Include/cmsis_version.h)(0x683EA025)
+I (../Drivers/CMSIS/Include/cmsis_compiler.h)(0x683EA025)
+I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x683EA025)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h)(0x683EA033)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h)(0x683EA033)
+I (D:\keil\ARM\ARM_Compiler_5.06u7\include\stddef.h)(0x5E8E3CC2)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h)(0x683EA033)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h)(0x683EA033)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio_ex.h)(0x683EA033)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_exti.h)(0x683EA033)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h)(0x683EA033)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma_ex.h)(0x683EA033)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h)(0x683EA033)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h)(0x683EA033)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h)(0x683EA033)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_i2c.h)(0x683EA033)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h)(0x683EA033)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x683EA033)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x683EA033)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x683EA033)
+I (../Core/Inc/i2c.h)(0x68628804)
+I (../Core/Inc/main.h)(0x68628805)
+F (..\Hardware\mpu6050.h)(0x68635F63)()

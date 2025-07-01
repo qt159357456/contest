@@ -39,6 +39,7 @@
 "contest\servo.o"
 "contest\oled.o"
 "contest\mymain.o"
+"contest\mpu6050.o"
 --library_type=microlib --strict --scatter "contest\contest.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
