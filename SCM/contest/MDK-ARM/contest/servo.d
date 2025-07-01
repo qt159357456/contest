@@ -7,14 +7,14 @@ contest\servo.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h
 contest\servo.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h
 contest\servo.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h
 contest\servo.o: ../Drivers/CMSIS/Include/core_cm3.h
-contest\servo.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdint.h
+contest\servo.o: D:\project\ARM\ARMCC\Bin\..\include\stdint.h
 contest\servo.o: ../Drivers/CMSIS/Include/cmsis_version.h
 contest\servo.o: ../Drivers/CMSIS/Include/cmsis_compiler.h
 contest\servo.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
 contest\servo.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h
 contest\servo.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h
 contest\servo.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
-contest\servo.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stddef.h
+contest\servo.o: D:\project\ARM\ARMCC\Bin\..\include\stddef.h
 contest\servo.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h
 contest\servo.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h
 contest\servo.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio_ex.h

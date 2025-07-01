@@ -5,9 +5,9 @@
 
 //#define MPU6050_ADDR 0xD0 // 默认地址0x68左移一位
 
-#define MPU6050_ADDR 0x69 // 使用7位设备地址（0x68或0x69）
+#define MPU6050_ADDR 0x68 // 使用7位设备地址（0x68或0x69）
 
-uint8_t MPU6050_Init(void)
+uint8_t MPU6050_InIt(void)
 {
     uint8_t check;
     uint8_t Data;
@@ -79,7 +79,7 @@ void MPU6050_Read_Accel(float *Accel)
     int16_t raw[3];
     
     // 读取加速度计原始数据
-    HAL_I2C_Mem_Read(&hi2c2, MPU6050_ADDR, 0x3B, 1, buf, 6, 1000);
+    HAL_I2C_Mem_Read(&hi2c2, MPU6050_ADDR<<1, 0x3B, 1, buf, 6, 10000);
     
     // 合并高低字节
     raw[0] = (int16_t)(buf[0] << 8 | buf[1]);
@@ -98,7 +98,7 @@ void MPU6050_Read_Gyro(float *Gyro)
     int16_t raw[3];
     
     // 读取陀螺仪原始数据
-    HAL_I2C_Mem_Read(&hi2c2, MPU6050_ADDR, 0x43, 1, buf, 6, 1000);
+    HAL_I2C_Mem_Read(&hi2c2, MPU6050_ADDR<<1, 0x43, 1, buf, 6, 10000);
     
     // 合并高低字节
     raw[0] = (int16_t)(buf[0] << 8 | buf[1]);
@@ -111,3 +111,39 @@ void MPU6050_Read_Gyro(float *Gyro)
     Gyro[2] = raw[2] / 16.4;
 }
 
+
+
+#define	MPU6050_SMPLRT_DIV		0x19
+#define	MPU6050_ACCEL_XOUT_H	0x3B
+#define	MPU6050_GYRO_XOUT_H		0x43
+#define	MPU6050_PWR_MGMT_1		0x6B
+#define	MPU6050_WHO_AM_I		0x75
+
+uint8_t MPU6050_init[6] = {0x01 ,0x00 ,0x09 ,0x06 ,0x18 ,0x18};
+void MPU6050_Init(void)
+{
+	HAL_I2C_Mem_Write(&hi2c2,0xD0,MPU6050_PWR_MGMT_1,  I2C_MEMADD_SIZE_8BIT,&MPU6050_init[0],2,10);
+	HAL_I2C_Mem_Write(&hi2c2,0xD0,MPU6050_SMPLRT_DIV,  I2C_MEMADD_SIZE_8BIT,&MPU6050_init[2],4,10);
+}
+void MPU6050_GetData(uint8_t *Arr)
+{
+	HAL_I2C_Mem_Read(&hi2c2,0xD0,MPU6050_ACCEL_XOUT_H ,I2C_MEMADD_SIZE_8BIT,Arr,6,10000); 
+   	HAL_I2C_Mem_Read(&hi2c2,0xD0,MPU6050_GYRO_XOUT_H  ,I2C_MEMADD_SIZE_8BIT,Arr+6,6,10000); 
+}
+void convert_uint8_to_uint16(float *Accel,float *Gyro)
+{
+	static uint8_t arr[12];
+	uint16_t output[6];
+	MPU6050_GetData(arr);
+    for (int i = 0; i < 12; i += 2)
+    {
+        output[i / 2] = (arr[i] << 8) | arr[i + 1];
+    }
+		
+		Accel[0] = output[0] / 4096.0;
+    Accel[1] = output[1] / 4096.0;
+    Accel[2] = output[2] / 4096.0;
+		Gyro[0] = output[3] / 16.4;
+    Gyro[1] = output[4] / 16.4;
+    Gyro[2] = output[5] / 16.4;
+}

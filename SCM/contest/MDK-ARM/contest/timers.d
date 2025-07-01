@@ -1,8 +1,8 @@
 contest\timers.o: contest\FreeRTOS\src\timers.c
-contest\timers.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdlib.h
+contest\timers.o: D:\project\ARM\ARMCC\Bin\..\include\stdlib.h
 contest\timers.o: ./contest/FreeRTOS/include/FreeRTOS.h
-contest\timers.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stddef.h
-contest\timers.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdint.h
+contest\timers.o: D:\project\ARM\ARMCC\Bin\..\include\stddef.h
+contest\timers.o: D:\project\ARM\ARMCC\Bin\..\include\stdint.h
 contest\timers.o: ./contest/FreeRTOS/include/FreeRTOSConfig.h
 contest\timers.o: ./contest/FreeRTOS/include/projdefs.h
 contest\timers.o: ./contest/FreeRTOS/include/portable.h

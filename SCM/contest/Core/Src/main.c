@@ -84,7 +84,7 @@ TaskHandle_t  mpu6050_TaskHandle_t;
 /* 在全局变量区域添加 */
 float g_accel[3] = {0};  // 全局加速度数据
 float g_gyro[3] = {0};   // 全局陀螺仪数据
-SemaphoreHandle_t xSensorMutex;  // 传感器数据互斥锁
+//SemaphoreHandle_t xSensorMutex;  // 传感器数据互斥锁
 
 
 void led1_task(void *argument) {
@@ -256,14 +256,19 @@ void oled_task() {
     
     while(1) {
         // 使用互斥锁获取传感器数据
-        if(xSemaphoreTake(xSensorMutex, portMAX_DELAY) == pdTRUE) {
-            for(int i = 0; i < 3; i++) {
-                accel[i] = g_accel[i];
-                gyro[i] = g_gyro[i];
-            }
-            xSemaphoreGive(xSensorMutex);
-        }
-        
+//        if(xSemaphoreTake(xSensorMutex, portMAX_DELAY) == pdTRUE) {
+//            for(int i = 0; i < 3; i++) {
+//                accel[i] = g_accel[i];
+//                gyro[i] = g_gyro[i];
+//            }
+//            xSemaphoreGive(xSensorMutex);
+//        }
+				
+				for(int i = 0; i < 3; i++) {
+						accel[i] = g_accel[i];
+						gyro[i] = g_gyro[i];
+				}
+		
         // 清屏
         OLED_FullyClear();
         
@@ -334,25 +339,24 @@ void usart_task(){
   }
 }
 
-void mpu6050_task(){  
-    if(MPU6050_Init() != 0) {
-        // 初始化失败处理
-        while(1);
-    }
-    
+void mpu6050_task(){      
     while(1) {
         float accel[3], gyro[3];
         MPU6050_Read_Accel(accel);
         MPU6050_Read_Gyro(gyro);
-        
+//        convert_uint8_to_uint16(accel,gyro);
         // 使用互斥锁保护全局变量
-        if(xSemaphoreTake(xSensorMutex, portMAX_DELAY) == pdTRUE) {
-            for(int i = 0; i < 3; i++) {
-                g_accel[i] = accel[i];
-                g_gyro[i] = gyro[i];
-            }
-            xSemaphoreGive(xSensorMutex);
-        }
+//        if(xSemaphoreTake(xSensorMutex, portMAX_DELAY) == pdTRUE) {
+//            for(int i = 0; i < 3; i++) {
+//                g_accel[i] = accel[i];
+//                g_gyro[i] = gyro[i];
+//            }
+//            xSemaphoreGive(xSensorMutex);
+//        }
+				for(int i = 0; i < 3; i++) {
+						g_accel[i] = accel[i];
+						g_gyro[i] = gyro[i];
+				}
         
         vTaskDelay(20);
     }
@@ -403,6 +407,7 @@ int main(void)
 //	OLED_Init();
 	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
 	uart_init();
+	MPU6050_Init();
 //	xTaskCreate((TaskFunction_t )led1_task,
 //					(const char*    )"led1_task",
 //					(uint16_t       )128,
@@ -427,18 +432,18 @@ int main(void)
 					(void*          )NULL,
 					(UBaseType_t    )4,
 					(TaskHandle_t*  )&servo_TaskHandle_t);
-	xTaskCreate((TaskFunction_t )oled_task,
-					(const char*    )"oled_task",
-					(uint16_t       )128,
-					(void*          )NULL,
-					(UBaseType_t    )5,
-					(TaskHandle_t*  )&oled_TaskHandle_t);
-//	xTaskCreate((TaskFunction_t )usart_task,
-//					(const char*    )"usart_task",
+//	xTaskCreate((TaskFunction_t )oled_task,
+//					(const char*    )"oled_task",
 //					(uint16_t       )128,
 //					(void*          )NULL,
-//					(UBaseType_t    )6,
-//					(TaskHandle_t*  )&usart_TaskHandle_t);				
+//					(UBaseType_t    )5,
+//					(TaskHandle_t*  )&oled_TaskHandle_t);
+	xTaskCreate((TaskFunction_t )usart_task,
+					(const char*    )"usart_task",
+					(uint16_t       )128,
+					(void*          )NULL,
+					(UBaseType_t    )6,
+					(TaskHandle_t*  )&usart_TaskHandle_t);				
 	xTaskCreate((TaskFunction_t )mpu6050_task,
 					(const char*    )"mpu6050_task",
 					(uint16_t       )128,
