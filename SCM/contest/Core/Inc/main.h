@@ -37,6 +37,8 @@ extern "C" {
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
 extern UART_HandleTypeDef huart1;
+extern TIM_HandleTypeDef htim2; // 定时器2句柄（用于右电机编码器）
+extern TIM_HandleTypeDef htim3; // 定时器3句柄（用于左电机编码器和PWM输出）
 /* USER CODE END ET */
 
 /* Exported constants --------------------------------------------------------*/

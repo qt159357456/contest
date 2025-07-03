@@ -19,20 +19,18 @@ double High_Pass_Filter(Filter_t * filter,double input)
 }
 
 //滑动均值滤波
-double Average_Filter(AVG_Flt_t * filter,double input)
+float vectorFilter(float new_speed, AVG_Flt_t *rb)
 {
-	double avg = 0;
-	
-	filter->sum -= filter->Data[filter->index];
-	filter->Data[filter->index++] = input;
-	filter->sum += input;
-	if(filter->index >= AVG_LEN){
-		filter->index = 0;
-	}
+    // 更新总和：移除旧值，加入新值
+    *(rb->sum) -= rb->buffer[*(rb->index)]; // 减去过期数据
+    rb->buffer[*(rb->index)] = new_speed;   // 写入新数据
+    *(rb->sum) += new_speed;                // 加上新数据
 
-	avg = filter->sum / AVG_LEN;
-	
-	return avg;
+    // 更新环形索引（循环队列）
+    *(rb->index) = (*(rb->index) + 1) % rb->size;
+
+    // 返回当前平均值
+    return *(rb->sum) / rb->size;
 }
 
 //中值滤波
@@ -75,21 +73,14 @@ double Median_Filter(MEDIAN_Flt_t * filter,double input)
 }
 
 //卡尔曼滤波
-double Kalman_Filter(Klm_Flt_t * kfp,double input)
+double Kalman_Filter(Klm_Flt_t * EKF,double input)
 {
-	//估算协方差方程：当前估算协方差=上次更新协方差+过程噪声协方差
-	kfp->P = kfp->P + kfp->Q;
+	EKF->NewP = EKF->LastP + EKF->Q;
+	EKF->Kg = EKF->NewP / (EKF->NewP + EKF->R);
+	EKF->Out = EKF->Out + EKF->Kg * (input - EKF->Out);
+	EKF->LastP = (1 - EKF->Kg) * EKF->NewP;
 	
-	//卡尔曼增益方程：当前卡尔曼增益=当前估算协方差/（当前估算协方差+测量噪声协方差）
-	kfp->G = kfp->P / (kfp->P + kfp->R);
-	
-	//更新最优值方程：当前最优值=当前估算值+卡尔曼增益*（当前测量值-当前估算值）
-	kfp->Output = kfp->Output + kfp->G * (input - kfp->Output);//当前估算值=上次最优值
-	
-	//更新协方差=（1-卡尔曼增益）*当前估算协方差
-	kfp->P = (1 - kfp->G) * kfp->P;
-	
-	return kfp->Output;
+	return EKF->Out;
 }
 
 

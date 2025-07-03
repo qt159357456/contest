@@ -1,9 +1,9 @@
 contest\queue.o: contest\FreeRTOS\src\queue.c
-contest\queue.o: D:\project\ARM\ARMCC\Bin\..\include\stdlib.h
-contest\queue.o: D:\project\ARM\ARMCC\Bin\..\include\string.h
+contest\queue.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdlib.h
+contest\queue.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\string.h
 contest\queue.o: ./contest/FreeRTOS/include/FreeRTOS.h
-contest\queue.o: D:\project\ARM\ARMCC\Bin\..\include\stddef.h
-contest\queue.o: D:\project\ARM\ARMCC\Bin\..\include\stdint.h
+contest\queue.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stddef.h
+contest\queue.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdint.h
 contest\queue.o: ./contest/FreeRTOS/include/FreeRTOSConfig.h
 contest\queue.o: ./contest/FreeRTOS/include/projdefs.h
 contest\queue.o: ./contest/FreeRTOS/include/portable.h

@@ -1,9 +1,9 @@
 contest\heap_4.o: contest\FreeRTOS\port\MemMang\heap_4.c
-contest\heap_4.o: D:\project\ARM\ARMCC\Bin\..\include\stdlib.h
-contest\heap_4.o: D:\project\ARM\ARMCC\Bin\..\include\string.h
+contest\heap_4.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdlib.h
+contest\heap_4.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\string.h
 contest\heap_4.o: ./contest/FreeRTOS/include/FreeRTOS.h
-contest\heap_4.o: D:\project\ARM\ARMCC\Bin\..\include\stddef.h
-contest\heap_4.o: D:\project\ARM\ARMCC\Bin\..\include\stdint.h
+contest\heap_4.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stddef.h
+contest\heap_4.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdint.h
 contest\heap_4.o: ./contest/FreeRTOS/include/FreeRTOSConfig.h
 contest\heap_4.o: ./contest/FreeRTOS/include/projdefs.h
 contest\heap_4.o: ./contest/FreeRTOS/include/portable.h

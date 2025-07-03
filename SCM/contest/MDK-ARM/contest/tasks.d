@@ -1,9 +1,9 @@
 contest\tasks.o: contest\FreeRTOS\src\tasks.c
-contest\tasks.o: D:\project\ARM\ARMCC\Bin\..\include\stdlib.h
-contest\tasks.o: D:\project\ARM\ARMCC\Bin\..\include\string.h
+contest\tasks.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdlib.h
+contest\tasks.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\string.h
 contest\tasks.o: ./contest/FreeRTOS/include/FreeRTOS.h
-contest\tasks.o: D:\project\ARM\ARMCC\Bin\..\include\stddef.h
-contest\tasks.o: D:\project\ARM\ARMCC\Bin\..\include\stdint.h
+contest\tasks.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stddef.h
+contest\tasks.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdint.h
 contest\tasks.o: ./contest/FreeRTOS/include/FreeRTOSConfig.h
 contest\tasks.o: ./contest/FreeRTOS/include/projdefs.h
 contest\tasks.o: ./contest/FreeRTOS/include/portable.h

@@ -6,7 +6,7 @@
 
 double Low_Pass_Filter(Filter_t * filter,double input);
 double High_Pass_Filter(Filter_t * filter,double input);
-double Average_Filter(AVG_Flt_t * filter,double input);
+float vectorFilter(float new_speed, AVG_Flt_t *rb);
 double Median_Filter(MEDIAN_Flt_t * filter,double input);
 //void FIRBandPassFilter_Init(FIR_Flt_t * filter);
 //double FIR_BandPass_Filter(FIR_Flt_t * filter,double input);
