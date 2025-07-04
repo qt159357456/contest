@@ -33,6 +33,16 @@ contest\motor.o: ..\Hardware\motor.h
 contest\motor.o: ../Core/Inc/global.h
 contest\motor.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\math.h
 contest\motor.o: ../Algorithm/myMath.h
+contest\motor.o: ./contest/FreeRTOS/include/FreeRTOSConfig.h
+contest\motor.o: ./contest/FreeRTOS/include/FreeRTOS.h
+contest\motor.o: ./contest/FreeRTOS/include/projdefs.h
+contest\motor.o: ./contest/FreeRTOS/include/portable.h
+contest\motor.o: ./contest/FreeRTOS/include/deprecated_definitions.h
+contest\motor.o: ./contest/FreeRTOS/port/RVDS/ARM_CM3/portmacro.h
+contest\motor.o: ./contest/FreeRTOS/include/mpu_wrappers.h
+contest\motor.o: ./contest/FreeRTOS/include/task.h
+contest\motor.o: ./contest/FreeRTOS/include/list.h
+contest\motor.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\string.h
 contest\motor.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdio.h
 contest\motor.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdlib.h
 contest\motor.o: ../Algorithm/filter.h

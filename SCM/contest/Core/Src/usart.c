@@ -158,9 +158,9 @@ void HAL_UART_MspDeInit(UART_HandleTypeDef* uartHandle)
 
 /* USER CODE BEGIN 1 */
 // 接收数据直接区
-uint8_t receive_Buff1[BUFF_NUM];
+uint8_t receive_Buff1[RX_BUFFER_SIZE];
 // 接收数据缓冲区
-uint8_t handle_Buff1[BUFF_NUM];
+uint8_t handle_Buff1[RX_BUFFER_SIZE];
 // 用于计算字符长度
 extern DMA_HandleTypeDef hdma_usart1_rx;
 
@@ -174,14 +174,14 @@ void uart_init(void)
 //    // 开启串口1的串口中断
 //    __HAL_UART_ENABLE_IT(&huart1, UART_IT_IDLE);
 //    // 串口1接受消息初始化，此时收到的结果会存储到receive_Buff1中
-//        HAL_UART_Receive_DMA(&huart1, (uint8_t*)receive_Buff1, BUFF_NUM);
+//        HAL_UART_Receive_DMA(&huart1, (uint8_t*)receive_Buff1, RX_BUFFER_SIZE);
 	
 	// 开启串口1的串口中断
     __HAL_UART_ENABLE_IT(&huart1, UART_IT_IDLE);
     // 开启DMA发送完成中断
     __HAL_DMA_ENABLE_IT(&hdma_usart1_tx, DMA_IT_TC);
     // 串口1接收消息初始化
-    HAL_UART_Receive_DMA(&huart1, receive_Buff1, BUFF_NUM);
+    HAL_UART_Receive_DMA(&huart1, receive_Buff1, RX_BUFFER_SIZE);
 }
 
 
@@ -223,15 +223,15 @@ void USAR_UART_IDLECallback(void)
         // 暂时关闭DMA
         HAL_UART_DMAStop(&huart1);
         // 计算接收到的数据长度
-        uint8_t receive_len1  = BUFF_NUM - __HAL_DMA_GET_COUNTER(&hdma_usart1_rx);
+        uint8_t receive_len1  = RX_BUFFER_SIZE - __HAL_DMA_GET_COUNTER(&hdma_usart1_rx);
         // 把接收缓冲中的数据复制到处理缓冲中
-        memcpy(handle_Buff1, receive_Buff1, BUFF_NUM);
+        memcpy(handle_Buff1, receive_Buff1, RX_BUFFER_SIZE);
         // printf("%s\r\n", handle_Buff1); // 测试函数：将接收到的数据打印出去
         Data_Handle1();
         // 清空接收缓冲区
         memset(receive_Buff1, 0, receive_len1);
         // 重新开启DMA
-        HAL_UART_Receive_DMA(&huart1, (uint8_t*)receive_Buff1, BUFF_NUM);
+        HAL_UART_Receive_DMA(&huart1, (uint8_t*)receive_Buff1, RX_BUFFER_SIZE);
     }
 }
 

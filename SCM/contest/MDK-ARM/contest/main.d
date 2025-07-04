@@ -34,12 +34,9 @@ contest\main.o: ../Core/Inc/i2c.h
 contest\main.o: ../Core/Inc/tim.h
 contest\main.o: ../Core/Inc/usart.h
 contest\main.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdio.h
-contest\main.o: ../Hardware/mymain.h
-contest\main.o: ../Core/Inc/usart.h
 contest\main.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\string.h
 contest\main.o: ./contest/FreeRTOS/include/FreeRTOSConfig.h
 contest\main.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdarg.h
-contest\main.o: ../Core/Inc/gpio.h
 contest\main.o: ../Core/Inc/global.h
 contest\main.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\math.h
 contest\main.o: ../Algorithm/myMath.h
@@ -51,6 +48,10 @@ contest\main.o: ./contest/FreeRTOS/port/RVDS/ARM_CM3/portmacro.h
 contest\main.o: ./contest/FreeRTOS/include/mpu_wrappers.h
 contest\main.o: ./contest/FreeRTOS/include/task.h
 contest\main.o: ./contest/FreeRTOS/include/list.h
+contest\main.o: ../Algorithm/data_protocol.h
+contest\main.o: ../Algorithm/mutex_lock_and_message_queue.h
+contest\main.o: ../Core/Inc/usart.h
+contest\main.o: ../Core/Inc/gpio.h
 contest\main.o: ./contest/FreeRTOS/include/semphr.h
 contest\main.o: ./contest/FreeRTOS/include/queue.h
 contest\main.o: ../Algorithm/filter.h

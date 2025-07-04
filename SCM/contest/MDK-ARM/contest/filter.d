@@ -4,6 +4,17 @@ contest\filter.o: ../Core/Inc/global.h
 contest\filter.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdint.h
 contest\filter.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\math.h
 contest\filter.o: ../Algorithm/myMath.h
+contest\filter.o: ./contest/FreeRTOS/include/FreeRTOSConfig.h
+contest\filter.o: ./contest/FreeRTOS/include/FreeRTOS.h
+contest\filter.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stddef.h
+contest\filter.o: ./contest/FreeRTOS/include/projdefs.h
+contest\filter.o: ./contest/FreeRTOS/include/portable.h
+contest\filter.o: ./contest/FreeRTOS/include/deprecated_definitions.h
+contest\filter.o: ./contest/FreeRTOS/port/RVDS/ARM_CM3/portmacro.h
+contest\filter.o: ./contest/FreeRTOS/include/mpu_wrappers.h
+contest\filter.o: ./contest/FreeRTOS/include/task.h
+contest\filter.o: ./contest/FreeRTOS/include/list.h
+contest\filter.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\string.h
 contest\filter.o: ../Core/Inc/main.h
 contest\filter.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h
 contest\filter.o: ../Core/Inc/stm32f1xx_hal_conf.h
@@ -18,7 +29,6 @@ contest\filter.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
 contest\filter.o: ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h
 contest\filter.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h
 contest\filter.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
-contest\filter.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stddef.h
 contest\filter.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h
 contest\filter.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h
 contest\filter.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio_ex.h

@@ -10,3 +10,14 @@ contest\pid.o: ..\Algorithm\PID.h
 contest\pid.o: ../Core/Inc/global.h
 contest\pid.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\math.h
 contest\pid.o: ../Algorithm/myMath.h
+contest\pid.o: ./contest/FreeRTOS/include/FreeRTOSConfig.h
+contest\pid.o: ./contest/FreeRTOS/include/FreeRTOS.h
+contest\pid.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stddef.h
+contest\pid.o: ./contest/FreeRTOS/include/projdefs.h
+contest\pid.o: ./contest/FreeRTOS/include/portable.h
+contest\pid.o: ./contest/FreeRTOS/include/deprecated_definitions.h
+contest\pid.o: ./contest/FreeRTOS/port/RVDS/ARM_CM3/portmacro.h
+contest\pid.o: ./contest/FreeRTOS/include/mpu_wrappers.h
+contest\pid.o: ./contest/FreeRTOS/include/task.h
+contest\pid.o: ./contest/FreeRTOS/include/list.h
+contest\pid.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\string.h

@@ -3,6 +3,10 @@
 #include "stdint.h"
 #include "math.h"
 #include "myMath.h"
+#include "FreeRTOSConfig.h"
+#include "FreeRTOS.h"
+#include "task.h"
+#include "string.h"
 
 typedef uint8_t u8;
 
@@ -10,6 +14,23 @@ typedef uint8_t u8;
 #define ENCODER_PPR 1120  // 假设编码器每转1120个脉冲（需根据你的硬件填写）
 #define CONTROL_PERIOD 0.01f  // 控制周期10ms（与编码器读取周期一致）
 
+typedef enum {
+    STATE_INIT,          // 初始化状态
+    STATE_MOVING,        // 移动状态
+    STATE_ARRIVED,       // 到达路径点状态
+    STATE_FINISHED,      // 完成路径状态
+		STATE_TURNING_IN_PLACE, // 原地旋转状态
+    STATE_ERROR          // 错误状态
+} NavState_t;
+
+// 消息队列状态枚举
+typedef enum {
+    QUEUE_OK = 0,
+    QUEUE_FULL,
+    QUEUE_EMPTY,
+    QUEUE_ERROR,
+    QUEUE_TIMEOUT
+} QueueStatus_t;
 
 typedef struct {
     float Target;      // 目标值（设定点）
@@ -165,6 +186,7 @@ typedef struct {
     
     // 系统状态
     uint32_t update_count;       // 状态更新计数
+		NavState_t nav_state;    // 导航状态
 } RobotState_t;
 
 // 坐标系结构体
@@ -172,6 +194,95 @@ typedef struct {
     float x;  // X坐标 (m)
     float y;  // Y坐标 (m)
 } Point2D_t;
+
+// 自定义互斥锁结构体
+typedef struct {
+    volatile uint8_t locked;          // 锁状态：0-未锁定，1-已锁定
+    TaskHandle_t owner;               // 持有锁的任务句柄
+    const char* name;                 // 锁名称，用于调试
+    volatile uint32_t lock_count;     // 重入计数（支持递归锁）
+} CustomMutex_t;
+
+// 自定义消息队列结构体
+typedef struct {
+    void* buffer;               // 消息缓冲区
+    uint16_t msg_size;          // 单个消息大小（字节）
+    uint16_t max_items;         // 最大消息数量
+    volatile uint16_t item_count; // 当前消息数量
+    volatile uint16_t read_idx;  // 读指针
+    volatile uint16_t write_idx; // 写指针
+    CustomMutex_t mutex;        // 队列操作互斥锁
+    const char* name;           // 队列名称（调试用）
+} CustomQueue_t;
+
+// OpenMV检测到的目标类型
+//typedef enum {
+//    TARGET_NONE = 0,
+//    TARGET_COLOR_BLOCK,    // 颜色块
+//    TARGET_LINE,           // 线条
+//    TARGET_FACE,           // 人脸
+//    TARGET_QRCODE          // 二维码
+//} TargetType_t;
+
+//// 颜色识别结构体
+//typedef struct {
+//    uint16_t x;            // 中心X坐标
+//    uint16_t y;            // 中心Y坐标
+//    uint16_t width;        // 宽度
+//    uint16_t height;       // 高度
+//    uint8_t color;         // 颜色代码(0-红,1-绿,2-蓝等)
+//    uint8_t confidence;    // 置信度(0-100)
+//} ColorBlock_t;
+
+// OpenMV检测数据结构体
+typedef struct {
+    uint8_t target_count;  // 目标数量
+    uint32_t timestamp;    // 时间戳
+    uint8_t valid;         // 数据有效性标志(1-有效,0-无效)
+		float cv;
+} OpenMVData_t;
+
+// 通信协议帧结构
+#define OPENMV_FRAME_HEADER 0xAA
+#define OPENMV_FRAME_TAIL 0x55
+#define OPENMV_MAX_DATA_LEN 10
+
+typedef struct {
+    uint8_t header;        // 帧头(0xAA)
+    uint8_t cmd;           // 命令字
+    uint8_t len;           // 数据长度
+    uint8_t data[OPENMV_MAX_DATA_LEN]; // 数据区
+    uint8_t tail;          // 帧尾(0x55)
+} OpenMVFrame_t;
+
+// 按字节长度分类的数据结构体
+typedef struct {
+    // 1字节数据（uint8_t）
+    struct {
+        uint8_t cmd_type;       // 命令类型（第0字节）
+        uint8_t target_count;   // 目标数量（第1字节）
+        uint8_t reserved[2];    // 预留字节（第2-3字节）
+    } byte1;
+
+    // 2字节数据（uint16_t，小端模式）
+    struct {
+        uint16_t x_coord;       // X坐标（第4-5字节）
+        uint16_t y_coord;       // Y坐标（第6-7字节）
+        uint16_t width;         // 宽度（第8-9字节）
+        uint16_t height;        // 高度（第10-11字节）
+    } byte2;
+
+    // 4字节数据（uint32_t/float，小端模式）
+    struct {
+        uint32_t timestamp;     // 时间戳（第12-15字节）
+        float confidence;       // 置信度（第16-19字节，0.0-1.0）
+    } byte4;
+
+    // 原始数据缓冲区（完整数据备份）
+    uint8_t raw_data[OPENMV_MAX_DATA_LEN];
+    uint8_t data_len;          // 实际数据长度
+} OpenMVDataBytes_t;
+
 
 #define LEFT_MOTOR_PWM_TIMER        htim3
 #define LEFT_MOTOR_PWM_CHANNEL      TIM_CHANNEL_4
@@ -186,10 +297,16 @@ typedef struct {
 #define WHEELBASE 0.25f      // 前后轮轴距 (单位：米)
 #define TRACK_WIDTH 0.20f    // 后轮轮距 (单位：米)
 
+#define NAV_QUEUE_SIZE 5
 
+#define RX_BUFFER_SIZE 128
+#define TX_BUFFER_SIZE 128
+#define OPENMV_RX_BUFFER_SIZE 128
+#define OPENMV_TX_BUFFER_SIZE 128
 
 
 #define squa( Sq )        (((float)Sq)*((float)Sq))
+/********************************************************************************/
 #endif
 
 

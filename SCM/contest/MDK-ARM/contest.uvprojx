@@ -977,6 +977,26 @@
               <FileType>5</FileType>
               <FilePath>..\Algorithm\myMath.h</FilePath>
             </File>
+            <File>
+              <FileName>mutex_lock_and_message_queue.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Algorithm\mutex_lock_and_message_queue.c</FilePath>
+            </File>
+            <File>
+              <FileName>mutex_lock_and_message_queue.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Algorithm\mutex_lock_and_message_queue.h</FilePath>
+            </File>
+            <File>
+              <FileName>data_protocol.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Algorithm\data_protocol.c</FilePath>
+            </File>
+            <File>
+              <FileName>data_protocol.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Algorithm\data_protocol.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1006,16 +1026,6 @@
               <FileName>codetap.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Hardware\codetap.h</FilePath>
-            </File>
-            <File>
-              <FileName>mymain.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Hardware\mymain.c</FilePath>
-            </File>
-            <File>
-              <FileName>mymain.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Hardware\mymain.h</FilePath>
             </File>
             <File>
               <FileName>mpu6050.c</FileName>

@@ -33,5 +33,15 @@ contest\imu.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
 contest\imu.o: ../Core/Inc/global.h
 contest\imu.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\math.h
 contest\imu.o: ../Algorithm/myMath.h
+contest\imu.o: ./contest/FreeRTOS/include/FreeRTOSConfig.h
+contest\imu.o: ./contest/FreeRTOS/include/FreeRTOS.h
+contest\imu.o: ./contest/FreeRTOS/include/projdefs.h
+contest\imu.o: ./contest/FreeRTOS/include/portable.h
+contest\imu.o: ./contest/FreeRTOS/include/deprecated_definitions.h
+contest\imu.o: ./contest/FreeRTOS/port/RVDS/ARM_CM3/portmacro.h
+contest\imu.o: ./contest/FreeRTOS/include/mpu_wrappers.h
+contest\imu.o: ./contest/FreeRTOS/include/task.h
+contest\imu.o: ./contest/FreeRTOS/include/list.h
+contest\imu.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\string.h
 contest\imu.o: ..\Hardware\mpu6050.h
 contest\imu.o: ../Core/Inc/i2c.h

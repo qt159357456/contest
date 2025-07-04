@@ -44,7 +44,8 @@
 #include "imu.h"
 #include "motor.h"
 #include "pid.h"
-
+#include "mutex_lock_and_message_queue.h"
+#include "data_protocol.h"
 
 /* USER CODE END Includes */
 
@@ -67,6 +68,19 @@
 
 /* USER CODE BEGIN PV */
 
+// 定义机器人状态互斥锁实例
+CustomMutex_t robot_state_mutex = {
+    .locked = 0,
+    .owner = NULL,
+    .name = "robot_state_mutex",
+    .lock_count = 0
+};
+
+// 定义导航指令消息队列（缓冲区大小为5个消息）
+NavCmd_t nav_queue_buffer[NAV_QUEUE_SIZE];  // 消息缓冲区
+CustomQueue_t nav_cmd_queue;                // 导航指令队列实例
+
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -77,6 +91,9 @@ void debug_printf(const char *fmt, ...);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+
+
+
 TaskHandle_t  led1_TaskHandle_t;
 TaskHandle_t  led2_TaskHandle_t;
 TaskHandle_t  filter_TaskHandle_t;
@@ -87,6 +104,7 @@ TaskHandle_t  mpu6050_TaskHandle_t;
 TaskHandle_t  motor_TaskHandle_t;
 TaskHandle_t  decision_TaskHandle_t;
 TaskHandle_t  state_update_TaskHandle_t;
+TaskHandle_t  openmv_TaskHandle_t;
 
 
 /* 在全局变量区域添加 */
@@ -95,8 +113,7 @@ float pitch, roll, yaw;
 RobotState_t g_robot_state = {0};
 SemaphoreHandle_t xStateMutex;
 
-void led1_task(void *argument) {
-  (void)argument;
+void led1_task() {
 	while(1){
 		HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_8);
 		vTaskDelay(1000);
@@ -316,7 +333,7 @@ void mpu6050_task(){
     }
 }
 
-QueueHandle_t nav_cmd_queue;  // 导航指令队列
+//QueueHandle_t nav_cmd_queue;  // 导航指令队列
 
 void motor_task(void) {
     // 控制器初始化
@@ -337,15 +354,17 @@ void motor_task(void) {
     while(1) {
         
         // 1. 安全获取状态数据
-//        if(xSemaphoreTake(xStateMutex, portMAX_DELAY) == pdTRUE) {
-            memcpy(&local_state, &g_robot_state, sizeof(RobotState_t));
-//            xSemaphoreGive(xStateMutex);W
-//        }
+				CustomMutex_Lock(&robot_state_mutex);
+				memcpy(&local_state, &g_robot_state, sizeof(RobotState_t));
+				CustomMutex_Unlock(&robot_state_mutex);
         
-        // 2. 获取导航指令
-//        if(xQueueReceive(nav_cmd_queue, &nav_cmd, 0) == pdPASS) {
-            angle_td.aim = nav_cmd.target_angle;
-//        }
+        // 2. 获取导航指令（非阻塞接收，有新消息则更新）
+        NavCmd_t new_cmd;
+        QueueStatus_t status = CustomQueue_Receive(&nav_cmd_queue, &new_cmd);
+        if (status == QUEUE_OK) {
+            nav_cmd = new_cmd;  // 更新当前导航指令
+            angle_td.aim = new_cmd.target_angle;  // 应用新的目标角度
+        }
         
         // 3. 处理角度指令
         Clip_TD_Function(&angle_td, 30.0f);
@@ -393,71 +412,150 @@ void decision_task(void) {
     };
     
     NavCmd_t nav_cmd = {0};
-    
-		RobotState_t local_state;
-		Point2D_t target;
-		float dx;
-		float dy;
-		float distance;
-		float target_yaw;
+    uint8_t waypoint_count = sizeof(global_waypoints)/sizeof(global_waypoints[0]);
+		float target_yaw = 0.0f;
+    float yaw_error = 0.0f;
+
     while(1) {
-        
-        // 1. 安全获取状态数据
-//        if(xSemaphoreTake(xStateMutex, portMAX_DELAY) == pdTRUE) {
-            memcpy(&local_state, &g_robot_state, sizeof(RobotState_t));
-//            xSemaphoreGive(xStateMutex);
-//        }
-        
-        // 2. 路径跟踪逻辑
-        if (local_state.current_waypoint < sizeof(global_waypoints)/sizeof(global_waypoints[0])) {
-            // 设置全局目标
-            target = global_waypoints[local_state.current_waypoint];
-            
-            // 计算到目标的距离
-             dx = target.x - local_state.global.x;
-             dy = target.y - local_state.global.y;
-             distance = sqrtf(dx*dx + dy*dy);
-            
-            // 计算目标偏航角 (全局坐标系)
-             target_yaw = atan2f(dy, dx) * 180.0f / PI;
-            
-            // 检查是否到达目标
-            if (distance < 0.05f) { // 5cm容差
-                local_state.current_waypoint++;
-                
-                // 更新全局状态
+				// 使用互斥锁保护状态读取
+        CustomMutex_Lock(&robot_state_mutex);
+        RobotState_t local_state = g_robot_state;
+        CustomMutex_Unlock(&robot_state_mutex);
 
-								g_robot_state.current_waypoint = local_state.current_waypoint;
-								g_robot_state.target_yaw = target_yaw;
-
-                
-                // 到达最后一个点后停止
-                if (local_state.current_waypoint >= sizeof(global_waypoints)/sizeof(global_waypoints[0])) {
-                    nav_cmd.base_speed = 0.0f;
-                    nav_cmd.target_angle = local_state.global.yaw;
+        
+				// 2. 状态机处理
+        switch(local_state.nav_state) {
+            // 初始化状态
+            case STATE_INIT:
+                // 重置导航状态
+								g_robot_state.current_waypoint = 0;
+								g_robot_state.nav_state = STATE_TURNING_IN_PLACE; // 先进行原地旋转
+						
+                nav_cmd.base_speed = 0.0f;
+                nav_cmd.target_angle = local_state.global.yaw;
+                break;
+            
+            // 移动状态 - 前往当前目标点
+            case STATE_MOVING: {
+                // 检查是否还有未完成的路径点
+                if (local_state.current_waypoint >= waypoint_count) {
+                    // 所有路径点完成
+										g_robot_state.nav_state = STATE_FINISHED;
+                    break;
                 }
+                
+                // 获取当前目标点
+                Point2D_t target = global_waypoints[local_state.current_waypoint];
+                
+                // 计算到目标的距离和方向
+                float dx = target.x - local_state.global.x;
+                float dy = target.y - local_state.global.y;
+                float distance = sqrtf(dx*dx + dy*dy);
+                target_yaw = atan2f(dy, dx) * 180.0f / PI;
+                
+                // 检查是否到达目标
+                if (distance < 0.05f) { // 5cm容差
+                    // 转换到到达状态
+										g_robot_state.nav_state = STATE_ARRIVED;
+
+                    nav_cmd.base_speed = 0.0f;
+                    nav_cmd.target_angle = target_yaw;
+                }else {
+                    // 检查是否需要转向
+                    yaw_error = fabs(target_yaw - local_state.global.yaw);
+                    if (yaw_error > 10.0f) { // 角度偏差大于10度需要转向
+                        g_robot_state.nav_state = STATE_TURNING_IN_PLACE;
+                        g_robot_state.target_yaw = target_yaw;
+										}else {
+												// 设置导航指令
+												nav_cmd.base_speed = fminf(0.5f, distance * 0.5f); // 接近时减速
+												nav_cmd.target_angle = target_yaw;
+												
+												// 更新全局状态
+												g_robot_state.target_yaw = target_yaw;
+												g_robot_state.target_speed = nav_cmd.base_speed;
+													}
+											}		
+                break;
+            }
+            // 到达路径点状态 - 短暂停顿
+            case STATE_ARRIVED:
+                // 移动到下一个路径点
+								g_robot_state.current_waypoint++;
+								
+								// 检查是否完成所有路径点
+								if (g_robot_state.current_waypoint >= waypoint_count) {
+										g_robot_state.nav_state = STATE_FINISHED;
+								} else {
+										Point2D_t next_target = global_waypoints[g_robot_state.current_waypoint];
+                    float dx = next_target.x - g_robot_state.global.x;
+                    float dy = next_target.y - g_robot_state.global.y;
+                    g_robot_state.target_yaw = atan2f(dy, dx) * 180.0f / PI;
+										g_robot_state.nav_state = STATE_MOVING;
+								}
                 
                 // 短暂停顿
                 vTaskDelay(200);
-            } else {
-                // 设置导航指令
-                nav_cmd.base_speed = fminf(0.5f, distance * 0.5f); // 接近时减速
-                nav_cmd.target_angle = target_yaw;
+                break;
+						// 原地旋转状态
+            case STATE_TURNING_IN_PLACE: {
+                target_yaw = g_robot_state.target_yaw;
                 
-                // 更新全局状态
-								g_robot_state.target_yaw = target_yaw;
-								g_robot_state.target_speed = nav_cmd.base_speed;
+                yaw_error = target_yaw - local_state.global.yaw;
+                
+                // 角度容差 ±2度
+                if (fabs(yaw_error) < 2.0f) {
+                    g_robot_state.nav_state = STATE_MOVING;
+                    
+                    nav_cmd.base_speed = 0.0f;
+                } else {
+                    // 原地旋转控制
+                    nav_cmd.base_speed = 0.0f; // 线速度为0
+                    
+                    // 根据角度差设置旋转速度
+                    float rotation_speed = fminf(30.0f, fabs(yaw_error) * 0.5f);
+                    rotation_speed = rotation_speed * (yaw_error > 0 ? 1 : -1);
+                    
+                    // 发送旋转指令
+                    // 实际应用中可能需要通过队列发送到电机任务
+                    // 这里简化为直接设置目标角度
+                    nav_cmd.target_angle = local_state.global.yaw + rotation_speed;
+                }
+                break;
             }
-        } else {
-            // 所有路径点完成
-            nav_cmd.base_speed = 0.0f;
-            nav_cmd.target_angle = local_state.global.yaw;
+            
+            // 完成路径状态 - 保持停止
+            case STATE_FINISHED:
+                nav_cmd.base_speed = 0.0f;
+                nav_cmd.target_angle = local_state.global.yaw;
+                break;
+            
+            // 错误状态 - 安全停止
+            case STATE_ERROR:
+            default:
+                nav_cmd.base_speed = 0.0f;
+                nav_cmd.target_angle = local_state.global.yaw;
+                break;
+        }
+				
+        // 3. 发送导航指令（使用带超时的发送）
+        QueueStatus_t status = CustomQueue_SendTimeout(&nav_cmd_queue, &nav_cmd, 100);
+        if (status != QUEUE_OK) {
+            // 发送失败处理（如调试输出）
+            debug_printf("Queue send failed: %d\n", status);
         }
         
-        // 3. 发送导航指令
-//        xQueueSend(nav_cmd_queue, &nav_cmd, portMAX_DELAY);
-        
-        // 4. 精确延迟
+				// 4. 状态调试输出
+        #ifdef DEBUG_NAV_STATE
+        debug_printf("State: %d WP: %d/%d Cmd: %.2fm/s %.0f°\n", 
+                    local_state.nav_state,
+                    local_state.current_waypoint,
+                    waypoint_count,
+                    nav_cmd.base_speed,
+                    nav_cmd.target_angle);
+        #endif
+				
+        // 5. 精确延迟
 			vTaskDelayUntil(&xLastWakeTime, xPeriod);
 				//vTaskDelay(100);
     }
@@ -507,25 +605,24 @@ void state_update_task(void) {
                        linear_vel * sinf(yaw_rad)) * dt / 2.0f;
         
         // 6. 更新全局状态 (带互斥锁保护)
-//        if(xSemaphoreTake(xStateMutex, portMAX_DELAY) == pdTRUE) {
-            // 更新全局位置
-            g_robot_state.global.x += delta_x;
-            g_robot_state.global.y += delta_y;
-            g_robot_state.global.yaw = current_yaw;
-            
-            // 更新全局速度
-            g_robot_state.global.vx = vx;
-            g_robot_state.global.vy = vy;
-            
-            // 更新局部速度
-            g_robot_state.local_vel.linear = linear_vel;
-            g_robot_state.local_vel.angular = angular_vel;
-            
-            // 更新系统状态
-            g_robot_state.update_count++;
-            
-//            xSemaphoreGive(xStateMutex);
-//        }
+				CustomMutex_Lock(&robot_state_mutex);
+				// 更新全局位置
+				g_robot_state.global.x += delta_x;
+				g_robot_state.global.y += delta_y;
+				g_robot_state.global.yaw = current_yaw;
+				
+				// 更新全局速度
+				g_robot_state.global.vx = vx;
+				g_robot_state.global.vy = vy;
+				
+				// 更新局部速度
+				g_robot_state.local_vel.linear = linear_vel;
+				g_robot_state.local_vel.angular = angular_vel;
+				
+				// 更新系统状态
+				g_robot_state.update_count++;
+				
+				CustomMutex_Unlock(&robot_state_mutex);
         
         // 7. 保存当前值供下次使用
         prev_speed = linear_vel;
@@ -537,6 +634,30 @@ void state_update_task(void) {
     }
 }
 
+void openmv_task(void *pvParameters) {
+    // 初始化
+    OpenMVData_t local_openmv_data;
+    uint32_t last_request_time = 0;
+    
+    // 发送初始化命令
+    uint8_t init_cmd = 0x01; // 启动检测命令
+    openmv_send_command(0x01, &init_cmd, 1);
+    
+    while (1) {
+        // 周期性请求数据(每50ms一次)
+        if (xTaskGetTickCount() - last_request_time > 50) {
+            openmv_send_command(0x02, NULL, 0); // 请求最新检测结果
+            last_request_time = xTaskGetTickCount();
+        }
+        
+        // 读取OpenMV数据(带互斥锁)
+        CustomMutex_Lock(&openmv_data_mutex);
+        memcpy(&local_openmv_data, &g_openmv_data, sizeof(OpenMVData_t));
+        CustomMutex_Unlock(&openmv_data_mutex);
+        
+        vTaskDelay(10); // 10ms周期
+    }
+}
 
 /* USER CODE END 0 */
 
@@ -575,6 +696,14 @@ int main(void)
   MX_TIM2_Init();
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
+	
+	// 初始化自定义消息队列（导航指令队列）
+CustomQueue_Init(&nav_cmd_queue, 
+                nav_queue_buffer, 
+                sizeof(NavCmd_t), 
+                NAV_QUEUE_SIZE, 
+                "nav_cmd_queue");
+								
 //	OLED_Init();
 	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
 	uart_init();
@@ -598,12 +727,12 @@ int main(void)
 //					(void*          )NULL,
 //					(UBaseType_t    )1,
 //					(TaskHandle_t*  )&filter_TaskHandle_t);
-// 	xTaskCreate((TaskFunction_t )servo_task,
-//					(const char*    )"servo_task",
-//					(uint16_t       )128,
-//					(void*          )NULL,
-//					(UBaseType_t    )1,
-//					(TaskHandle_t*  )&servo_TaskHandle_t);
+ 	xTaskCreate((TaskFunction_t )servo_task,
+					(const char*    )"servo_task",
+					(uint16_t       )128,
+					(void*          )NULL,
+					(UBaseType_t    )1,
+					(TaskHandle_t*  )&servo_TaskHandle_t);
 //	xTaskCreate((TaskFunction_t )oled_task,
 //					(const char*    )"oled_task",
 //					(uint16_t       )128,
@@ -639,7 +768,13 @@ int main(void)
 					(uint16_t       )256,  // 需要较大栈空间
 					(void*          )NULL,
 					(UBaseType_t    )3,    // 中等优先级
-					(TaskHandle_t*  )&state_update_TaskHandle_t);				
+					(TaskHandle_t*  )&state_update_TaskHandle_t);			
+	xTaskCreate((TaskFunction_t )openmv_task,
+            (const char*    )"openmv_task",
+            (uint16_t       )256,
+            (void*          )NULL,
+            (UBaseType_t    )2,  
+            (TaskHandle_t*  )NULL);					
 					
 	vTaskStartScheduler();  
   /* USER CODE END 2 */

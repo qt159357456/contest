@@ -1,8 +1,8 @@
 Dependencies for Project 'contest', Target 'contest': (DO NOT MODIFY !)
 CompilerVersion: 5060960::V5.06 update 7 (build 960)::.\ARM_Compiler_5.06u7
-F (startup_stm32f103xb.s)(0x6866147B)(--cpu Cortex-M3 -g --apcs=interwork --pd "__MICROLIB SETA 1"-I.\RTE\_contest-ID:\keil\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\keil\Keil\STM32F1xx_DFP\1.0.5\Device\Include--pd "__UVISION_VERSION SETA 537" --pd "_RTE_ SETA 1" --pd "STM32F10X_MD SETA 1" --pd "_RTE_ SETA 1"--list startup_stm32f103xb.lst --xref -o contest\startup_stm32f103xb.o --depend contest\startup_stm32f103xb.d)
-F (..\Core\Inc\global.h)(0x68668AD8)()
-F (../Core/Src/main.c)(0x686694E3)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ./contest/FreeRTOS/include -I ./contest/FreeRTOS/port/RVDS/ARM_CM3 -I ../Algorithm -I ../Hardware-I.\RTE\_contest-ID:\keil\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\keil\Keil\STM32F1xx_DFP\1.0.5\Device\Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o contest\main.o --omf_browse contest\main.crf --depend contest\main.d)
+F (startup_stm32f103xb.s)(0x6867D623)(--cpu Cortex-M3 -g --apcs=interwork --pd "__MICROLIB SETA 1"-I.\RTE\_contest-ID:\keil\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\keil\Keil\STM32F1xx_DFP\1.0.5\Device\Include--pd "__UVISION_VERSION SETA 537" --pd "_RTE_ SETA 1" --pd "STM32F10X_MD SETA 1" --pd "_RTE_ SETA 1"--list startup_stm32f103xb.lst --xref -o contest\startup_stm32f103xb.o --depend contest\startup_stm32f103xb.d)
+F (..\Core\Inc\global.h)(0x6867D27B)()
+F (../Core/Src/main.c)(0x6867D581)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ./contest/FreeRTOS/include -I ./contest/FreeRTOS/port/RVDS/ARM_CM3 -I ../Algorithm -I ../Hardware-I.\RTE\_contest-ID:\keil\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\keil\Keil\STM32F1xx_DFP\1.0.5\Device\Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o contest\main.o --omf_browse contest\main.crf --depend contest\main.d)
 I (../Core/Inc/main.h)(0x68666FF6)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x683EA033)
 I (../Core/Inc/stm32f1xx_hal_conf.h)(0x68627B51)
@@ -35,14 +35,12 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x683EA033)
 I (../Core/Inc/dma.h)(0x68628804)
 I (../Core/Inc/i2c.h)(0x68628804)
 I (../Core/Inc/tim.h)(0x68660EB3)
-I (../Core/Inc/usart.h)(0x68629E9B)
+I (../Core/Inc/usart.h)(0x6867D6C4)
 I (D:\keil\ARM\ARM_Compiler_5.06u7\include\stdio.h)(0x5E8E3CC2)
-I (../Hardware/mymain.h)(0x68627FF2)
 I (D:\keil\ARM\ARM_Compiler_5.06u7\include\string.h)(0x5E8E3CC2)
 I (./contest/FreeRTOS/include/FreeRTOSConfig.h)(0x68669075)
 I (D:\keil\ARM\ARM_Compiler_5.06u7\include\stdarg.h)(0x5E8E3CC2)
-I (../Core/Inc/gpio.h)(0x68628804)
-I (../Core/Inc/global.h)(0x68668AD8)
+I (../Core/Inc/global.h)(0x6867D27B)
 I (D:\keil\ARM\ARM_Compiler_5.06u7\include\math.h)(0x5E8E3CC2)
 I (../Algorithm/myMath.h)(0x6866770E)
 I (./contest/FreeRTOS/include/FreeRTOS.h)(0x681DDB16)
@@ -53,6 +51,9 @@ I (./contest/FreeRTOS/port/RVDS/ARM_CM3/portmacro.h)(0x681DDB18)
 I (./contest/FreeRTOS/include/mpu_wrappers.h)(0x681DDB16)
 I (./contest/FreeRTOS/include/task.h)(0x681DDB16)
 I (./contest/FreeRTOS/include/list.h)(0x681DDB16)
+I (../Algorithm/data_protocol.h)(0x6867D375)
+I (../Algorithm/mutex_lock_and_message_queue.h)(0x68677EAF)
+I (../Core/Inc/gpio.h)(0x68628804)
 I (./contest/FreeRTOS/include/semphr.h)(0x681DDB16)
 I (./contest/FreeRTOS/include/queue.h)(0x681DDB16)
 I (../Algorithm/filter.h)(0x686543A3)
@@ -187,8 +188,8 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h)(0x683EA033)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x683EA033)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x683EA033)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x683EA033)
-F (../Core/Src/usart.c)(0x68652712)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ./contest/FreeRTOS/include -I ./contest/FreeRTOS/port/RVDS/ARM_CM3 -I ../Algorithm -I ../Hardware-I.\RTE\_contest-ID:\keil\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\keil\Keil\STM32F1xx_DFP\1.0.5\Device\Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o contest\usart.o --omf_browse contest\usart.crf --depend contest\usart.d)
-I (../Core/Inc/usart.h)(0x68629E9B)
+F (../Core/Src/usart.c)(0x6867D620)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ./contest/FreeRTOS/include -I ./contest/FreeRTOS/port/RVDS/ARM_CM3 -I ../Algorithm -I ../Hardware-I.\RTE\_contest-ID:\keil\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\keil\Keil\STM32F1xx_DFP\1.0.5\Device\Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o contest\usart.o --omf_browse contest\usart.crf --depend contest\usart.d)
+I (../Core/Inc/usart.h)(0x6867D6C4)
 I (../Core/Inc/main.h)(0x68666FF6)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x683EA033)
 I (../Core/Inc/stm32f1xx_hal_conf.h)(0x68627B51)
@@ -219,10 +220,22 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x683EA033)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x683EA033)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x683EA033)
 I (D:\keil\ARM\ARM_Compiler_5.06u7\include\stdio.h)(0x5E8E3CC2)
-I (../Hardware/mymain.h)(0x68627FF2)
 I (D:\keil\ARM\ARM_Compiler_5.06u7\include\string.h)(0x5E8E3CC2)
 I (./contest/FreeRTOS/include/FreeRTOSConfig.h)(0x68669075)
 I (D:\keil\ARM\ARM_Compiler_5.06u7\include\stdarg.h)(0x5E8E3CC2)
+I (../Core/Inc/global.h)(0x6867D27B)
+I (D:\keil\ARM\ARM_Compiler_5.06u7\include\math.h)(0x5E8E3CC2)
+I (../Algorithm/myMath.h)(0x6866770E)
+I (./contest/FreeRTOS/include/FreeRTOS.h)(0x681DDB16)
+I (./contest/FreeRTOS/include/projdefs.h)(0x681DDB16)
+I (./contest/FreeRTOS/include/portable.h)(0x681DDB16)
+I (./contest/FreeRTOS/include/deprecated_definitions.h)(0x681DDB16)
+I (./contest/FreeRTOS/port/RVDS/ARM_CM3/portmacro.h)(0x681DDB18)
+I (./contest/FreeRTOS/include/mpu_wrappers.h)(0x681DDB16)
+I (./contest/FreeRTOS/include/task.h)(0x681DDB16)
+I (./contest/FreeRTOS/include/list.h)(0x681DDB16)
+I (../Algorithm/data_protocol.h)(0x6867D375)
+I (../Algorithm/mutex_lock_and_message_queue.h)(0x68677EAF)
 F (../Core/Src/stm32f1xx_it.c)(0x68660F11)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ./contest/FreeRTOS/include -I ./contest/FreeRTOS/port/RVDS/ARM_CM3 -I ../Algorithm -I ../Hardware-I.\RTE\_contest-ID:\keil\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\keil\Keil\STM32F1xx_DFP\1.0.5\Device\Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o contest\stm32f1xx_it.o --omf_browse contest\stm32f1xx_it.crf --depend contest\stm32f1xx_it.d)
 I (../Core/Inc/main.h)(0x68666FF6)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x683EA033)
@@ -254,12 +267,24 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x683EA033)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x683EA033)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x683EA033)
 I (../Core/Inc/stm32f1xx_it.h)(0x68660EB3)
-I (../Core/Inc/usart.h)(0x68629E9B)
+I (../Core/Inc/usart.h)(0x6867D6C4)
 I (D:\keil\ARM\ARM_Compiler_5.06u7\include\stdio.h)(0x5E8E3CC2)
-I (../Hardware/mymain.h)(0x68627FF2)
 I (D:\keil\ARM\ARM_Compiler_5.06u7\include\string.h)(0x5E8E3CC2)
 I (./contest/FreeRTOS/include/FreeRTOSConfig.h)(0x68669075)
 I (D:\keil\ARM\ARM_Compiler_5.06u7\include\stdarg.h)(0x5E8E3CC2)
+I (../Core/Inc/global.h)(0x6867D27B)
+I (D:\keil\ARM\ARM_Compiler_5.06u7\include\math.h)(0x5E8E3CC2)
+I (../Algorithm/myMath.h)(0x6866770E)
+I (./contest/FreeRTOS/include/FreeRTOS.h)(0x681DDB16)
+I (./contest/FreeRTOS/include/projdefs.h)(0x681DDB16)
+I (./contest/FreeRTOS/include/portable.h)(0x681DDB16)
+I (./contest/FreeRTOS/include/deprecated_definitions.h)(0x681DDB16)
+I (./contest/FreeRTOS/port/RVDS/ARM_CM3/portmacro.h)(0x681DDB18)
+I (./contest/FreeRTOS/include/mpu_wrappers.h)(0x681DDB16)
+I (./contest/FreeRTOS/include/task.h)(0x681DDB16)
+I (./contest/FreeRTOS/include/list.h)(0x681DDB16)
+I (../Algorithm/data_protocol.h)(0x6867D375)
+I (../Algorithm/mutex_lock_and_message_queue.h)(0x68677EAF)
 F (../Core/Src/stm32f1xx_hal_msp.c)(0x68628805)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ./contest/FreeRTOS/include -I ./contest/FreeRTOS/port/RVDS/ARM_CM3 -I ../Algorithm -I ../Hardware-I.\RTE\_contest-ID:\keil\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\keil\Keil\STM32F1xx_DFP\1.0.5\Device\Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o contest\stm32f1xx_hal_msp.o --omf_browse contest\stm32f1xx_hal_msp.crf --depend contest\stm32f1xx_hal_msp.d)
 I (../Core/Inc/main.h)(0x68666FF6)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x683EA033)
@@ -918,17 +943,39 @@ I (../Drivers/CMSIS/Include/cmsis_compiler.h)(0x683EA025)
 I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x683EA025)
 I (D:\keil\Keil\STM32F1xx_DFP\1.0.5\Device\Include\system_stm32f10x.h)(0x4F1E2E3C)
 I (..\Algorithm\PID.h)(0x6866770E)
-I (../Core/Inc/global.h)(0x68668AD8)
+I (../Core/Inc/global.h)(0x6867D27B)
 I (D:\keil\ARM\ARM_Compiler_5.06u7\include\math.h)(0x5E8E3CC2)
 I (../Algorithm/myMath.h)(0x6866770E)
+I (./contest/FreeRTOS/include/FreeRTOSConfig.h)(0x68669075)
+I (./contest/FreeRTOS/include/FreeRTOS.h)(0x681DDB16)
+I (D:\keil\ARM\ARM_Compiler_5.06u7\include\stddef.h)(0x5E8E3CC2)
+I (./contest/FreeRTOS/include/projdefs.h)(0x681DDB16)
+I (./contest/FreeRTOS/include/portable.h)(0x681DDB16)
+I (./contest/FreeRTOS/include/deprecated_definitions.h)(0x681DDB16)
+I (./contest/FreeRTOS/port/RVDS/ARM_CM3/portmacro.h)(0x681DDB18)
+I (./contest/FreeRTOS/include/mpu_wrappers.h)(0x681DDB16)
+I (./contest/FreeRTOS/include/task.h)(0x681DDB16)
+I (./contest/FreeRTOS/include/list.h)(0x681DDB16)
+I (D:\keil\ARM\ARM_Compiler_5.06u7\include\string.h)(0x5E8E3CC2)
 F (..\Algorithm\pid.h)(0x6866770E)()
 F (..\Algorithm\filter.h)(0x686543A3)()
 F (..\Algorithm\filter.c)(0x686548B3)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ./contest/FreeRTOS/include -I ./contest/FreeRTOS/port/RVDS/ARM_CM3 -I ../Algorithm -I ../Hardware-I.\RTE\_contest-ID:\keil\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\keil\Keil\STM32F1xx_DFP\1.0.5\Device\Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o contest\filter.o --omf_browse contest\filter.crf --depend contest\filter.d)
 I (..\Algorithm\filter.h)(0x686543A3)
-I (../Core/Inc/global.h)(0x68668AD8)
+I (../Core/Inc/global.h)(0x6867D27B)
 I (D:\keil\ARM\ARM_Compiler_5.06u7\include\stdint.h)(0x6860B4D5)
 I (D:\keil\ARM\ARM_Compiler_5.06u7\include\math.h)(0x5E8E3CC2)
 I (../Algorithm/myMath.h)(0x6866770E)
+I (./contest/FreeRTOS/include/FreeRTOSConfig.h)(0x68669075)
+I (./contest/FreeRTOS/include/FreeRTOS.h)(0x681DDB16)
+I (D:\keil\ARM\ARM_Compiler_5.06u7\include\stddef.h)(0x5E8E3CC2)
+I (./contest/FreeRTOS/include/projdefs.h)(0x681DDB16)
+I (./contest/FreeRTOS/include/portable.h)(0x681DDB16)
+I (./contest/FreeRTOS/include/deprecated_definitions.h)(0x681DDB16)
+I (./contest/FreeRTOS/port/RVDS/ARM_CM3/portmacro.h)(0x681DDB18)
+I (./contest/FreeRTOS/include/mpu_wrappers.h)(0x681DDB16)
+I (./contest/FreeRTOS/include/task.h)(0x681DDB16)
+I (./contest/FreeRTOS/include/list.h)(0x681DDB16)
+I (D:\keil\ARM\ARM_Compiler_5.06u7\include\string.h)(0x5E8E3CC2)
 I (../Core/Inc/main.h)(0x68666FF6)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x683EA033)
 I (../Core/Inc/stm32f1xx_hal_conf.h)(0x68627B51)
@@ -942,7 +989,6 @@ I (../Drivers/CMSIS/Include/cmsis_compiler.h)(0x683EA025)
 I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x683EA025)
 I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h)(0x683EA033)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h)(0x683EA033)
-I (D:\keil\ARM\ARM_Compiler_5.06u7\include\stddef.h)(0x5E8E3CC2)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h)(0x683EA033)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h)(0x683EA033)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio_ex.h)(0x683EA033)
@@ -962,7 +1008,75 @@ F (..\Algorithm\myMath.c)(0x6866770E)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -
 I (..\Algorithm\myMath.h)(0x6866770E)
 I (D:\keil\ARM\ARM_Compiler_5.06u7\include\math.h)(0x5E8E3CC2)
 F (..\Algorithm\myMath.h)(0x6866770E)()
-F (..\Hardware\servo.c)(0x68623BC4)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ./contest/FreeRTOS/include -I ./contest/FreeRTOS/port/RVDS/ARM_CM3 -I ../Algorithm -I ../Hardware-I.\RTE\_contest-ID:\keil\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\keil\Keil\STM32F1xx_DFP\1.0.5\Device\Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o contest\servo.o --omf_browse contest\servo.crf --depend contest\servo.d)
+F (..\Algorithm\mutex_lock_and_message_queue.c)(0x68677EB0)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ./contest/FreeRTOS/include -I ./contest/FreeRTOS/port/RVDS/ARM_CM3 -I ../Algorithm -I ../Hardware-I.\RTE\_contest-ID:\keil\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\keil\Keil\STM32F1xx_DFP\1.0.5\Device\Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o contest\mutex_lock_and_message_queue.o --omf_browse contest\mutex_lock_and_message_queue.crf --depend contest\mutex_lock_and_message_queue.d)
+I (..\Algorithm\mutex_lock_and_message_queue.h)(0x68677EAF)
+I (../Core/Inc/global.h)(0x6867D27B)
+I (D:\keil\ARM\ARM_Compiler_5.06u7\include\stdint.h)(0x6860B4D5)
+I (D:\keil\ARM\ARM_Compiler_5.06u7\include\math.h)(0x5E8E3CC2)
+I (../Algorithm/myMath.h)(0x6866770E)
+I (./contest/FreeRTOS/include/FreeRTOSConfig.h)(0x68669075)
+I (./contest/FreeRTOS/include/FreeRTOS.h)(0x681DDB16)
+I (D:\keil\ARM\ARM_Compiler_5.06u7\include\stddef.h)(0x5E8E3CC2)
+I (./contest/FreeRTOS/include/projdefs.h)(0x681DDB16)
+I (./contest/FreeRTOS/include/portable.h)(0x681DDB16)
+I (./contest/FreeRTOS/include/deprecated_definitions.h)(0x681DDB16)
+I (./contest/FreeRTOS/port/RVDS/ARM_CM3/portmacro.h)(0x681DDB18)
+I (./contest/FreeRTOS/include/mpu_wrappers.h)(0x681DDB16)
+I (./contest/FreeRTOS/include/task.h)(0x681DDB16)
+I (./contest/FreeRTOS/include/list.h)(0x681DDB16)
+I (D:\keil\ARM\ARM_Compiler_5.06u7\include\string.h)(0x5E8E3CC2)
+F (..\Algorithm\mutex_lock_and_message_queue.h)(0x68677EAF)()
+F (..\Algorithm\data_protocol.c)(0x6867D7F0)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ./contest/FreeRTOS/include -I ./contest/FreeRTOS/port/RVDS/ARM_CM3 -I ../Algorithm -I ../Hardware-I.\RTE\_contest-ID:\keil\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\keil\Keil\STM32F1xx_DFP\1.0.5\Device\Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o contest\data_protocol.o --omf_browse contest\data_protocol.crf --depend contest\data_protocol.d)
+I (..\Algorithm\data_protocol.h)(0x6867D375)
+I (../Core/Inc/global.h)(0x6867D27B)
+I (D:\keil\ARM\ARM_Compiler_5.06u7\include\stdint.h)(0x6860B4D5)
+I (D:\keil\ARM\ARM_Compiler_5.06u7\include\math.h)(0x5E8E3CC2)
+I (../Algorithm/myMath.h)(0x6866770E)
+I (./contest/FreeRTOS/include/FreeRTOSConfig.h)(0x68669075)
+I (./contest/FreeRTOS/include/FreeRTOS.h)(0x681DDB16)
+I (D:\keil\ARM\ARM_Compiler_5.06u7\include\stddef.h)(0x5E8E3CC2)
+I (./contest/FreeRTOS/include/projdefs.h)(0x681DDB16)
+I (./contest/FreeRTOS/include/portable.h)(0x681DDB16)
+I (./contest/FreeRTOS/include/deprecated_definitions.h)(0x681DDB16)
+I (./contest/FreeRTOS/port/RVDS/ARM_CM3/portmacro.h)(0x681DDB18)
+I (./contest/FreeRTOS/include/mpu_wrappers.h)(0x681DDB16)
+I (./contest/FreeRTOS/include/task.h)(0x681DDB16)
+I (./contest/FreeRTOS/include/list.h)(0x681DDB16)
+I (D:\keil\ARM\ARM_Compiler_5.06u7\include\string.h)(0x5E8E3CC2)
+I (..\Algorithm\mutex_lock_and_message_queue.h)(0x68677EAF)
+I (../Core/Inc/usart.h)(0x6867D6C4)
+I (../Core/Inc/main.h)(0x68666FF6)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x683EA033)
+I (../Core/Inc/stm32f1xx_hal_conf.h)(0x68627B51)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h)(0x683EA033)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h)(0x683EA033)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h)(0x683EA033)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h)(0x683EA032)
+I (../Drivers/CMSIS/Include/core_cm3.h)(0x683EA025)
+I (../Drivers/CMSIS/Include/cmsis_version.h)(0x683EA025)
+I (../Drivers/CMSIS/Include/cmsis_compiler.h)(0x683EA025)
+I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x683EA025)
+I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h)(0x683EA033)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h)(0x683EA033)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h)(0x683EA033)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h)(0x683EA033)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio_ex.h)(0x683EA033)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_exti.h)(0x683EA033)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h)(0x683EA033)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma_ex.h)(0x683EA033)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h)(0x683EA033)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h)(0x683EA033)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h)(0x683EA033)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_i2c.h)(0x683EA033)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h)(0x683EA033)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x683EA033)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x683EA033)
+I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x683EA033)
+I (D:\keil\ARM\ARM_Compiler_5.06u7\include\stdio.h)(0x5E8E3CC2)
+I (D:\keil\ARM\ARM_Compiler_5.06u7\include\stdarg.h)(0x5E8E3CC2)
+I (../Algorithm/data_protocol.h)(0x6867D375)
+F (..\Algorithm\data_protocol.h)(0x6867D375)()
+F (..\Hardware\servo.c)(0x6867824C)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ./contest/FreeRTOS/include -I ./contest/FreeRTOS/port/RVDS/ARM_CM3 -I ../Algorithm -I ../Hardware-I.\RTE\_contest-ID:\keil\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\keil\Keil\STM32F1xx_DFP\1.0.5\Device\Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o contest\servo.o --omf_browse contest\servo.crf --depend contest\servo.d)
 I (..\Hardware\servo.h)(0x68623BC4)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x683EA033)
 I (../Core/Inc/stm32f1xx_hal_conf.h)(0x68627B51)
@@ -1028,44 +1142,6 @@ I (D:\keil\ARM\ARM_Compiler_5.06u7\include\stdlib.h)(0x5E8E3CC2)
 I (D:\keil\ARM\ARM_Compiler_5.06u7\include\stdio.h)(0x5E8E3CC2)
 F (..\Hardware\oled.h)(0x6862589C)()
 F (..\Hardware\codetap.h)(0x6862467B)()
-F (..\Hardware\mymain.c)(0x6862A1AA)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ./contest/FreeRTOS/include -I ./contest/FreeRTOS/port/RVDS/ARM_CM3 -I ../Algorithm -I ../Hardware-I.\RTE\_contest-ID:\keil\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\keil\Keil\STM32F1xx_DFP\1.0.5\Device\Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o contest\mymain.o --omf_browse contest\mymain.crf --depend contest\mymain.d)
-I (..\Hardware\mymain.h)(0x68627FF2)
-I (../Core/Inc/main.h)(0x68666FF6)
-I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x683EA033)
-I (../Core/Inc/stm32f1xx_hal_conf.h)(0x68627B51)
-I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h)(0x683EA033)
-I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h)(0x683EA033)
-I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h)(0x683EA033)
-I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h)(0x683EA032)
-I (../Drivers/CMSIS/Include/core_cm3.h)(0x683EA025)
-I (D:\keil\ARM\ARM_Compiler_5.06u7\include\stdint.h)(0x6860B4D5)
-I (../Drivers/CMSIS/Include/cmsis_version.h)(0x683EA025)
-I (../Drivers/CMSIS/Include/cmsis_compiler.h)(0x683EA025)
-I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x683EA025)
-I (../Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h)(0x683EA033)
-I (../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h)(0x683EA033)
-I (D:\keil\ARM\ARM_Compiler_5.06u7\include\stddef.h)(0x5E8E3CC2)
-I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h)(0x683EA033)
-I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h)(0x683EA033)
-I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio_ex.h)(0x683EA033)
-I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_exti.h)(0x683EA033)
-I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h)(0x683EA033)
-I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma_ex.h)(0x683EA033)
-I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h)(0x683EA033)
-I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h)(0x683EA033)
-I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h)(0x683EA033)
-I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_i2c.h)(0x683EA033)
-I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h)(0x683EA033)
-I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x683EA033)
-I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x683EA033)
-I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x683EA033)
-I (../Core/Inc/usart.h)(0x68629E9B)
-I (D:\keil\ARM\ARM_Compiler_5.06u7\include\stdio.h)(0x5E8E3CC2)
-I (../Hardware/mymain.h)(0x68627FF2)
-I (D:\keil\ARM\ARM_Compiler_5.06u7\include\string.h)(0x5E8E3CC2)
-I (./contest/FreeRTOS/include/FreeRTOSConfig.h)(0x68669075)
-I (D:\keil\ARM\ARM_Compiler_5.06u7\include\stdarg.h)(0x5E8E3CC2)
-F (..\Hardware\mymain.h)(0x68627FF2)()
 F (..\Hardware\mpu6050.c)(0x68668B54)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ./contest/FreeRTOS/include -I ./contest/FreeRTOS/port/RVDS/ARM_CM3 -I ../Algorithm -I ../Hardware-I.\RTE\_contest-ID:\keil\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\keil\Keil\STM32F1xx_DFP\1.0.5\Device\Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o contest\mpu6050.o --omf_browse contest\mpu6050.crf --depend contest\mpu6050.d)
 I (..\Hardware\mpu6050.h)(0x686506FE)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x683EA033)
@@ -1096,19 +1172,28 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h)(0x683EA033)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x683EA033)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x683EA033)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x683EA033)
-I (../Core/Inc/global.h)(0x68668AD8)
+I (../Core/Inc/global.h)(0x6867D27B)
 I (D:\keil\ARM\ARM_Compiler_5.06u7\include\math.h)(0x5E8E3CC2)
 I (../Algorithm/myMath.h)(0x6866770E)
+I (./contest/FreeRTOS/include/FreeRTOSConfig.h)(0x68669075)
+I (./contest/FreeRTOS/include/FreeRTOS.h)(0x681DDB16)
+I (./contest/FreeRTOS/include/projdefs.h)(0x681DDB16)
+I (./contest/FreeRTOS/include/portable.h)(0x681DDB16)
+I (./contest/FreeRTOS/include/deprecated_definitions.h)(0x681DDB16)
+I (./contest/FreeRTOS/port/RVDS/ARM_CM3/portmacro.h)(0x681DDB18)
+I (./contest/FreeRTOS/include/mpu_wrappers.h)(0x681DDB16)
+I (./contest/FreeRTOS/include/task.h)(0x681DDB16)
+I (./contest/FreeRTOS/include/list.h)(0x681DDB16)
+I (D:\keil\ARM\ARM_Compiler_5.06u7\include\string.h)(0x5E8E3CC2)
 I (../Core/Inc/i2c.h)(0x68628804)
 I (../Core/Inc/main.h)(0x68666FF6)
 I (../Algorithm/filter.h)(0x686543A3)
 I (D:\keil\ARM\ARM_Compiler_5.06u7\include\stdlib.h)(0x5E8E3CC2)
-I (../Core/Inc/usart.h)(0x68629E9B)
+I (../Core/Inc/usart.h)(0x6867D6C4)
 I (D:\keil\ARM\ARM_Compiler_5.06u7\include\stdio.h)(0x5E8E3CC2)
-I (../Hardware/mymain.h)(0x68627FF2)
-I (D:\keil\ARM\ARM_Compiler_5.06u7\include\string.h)(0x5E8E3CC2)
-I (./contest/FreeRTOS/include/FreeRTOSConfig.h)(0x68669075)
 I (D:\keil\ARM\ARM_Compiler_5.06u7\include\stdarg.h)(0x5E8E3CC2)
+I (../Algorithm/data_protocol.h)(0x6867D375)
+I (../Algorithm/mutex_lock_and_message_queue.h)(0x68677EAF)
 F (..\Hardware\mpu6050.h)(0x686506FE)()
 F (..\Hardware\imu.c)(0x6866723B)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ./contest/FreeRTOS/include -I ./contest/FreeRTOS/port/RVDS/ARM_CM3 -I ../Algorithm -I ../Hardware-I.\RTE\_contest-ID:\keil\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\keil\Keil\STM32F1xx_DFP\1.0.5\Device\Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o contest\imu.o --omf_browse contest\imu.crf --depend contest\imu.d)
 I (..\Hardware\imu.h)(0x686506B7)
@@ -1141,13 +1226,23 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h)(0x683EA033)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x683EA033)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x683EA033)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x683EA033)
-I (../Core/Inc/global.h)(0x68668AD8)
+I (../Core/Inc/global.h)(0x6867D27B)
 I (D:\keil\ARM\ARM_Compiler_5.06u7\include\math.h)(0x5E8E3CC2)
 I (../Algorithm/myMath.h)(0x6866770E)
+I (./contest/FreeRTOS/include/FreeRTOSConfig.h)(0x68669075)
+I (./contest/FreeRTOS/include/FreeRTOS.h)(0x681DDB16)
+I (./contest/FreeRTOS/include/projdefs.h)(0x681DDB16)
+I (./contest/FreeRTOS/include/portable.h)(0x681DDB16)
+I (./contest/FreeRTOS/include/deprecated_definitions.h)(0x681DDB16)
+I (./contest/FreeRTOS/port/RVDS/ARM_CM3/portmacro.h)(0x681DDB18)
+I (./contest/FreeRTOS/include/mpu_wrappers.h)(0x681DDB16)
+I (./contest/FreeRTOS/include/task.h)(0x681DDB16)
+I (./contest/FreeRTOS/include/list.h)(0x681DDB16)
+I (D:\keil\ARM\ARM_Compiler_5.06u7\include\string.h)(0x5E8E3CC2)
 I (..\Hardware\mpu6050.h)(0x686506FE)
 I (../Core/Inc/i2c.h)(0x68628804)
 F (..\Hardware\imu.h)(0x686506B7)()
-F (..\Hardware\motor.c)(0x68667ACE)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ./contest/FreeRTOS/include -I ./contest/FreeRTOS/port/RVDS/ARM_CM3 -I ../Algorithm -I ../Hardware-I.\RTE\_contest-ID:\keil\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\keil\Keil\STM32F1xx_DFP\1.0.5\Device\Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o contest\motor.o --omf_browse contest\motor.crf --depend contest\motor.d)
+F (..\Hardware\motor.c)(0x68676291)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ./contest/FreeRTOS/include -I ./contest/FreeRTOS/port/RVDS/ARM_CM3 -I ../Algorithm -I ../Hardware-I.\RTE\_contest-ID:\keil\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\keil\Keil\STM32F1xx_DFP\1.0.5\Device\Include-D__UVISION_VERSION="537" -D_RTE_ -DSTM32F10X_MD -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F103xB-o contest\motor.o --omf_browse contest\motor.crf --depend contest\motor.d)
 I (../Core/Inc/main.h)(0x68666FF6)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x683EA033)
 I (../Core/Inc/stm32f1xx_hal_conf.h)(0x68627B51)
@@ -1178,9 +1273,19 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h)(0x683EA033)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h)(0x683EA033)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x683EA033)
 I (..\Hardware\motor.h)(0x68667A98)
-I (../Core/Inc/global.h)(0x68668AD8)
+I (../Core/Inc/global.h)(0x6867D27B)
 I (D:\keil\ARM\ARM_Compiler_5.06u7\include\math.h)(0x5E8E3CC2)
 I (../Algorithm/myMath.h)(0x6866770E)
+I (./contest/FreeRTOS/include/FreeRTOSConfig.h)(0x68669075)
+I (./contest/FreeRTOS/include/FreeRTOS.h)(0x681DDB16)
+I (./contest/FreeRTOS/include/projdefs.h)(0x681DDB16)
+I (./contest/FreeRTOS/include/portable.h)(0x681DDB16)
+I (./contest/FreeRTOS/include/deprecated_definitions.h)(0x681DDB16)
+I (./contest/FreeRTOS/port/RVDS/ARM_CM3/portmacro.h)(0x681DDB18)
+I (./contest/FreeRTOS/include/mpu_wrappers.h)(0x681DDB16)
+I (./contest/FreeRTOS/include/task.h)(0x681DDB16)
+I (./contest/FreeRTOS/include/list.h)(0x681DDB16)
+I (D:\keil\ARM\ARM_Compiler_5.06u7\include\string.h)(0x5E8E3CC2)
 I (D:\keil\ARM\ARM_Compiler_5.06u7\include\stdio.h)(0x5E8E3CC2)
 I (D:\keil\ARM\ARM_Compiler_5.06u7\include\stdlib.h)(0x5E8E3CC2)
 I (../Algorithm/filter.h)(0x686543A3)
