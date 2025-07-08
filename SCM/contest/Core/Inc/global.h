@@ -50,6 +50,11 @@ typedef struct {
     float ErrorIntMin; // 积分项下限
     float OutMax;      // 输出上限
     float OutMin;      // 输出下限
+	
+		float pOut;
+		float iOut;
+		float dOut;
+		float TargetChangeThreshold;
 } PID_t;
 
 typedef struct {
@@ -284,10 +289,10 @@ typedef struct {
 } OpenMVDataBytes_t;
 
 
-#define LEFT_MOTOR_PWM_TIMER        htim3
-#define LEFT_MOTOR_PWM_CHANNEL      TIM_CHANNEL_4
-#define RIGHT_MOTOR_PWM_TIMER       htim3
-#define RIGHT_MOTOR_PWM_CHANNEL     TIM_CHANNEL_3
+#define LEFT_MOTOR_PWM_TIMER        htim1
+#define LEFT_MOTOR_PWM_CHANNEL      TIM_CHANNEL_1
+#define RIGHT_MOTOR_PWM_TIMER       htim1
+#define RIGHT_MOTOR_PWM_CHANNEL     TIM_CHANNEL_2
 #define LEFT_MOTOR_ENCODER_TIMER    htim3
 #define RIGHT_MOTOR_ENCODER_TIMER   htim2
 
@@ -305,31 +310,8 @@ typedef struct {
 #define OPENMV_TX_BUFFER_SIZE 128
 
 
+
 #define squa( Sq )        (((float)Sq)*((float)Sq))
 /********************************************************************************/
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

@@ -17,14 +17,14 @@ EncoderState right_encoder = {0};
  */
 void motorInit(void)
 {
-    // 启动定时器1的PWM输出（通道3用于右电机，通道4用于左电机）
+    // 启动定时器1的PWM输出（通道2用于右电机，通道1用于左电机）
     HAL_TIM_PWM_Start(&RIGHT_MOTOR_PWM_TIMER, RIGHT_MOTOR_PWM_CHANNEL); // 右电机PWM通道
     HAL_TIM_PWM_Start(&LEFT_MOTOR_PWM_TIMER, LEFT_MOTOR_PWM_CHANNEL); // 左电机PWM通道
 
     // 配置定时器2为增量式编码器接口（A/B相正交信号）
     HAL_TIM_Encoder_Start(&RIGHT_MOTOR_ENCODER_TIMER, TIM_CHANNEL_ALL); // 右电机编码器
 
-    // 配置定时器4为增量式编码器接口（A/B相正交信号）
+    // 配置定时器3为增量式编码器接口（A/B相正交信号）
     HAL_TIM_Encoder_Start(&LEFT_MOTOR_ENCODER_TIMER, TIM_CHANNEL_ALL); // 左电机编码器
 }
 
@@ -120,7 +120,7 @@ int32_t getEncoderDelta(TIM_HandleTypeDef *htim, EncoderState *state) {
     // 读取当前计数值（有符号16位）
     int16_t current_count = (int16_t)__HAL_TIM_GET_COUNTER(htim);
     
-    // 计算相对增量（处理16位溢出）
+    // 计算相对增量（处理16位溢出)
     int32_t delta = (int32_t)current_count - state->last_count;
     
     // 处理计数器溢出（0xFFFF -> 0x0000 或 0x0000 -> 0xFFFF）

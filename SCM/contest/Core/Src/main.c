@@ -218,25 +218,25 @@ while(1){
 
 int test_pulse = 600;
 
-void servo_task(){
-		uint16_t brightness = 0;
-    int direction = 1; // 1:增加亮度, 0:减小亮度
-    
-    while(1) {
-        // 呼吸灯效果
-        Servo_SetPWM(&htim1, TIM_CHANNEL_1, brightness);
-        
-        if(direction) {
-            brightness += 100;
-            if(brightness >= 19999) direction = 0;
-        } else {
-            brightness -= 100;
-            if(brightness == 0) direction = 1;
-        }
-        
-        vTaskDelay(10); // 调整延时控制变化速度
-    }
-}
+//void servo_task(){
+//		uint16_t brightness = 0;
+//    int direction = 1; // 1:增加亮度, 0:减小亮度
+//    
+//    while(1) {
+//        // 呼吸灯效果
+//        Servo_SetPWM(&htim1, TIM_CHANNEL_1, brightness);
+//        
+//        if(direction) {
+//            brightness += 100;
+//            if(brightness >= 19999) direction = 0;
+//        } else {
+//            brightness -= 100;
+//            if(brightness == 0) direction = 1;
+//        }
+//        
+//        vTaskDelay(10); // 调整延时控制变化速度
+//    }
+//}
 
 
 /* 修改 oled_task 函数 */
@@ -334,14 +334,16 @@ void mpu6050_task(){
 }
 
 //QueueHandle_t nav_cmd_queue;  // 导航指令队列
+// 控制器初始化	
+PID_t speed_pid_left = { .Kp=10000, .Ki=100, .Kd=15, .OutMin=-15000, .OutMax=15000 };
+PID_t speed_pid_right = { .Kp=10000, .Ki=100, .Kd=15, .OutMin=-15000, .OutMax=15000 };
+float target_left;
+float target_right;
 
-void motor_task(void) {
-    // 控制器初始化
-    PID_t speed_pid_left = { .Kp=2.0f, .Ki=0.5f, .Kd=0.1f, .OutMin=-1000, .OutMax=1000 };
-    PID_t speed_pid_right = { .Kp=2.0f, .Ki=0.5f, .Kd=0.1f, .OutMin=-1000, .OutMax=1000 };
-    PID_t angle_pid = { .Kp=1.5f, .Ki=0.05f, .Kd=0.3f, .OutMin=-1.0f, .OutMax=1.0f };
-    TD angle_td = { .r=5.0f, .h=0.01f, .T=0.01f };
-    
+void motor_task(void) {  
+		PID_t angle_pid = { .Kp=1.5f, .Ki=0.05f, .Kd=0.3f, .OutMin=-1.0f, .OutMax=1.0f };
+		TD angle_td = { .r=5.0f, .h=0.01f, .T=0.01f };
+		
     const TickType_t xPeriod = pdMS_TO_TICKS(10); // 10ms控制周期
     TickType_t xLastWakeTime = xTaskGetTickCount();
     RobotState_t local_state;
@@ -349,8 +351,7 @@ void motor_task(void) {
 		
 		float target_angle;
 		float omega_cmd;
-		float target_left;
-		float target_right;
+
     while(1) {
         
         // 1. 安全获取状态数据
@@ -366,30 +367,34 @@ void motor_task(void) {
             angle_td.aim = new_cmd.target_angle;  // 应用新的目标角度
         }
         
-        // 3. 处理角度指令
-        Clip_TD_Function(&angle_td, 30.0f);
-        target_angle = angle_td.x1;
-        
-        // 4. 角度环控制
-        angle_pid.Target = target_angle;
-        angle_pid.Actual = local_state.global.yaw;
-        PID_Update(&angle_pid);
-        
-        // 5. 运动学反解
-         omega_cmd = angle_pid.Out + angle_td.x2 * 0.1f;
-         target_left = nav_cmd.base_speed - (omega_cmd * TRACK_WIDTH / 2.0f);
-         target_right = nav_cmd.base_speed + (omega_cmd * TRACK_WIDTH / 2.0f);
+//        // 3. 处理角度指令
+//        Clip_TD_Function(&angle_td, 30.0f);
+//        target_angle = angle_td.x1;
+//        
+//        // 4. 角度环控制
+//        angle_pid.Target = target_angle;
+//        angle_pid.Actual = local_state.global.yaw;
+//        PID_Update(&angle_pid);
+//        
+//        // 5. 运动学反解
+//         omega_cmd = angle_pid.Out + angle_td.x2 * 0.1f;
+//         target_left = nav_cmd.base_speed - (omega_cmd * TRACK_WIDTH / 2.0f);
+//         target_right = nav_cmd.base_speed + (omega_cmd * TRACK_WIDTH / 2.0f);
         
         // 6. 速度环控制
-        speed_pid_left.Target = target_left;
-        speed_pid_left.Actual = local_state.local_vel.linear - 
-                               (local_state.local_vel.angular * TRACK_WIDTH / 2.0f);
+//        speed_pid_left.Target = target_left;
+//        speed_pid_left.Actual = local_state.local_vel.linear - 
+//                               (local_state.local_vel.angular * TRACK_WIDTH / 2.0f);
+        speed_pid_left.Actual = local_state.local_vel.linear;
         PID_Update(&speed_pid_left);
         leftMotorControl(speed_pid_left.Out);
         
-        speed_pid_right.Target = target_right;
-        speed_pid_right.Actual = local_state.local_vel.linear + 
-                                (local_state.local_vel.angular * TRACK_WIDTH / 2.0f);
+				
+				
+//        speed_pid_right.Target = target_right;			
+//        speed_pid_right.Actual = local_state.local_vel.linear + 
+//                                (local_state.local_vel.angular * TRACK_WIDTH / 2.0f);
+        speed_pid_right.Actual = local_state.local_vel.linear;
         PID_Update(&speed_pid_right);
         rightMotorControl(speed_pid_right.Out);
         
@@ -399,167 +404,167 @@ void motor_task(void) {
     }
 }
 
-void decision_task(void) {
-    const TickType_t xPeriod = pdMS_TO_TICKS(100); // 100ms决策周期
-    TickType_t xLastWakeTime = xTaskGetTickCount();
-    
-    // 全局路径点序列 (世界坐标系)
-    const Point2D_t global_waypoints[] = {
-        {1.0f, 0.0f},   // 前进1米
-        {1.0f, 1.0f},   // 右转90度
-        {0.0f, 1.0f},   // 前进2米
-        {0.0f, 0.0f}    // 回到起点
-    };
-    
-    NavCmd_t nav_cmd = {0};
-    uint8_t waypoint_count = sizeof(global_waypoints)/sizeof(global_waypoints[0]);
-		float target_yaw = 0.0f;
-    float yaw_error = 0.0f;
+//void decision_task(void) {
+//    const TickType_t xPeriod = pdMS_TO_TICKS(100); // 100ms决策周期
+//    TickType_t xLastWakeTime = xTaskGetTickCount();
+//    
+//    // 全局路径点序列 (世界坐标系)
+//    const Point2D_t global_waypoints[] = {
+//        {1.0f, 0.0f},   // 前进1米
+//        {1.0f, 1.0f},   // 右转90度
+//        {0.0f, 1.0f},   // 前进2米
+//        {0.0f, 0.0f}    // 回到起点
+//    };
+//    
+//    NavCmd_t nav_cmd = {0};
+//    uint8_t waypoint_count = sizeof(global_waypoints)/sizeof(global_waypoints[0]);
+//		float target_yaw = 0.0f;
+//    float yaw_error = 0.0f;
 
-    while(1) {
-				// 使用互斥锁保护状态读取
-        CustomMutex_Lock(&robot_state_mutex);
-        RobotState_t local_state = g_robot_state;
-        CustomMutex_Unlock(&robot_state_mutex);
+//    while(1) {
+//				// 使用互斥锁保护状态读取
+//        CustomMutex_Lock(&robot_state_mutex);
+//        RobotState_t local_state = g_robot_state;
+//        CustomMutex_Unlock(&robot_state_mutex);
 
-        
-				// 2. 状态机处理
-        switch(local_state.nav_state) {
-            // 初始化状态
-            case STATE_INIT:
-                // 重置导航状态
-								g_robot_state.current_waypoint = 0;
-								g_robot_state.nav_state = STATE_TURNING_IN_PLACE; // 先进行原地旋转
-						
-                nav_cmd.base_speed = 0.0f;
-                nav_cmd.target_angle = local_state.global.yaw;
-                break;
-            
-            // 移动状态 - 前往当前目标点
-            case STATE_MOVING: {
-                // 检查是否还有未完成的路径点
-                if (local_state.current_waypoint >= waypoint_count) {
-                    // 所有路径点完成
-										g_robot_state.nav_state = STATE_FINISHED;
-                    break;
-                }
-                
-                // 获取当前目标点
-                Point2D_t target = global_waypoints[local_state.current_waypoint];
-                
-                // 计算到目标的距离和方向
-                float dx = target.x - local_state.global.x;
-                float dy = target.y - local_state.global.y;
-                float distance = sqrtf(dx*dx + dy*dy);
-                target_yaw = atan2f(dy, dx) * 180.0f / PI;
-                
-                // 检查是否到达目标
-                if (distance < 0.05f) { // 5cm容差
-                    // 转换到到达状态
-										g_robot_state.nav_state = STATE_ARRIVED;
+//        
+//				// 2. 状态机处理
+//        switch(local_state.nav_state) {
+//            // 初始化状态
+//            case STATE_INIT:
+//                // 重置导航状态
+//								g_robot_state.current_waypoint = 0;
+//								g_robot_state.nav_state = STATE_TURNING_IN_PLACE; // 先进行原地旋转
+//						
+//                nav_cmd.base_speed = 0.0f;
+//                nav_cmd.target_angle = local_state.global.yaw;
+//                break;
+//            
+//            // 移动状态 - 前往当前目标点
+//            case STATE_MOVING: {
+//                // 检查是否还有未完成的路径点
+//                if (local_state.current_waypoint >= waypoint_count) {
+//                    // 所有路径点完成
+//										g_robot_state.nav_state = STATE_FINISHED;
+//                    break;
+//                }
+//                
+//                // 获取当前目标点
+//                Point2D_t target = global_waypoints[local_state.current_waypoint];
+//                
+//                // 计算到目标的距离和方向
+//                float dx = target.x - local_state.global.x;
+//                float dy = target.y - local_state.global.y;
+//                float distance = sqrtf(dx*dx + dy*dy);
+//                target_yaw = atan2f(dy, dx) * 180.0f / PI;
+//                
+//                // 检查是否到达目标
+//                if (distance < 0.05f) { // 5cm容差
+//                    // 转换到到达状态
+//										g_robot_state.nav_state = STATE_ARRIVED;
 
-                    nav_cmd.base_speed = 0.0f;
-                    nav_cmd.target_angle = target_yaw;
-                }else {
-                    // 检查是否需要转向
-                    yaw_error = fabs(target_yaw - local_state.global.yaw);
-                    if (yaw_error > 10.0f) { // 角度偏差大于10度需要转向
-                        g_robot_state.nav_state = STATE_TURNING_IN_PLACE;
-                        g_robot_state.target_yaw = target_yaw;
-										}else {
-												// 设置导航指令
-												nav_cmd.base_speed = fminf(0.5f, distance * 0.5f); // 接近时减速
-												nav_cmd.target_angle = target_yaw;
-												
-												// 更新全局状态
-												g_robot_state.target_yaw = target_yaw;
-												g_robot_state.target_speed = nav_cmd.base_speed;
-													}
-											}		
-                break;
-            }
-            // 到达路径点状态 - 短暂停顿
-            case STATE_ARRIVED:
-                // 移动到下一个路径点
-								g_robot_state.current_waypoint++;
-								
-								// 检查是否完成所有路径点
-								if (g_robot_state.current_waypoint >= waypoint_count) {
-										g_robot_state.nav_state = STATE_FINISHED;
-								} else {
-										Point2D_t next_target = global_waypoints[g_robot_state.current_waypoint];
-                    float dx = next_target.x - g_robot_state.global.x;
-                    float dy = next_target.y - g_robot_state.global.y;
-                    g_robot_state.target_yaw = atan2f(dy, dx) * 180.0f / PI;
-										g_robot_state.nav_state = STATE_MOVING;
-								}
-                
-                // 短暂停顿
-                vTaskDelay(200);
-                break;
-						// 原地旋转状态
-            case STATE_TURNING_IN_PLACE: {
-                target_yaw = g_robot_state.target_yaw;
-                
-                yaw_error = target_yaw - local_state.global.yaw;
-                
-                // 角度容差 ±2度
-                if (fabs(yaw_error) < 2.0f) {
-                    g_robot_state.nav_state = STATE_MOVING;
-                    
-                    nav_cmd.base_speed = 0.0f;
-                } else {
-                    // 原地旋转控制
-                    nav_cmd.base_speed = 0.0f; // 线速度为0
-                    
-                    // 根据角度差设置旋转速度
-                    float rotation_speed = fminf(30.0f, fabs(yaw_error) * 0.5f);
-                    rotation_speed = rotation_speed * (yaw_error > 0 ? 1 : -1);
-                    
-                    // 发送旋转指令
-                    // 实际应用中可能需要通过队列发送到电机任务
-                    // 这里简化为直接设置目标角度
-                    nav_cmd.target_angle = local_state.global.yaw + rotation_speed;
-                }
-                break;
-            }
-            
-            // 完成路径状态 - 保持停止
-            case STATE_FINISHED:
-                nav_cmd.base_speed = 0.0f;
-                nav_cmd.target_angle = local_state.global.yaw;
-                break;
-            
-            // 错误状态 - 安全停止
-            case STATE_ERROR:
-            default:
-                nav_cmd.base_speed = 0.0f;
-                nav_cmd.target_angle = local_state.global.yaw;
-                break;
-        }
-				
-        // 3. 发送导航指令（使用带超时的发送）
-        QueueStatus_t status = CustomQueue_SendTimeout(&nav_cmd_queue, &nav_cmd, 100);
-        if (status != QUEUE_OK) {
-            // 发送失败处理（如调试输出）
-            debug_printf("Queue send failed: %d\n", status);
-        }
-        
-				// 4. 状态调试输出
-        #ifdef DEBUG_NAV_STATE
-        debug_printf("State: %d WP: %d/%d Cmd: %.2fm/s %.0f°\n", 
-                    local_state.nav_state,
-                    local_state.current_waypoint,
-                    waypoint_count,
-                    nav_cmd.base_speed,
-                    nav_cmd.target_angle);
-        #endif
-				
-        // 5. 精确延迟
-			vTaskDelayUntil(&xLastWakeTime, xPeriod);
-				//vTaskDelay(100);
-    }
-}
+//                    nav_cmd.base_speed = 0.0f;
+//                    nav_cmd.target_angle = target_yaw;
+//                }else {
+//                    // 检查是否需要转向
+//                    yaw_error = fabs(target_yaw - local_state.global.yaw);
+//                    if (yaw_error > 10.0f) { // 角度偏差大于10度需要转向
+//                        g_robot_state.nav_state = STATE_TURNING_IN_PLACE;
+//                        g_robot_state.target_yaw = target_yaw;
+//										}else {
+//												// 设置导航指令
+//												nav_cmd.base_speed = fminf(0.5f, distance * 0.5f); // 接近时减速
+//												nav_cmd.target_angle = target_yaw;
+//												
+//												// 更新全局状态
+//												g_robot_state.target_yaw = target_yaw;
+//												g_robot_state.target_speed = nav_cmd.base_speed;
+//													}
+//											}		
+//                break;
+//            }
+//            // 到达路径点状态 - 短暂停顿
+//            case STATE_ARRIVED:
+//                // 移动到下一个路径点
+//								g_robot_state.current_waypoint++;
+//								
+//								// 检查是否完成所有路径点
+//								if (g_robot_state.current_waypoint >= waypoint_count) {
+//										g_robot_state.nav_state = STATE_FINISHED;
+//								} else {
+//										Point2D_t next_target = global_waypoints[g_robot_state.current_waypoint];
+//                    float dx = next_target.x - g_robot_state.global.x;
+//                    float dy = next_target.y - g_robot_state.global.y;
+//                    g_robot_state.target_yaw = atan2f(dy, dx) * 180.0f / PI;
+//										g_robot_state.nav_state = STATE_MOVING;
+//								}
+//                
+//                // 短暂停顿
+//                vTaskDelay(200);
+//                break;
+//						// 原地旋转状态
+//            case STATE_TURNING_IN_PLACE: {
+//                target_yaw = g_robot_state.target_yaw;
+//                
+//                yaw_error = target_yaw - local_state.global.yaw;
+//                
+//                // 角度容差 ±2度
+//                if (fabs(yaw_error) < 2.0f) {
+//                    g_robot_state.nav_state = STATE_MOVING;
+//                    
+//                    nav_cmd.base_speed = 0.0f;
+//                } else {
+//                    // 原地旋转控制
+//                    nav_cmd.base_speed = 0.0f; // 线速度为0
+//                    
+//                    // 根据角度差设置旋转速度
+//                    float rotation_speed = fminf(30.0f, fabs(yaw_error) * 0.5f);
+//                    rotation_speed = rotation_speed * (yaw_error > 0 ? 1 : -1);
+//                    
+//                    // 发送旋转指令
+//                    // 实际应用中可能需要通过队列发送到电机任务
+//                    // 这里简化为直接设置目标角度
+//                    nav_cmd.target_angle = local_state.global.yaw + rotation_speed;
+//                }
+//                break;
+//            }
+//            
+//            // 完成路径状态 - 保持停止
+//            case STATE_FINISHED:
+//                nav_cmd.base_speed = 0.0f;
+//                nav_cmd.target_angle = local_state.global.yaw;
+//                break;
+//            
+//            // 错误状态 - 安全停止
+//            case STATE_ERROR:
+//            default:
+//                nav_cmd.base_speed = 0.0f;
+//                nav_cmd.target_angle = local_state.global.yaw;
+//                break;
+//        }
+//				
+//        // 3. 发送导航指令（使用带超时的发送）
+//        QueueStatus_t status = CustomQueue_SendTimeout(&nav_cmd_queue, &nav_cmd, 100);
+//        if (status != QUEUE_OK) {
+//            // 发送失败处理（如调试输出）
+//            debug_printf("Queue send failed: %d\n", status);
+//        }
+//        
+//				// 4. 状态调试输出
+//        #ifdef DEBUG_NAV_STATE
+//        debug_printf("State: %d WP: %d/%d Cmd: %.2fm/s %.0f°\n", 
+//                    local_state.nav_state,
+//                    local_state.current_waypoint,
+//                    waypoint_count,
+//                    nav_cmd.base_speed,
+//                    nav_cmd.target_angle);
+//        #endif
+//				
+//        // 5. 精确延迟
+//			vTaskDelayUntil(&xLastWakeTime, xPeriod);
+//				//vTaskDelay(100);
+//    }
+//}
 
 void state_update_task(void) {
     const TickType_t xPeriod = pdMS_TO_TICKS(10); // 10ms更新周期
@@ -634,30 +639,30 @@ void state_update_task(void) {
     }
 }
 
-void openmv_task(void *pvParameters) {
-    // 初始化
-    OpenMVData_t local_openmv_data;
-    uint32_t last_request_time = 0;
-    
-    // 发送初始化命令
-    uint8_t init_cmd = 0x01; // 启动检测命令
-    openmv_send_command(0x01, &init_cmd, 1);
-    
-    while (1) {
-        // 周期性请求数据(每50ms一次)
-        if (xTaskGetTickCount() - last_request_time > 50) {
-            openmv_send_command(0x02, NULL, 0); // 请求最新检测结果
-            last_request_time = xTaskGetTickCount();
-        }
-        
-        // 读取OpenMV数据(带互斥锁)
-        CustomMutex_Lock(&openmv_data_mutex);
-        memcpy(&local_openmv_data, &g_openmv_data, sizeof(OpenMVData_t));
-        CustomMutex_Unlock(&openmv_data_mutex);
-        
-        vTaskDelay(10); // 10ms周期
-    }
-}
+//void openmv_task(void *pvParameters) {
+//    // 初始化
+//    OpenMVData_t local_openmv_data;
+//    uint32_t last_request_time = 0;
+//    
+//    // 发送初始化命令
+//    uint8_t init_cmd = 0x01; // 启动检测命令
+//    openmv_send_command(0x01, &init_cmd, 1);
+//    
+//    while (1) {
+//        // 周期性请求数据(每50ms一次)
+//        if (xTaskGetTickCount() - last_request_time > 50) {
+//            openmv_send_command(0x02, NULL, 0); // 请求最新检测结果
+//            last_request_time = xTaskGetTickCount();
+//        }
+//        
+//        // 读取OpenMV数据(带互斥锁)
+//        CustomMutex_Lock(&openmv_data_mutex);
+//        memcpy(&local_openmv_data, &g_openmv_data, sizeof(OpenMVData_t));
+//        CustomMutex_Unlock(&openmv_data_mutex);
+//        
+//        vTaskDelay(10); // 10ms周期
+//    }
+//}
 
 /* USER CODE END 0 */
 
@@ -727,12 +732,12 @@ CustomQueue_Init(&nav_cmd_queue,
 //					(void*          )NULL,
 //					(UBaseType_t    )1,
 //					(TaskHandle_t*  )&filter_TaskHandle_t);
- 	xTaskCreate((TaskFunction_t )servo_task,
-					(const char*    )"servo_task",
-					(uint16_t       )128,
-					(void*          )NULL,
-					(UBaseType_t    )1,
-					(TaskHandle_t*  )&servo_TaskHandle_t);
+// 	xTaskCreate((TaskFunction_t )servo_task,
+//					(const char*    )"servo_task",
+//					(uint16_t       )128,
+//					(void*          )NULL,
+//					(UBaseType_t    )1,
+//					(TaskHandle_t*  )&servo_TaskHandle_t);
 //	xTaskCreate((TaskFunction_t )oled_task,
 //					(const char*    )"oled_task",
 //					(uint16_t       )128,
@@ -757,24 +762,24 @@ CustomQueue_Init(&nav_cmd_queue,
 					(void*          )NULL,
 					(UBaseType_t    )5,
 					(TaskHandle_t*  )&motor_TaskHandle_t);		
-	xTaskCreate((TaskFunction_t )decision_task,
-					(const char*    )"decision_task",
-					(uint16_t       )256,  // 需要较大栈空间
-					(void*          )NULL,
-					(UBaseType_t    )4,    // 中等优先级
-					(TaskHandle_t*  )&decision_TaskHandle_t);	
+//	xTaskCreate((TaskFunction_t )decision_task,
+//					(const char*    )"decision_task",
+//					(uint16_t       )256,  // 需要较大栈空间
+//					(void*          )NULL,
+//					(UBaseType_t    )4,    // 中等优先级
+//					(TaskHandle_t*  )&decision_TaskHandle_t);	
 	xTaskCreate((TaskFunction_t )state_update_task,
 					(const char*    )"state_update_task",
 					(uint16_t       )256,  // 需要较大栈空间
 					(void*          )NULL,
 					(UBaseType_t    )3,    // 中等优先级
 					(TaskHandle_t*  )&state_update_TaskHandle_t);			
-	xTaskCreate((TaskFunction_t )openmv_task,
-            (const char*    )"openmv_task",
-            (uint16_t       )256,
-            (void*          )NULL,
-            (UBaseType_t    )2,  
-            (TaskHandle_t*  )NULL);					
+//	xTaskCreate((TaskFunction_t )openmv_task,
+//            (const char*    )"openmv_task",
+//            (uint16_t       )256,
+//            (void*          )NULL,
+//            (UBaseType_t    )2,  
+//            (TaskHandle_t*  )NULL);					
 					
 	vTaskStartScheduler();  
   /* USER CODE END 2 */
