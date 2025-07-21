@@ -46,6 +46,8 @@
 #include "pid.h"
 #include "mutex_lock_and_message_queue.h"
 #include "data_protocol.h"
+#include "eletube.h"
+#include <stdbool.h>
 
 /* USER CODE END Includes */
 
@@ -105,6 +107,9 @@ TaskHandle_t  motor_TaskHandle_t;
 TaskHandle_t  decision_TaskHandle_t;
 TaskHandle_t  state_update_TaskHandle_t;
 TaskHandle_t  openmv_TaskHandle_t;
+TaskHandle_t  eletube_TaskHandle_t;
+TaskHandle_t  debug_send_TaskHandle_t;
+
 
 
 /* 在全局变量区域添加 */
@@ -307,13 +312,15 @@ void usart_task(){
     {
       HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);
     }
-//		debug_printf("123456\n");
+//		debug_printf("1,2,3,4,5,6\n");
 		vTaskDelay(500);
     // open the uart1 reciver
   }
 }
 
-void mpu6050_task(){      
+void mpu6050_task(){   
+		const TickType_t xPeriod = pdMS_TO_TICKS(10); // 10ms更新周期
+    TickType_t xLastWakeTime = xTaskGetTickCount();
     while(1) {
 //        convert_uint8_to_uint16(accel,gyro);
         // 使用互斥锁保护全局变量
@@ -329,29 +336,31 @@ void mpu6050_task(){
         // 打印姿态角
 //        debug_printf("Pitch: %.2f, Roll: %.2f, Yaw: %.2f\r\n", Att_Angle.pitch, Att_Angle.roll, Att_Angle.yaw);
 				
-        vTaskDelay(10);
+//        vTaskDelay(10);
+				vTaskDelayUntil(&xLastWakeTime, xPeriod);
     }
 }
 
 //QueueHandle_t nav_cmd_queue;  // 导航指令队列
 // 控制器初始化	
-PID_t speed_pid_left = { .Kp=10000, .Ki=100, .Kd=15, .OutMin=-15000, .OutMax=15000 };
-PID_t speed_pid_right = { .Kp=10000, .Ki=100, .Kd=15, .OutMin=-15000, .OutMax=15000 };
+PID_t speed_pid_left = { .Kp=2000, .Ki=100, .Kd=50, .OutMin=-15000, .OutMax=15000 ,.IntMinThreshold=0.03,.ErrorIntMax=10000,.ErrorIntMin=-10000 };
+PID_t speed_pid_right = { .Kp=2000, .Ki=100, .Kd=50, .OutMin=-15000, .OutMax=15000,.IntMinThreshold=0.03,.ErrorIntMax=10000,.ErrorIntMin=-10000 };
+PID_t angle_pid = { .Kp=30, .Ki=0.001, .Kd=850, .OutMin=-5000, .OutMax=5000,.IntMinThreshold=0.5,.ErrorIntMax=10000,.ErrorIntMin=-10000};
+TD angle_td = { .r=250.0f, .h=0.01f, .T=0.01f };
 float target_left;
 float target_right;
+float target_angle;
+float omega_cmd;
+float speedMax = 130;
 
 void motor_task(void) {  
-		PID_t angle_pid = { .Kp=1.5f, .Ki=0.05f, .Kd=0.3f, .OutMin=-1.0f, .OutMax=1.0f };
-		TD angle_td = { .r=5.0f, .h=0.01f, .T=0.01f };
+
 		
     const TickType_t xPeriod = pdMS_TO_TICKS(10); // 10ms控制周期
     TickType_t xLastWakeTime = xTaskGetTickCount();
     RobotState_t local_state;
 		NavCmd_t nav_cmd;
 		
-		float target_angle;
-		float omega_cmd;
-
     while(1) {
         
         // 1. 安全获取状态数据
@@ -367,34 +376,29 @@ void motor_task(void) {
             angle_td.aim = new_cmd.target_angle;  // 应用新的目标角度
         }
         
-//        // 3. 处理角度指令
-//        Clip_TD_Function(&angle_td, 30.0f);
-//        target_angle = angle_td.x1;
-//        
-//        // 4. 角度环控制
-//        angle_pid.Target = target_angle;
-//        angle_pid.Actual = local_state.global.yaw;
-//        PID_Update(&angle_pid);
-//        
-//        // 5. 运动学反解
-//         omega_cmd = angle_pid.Out + angle_td.x2 * 0.1f;
-//         target_left = nav_cmd.base_speed - (omega_cmd * TRACK_WIDTH / 2.0f);
-//         target_right = nav_cmd.base_speed + (omega_cmd * TRACK_WIDTH / 2.0f);
+        // 3. 处理角度指令
+        Clip_TD_Function(&angle_td, speedMax);
+        
+        // 4. 角度环控制
+        angle_pid.Target = angle_td.x1;
+        angle_pid.Actual = local_state.global.yaw;
+        PID_Update(&angle_pid);
+        
+        // 5. 运动学反解
+         omega_cmd = (angle_pid.Out + angle_td.x2 * 0.1f)*AtR;
+         target_left = nav_cmd.base_speed - (omega_cmd * TRACK_WIDTH / 2.0f);
+         target_right = nav_cmd.base_speed + (omega_cmd * TRACK_WIDTH / 2.0f);
         
         // 6. 速度环控制
-//        speed_pid_left.Target = target_left;
-//        speed_pid_left.Actual = local_state.local_vel.linear - 
-//                               (local_state.local_vel.angular * TRACK_WIDTH / 2.0f);
-        speed_pid_left.Actual = local_state.local_vel.linear;
+        speed_pid_left.Target = target_left;
+        speed_pid_left.Actual = local_state.left_speed;
         PID_Update(&speed_pid_left);
         leftMotorControl(speed_pid_left.Out);
         
 				
 				
-//        speed_pid_right.Target = target_right;			
-//        speed_pid_right.Actual = local_state.local_vel.linear + 
-//                                (local_state.local_vel.angular * TRACK_WIDTH / 2.0f);
-        speed_pid_right.Actual = local_state.local_vel.linear;
+        speed_pid_right.Target = target_right;			
+        speed_pid_right.Actual = local_state.right_speed;
         PID_Update(&speed_pid_right);
         rightMotorControl(speed_pid_right.Out);
         
@@ -566,6 +570,169 @@ void motor_task(void) {
 //    }
 //}
 
+// 全局调试信息变量
+DebugInfo_t g_debug_info;
+CustomMutex_t debug_info_mutex = {.locked = 0,.owner = NULL,.name = "debug_info_mutex",.lock_count = 0};
+
+void debug_send_task(void) {
+    const TickType_t xPeriod = pdMS_TO_TICKS(500); // 发送周期
+    TickType_t xLastWakeTime = xTaskGetTickCount();
+    
+    while(1) {
+        DebugInfo_t local_info;
+        
+        // 安全复制调试信息
+        CustomMutex_Lock(&debug_info_mutex);
+        memcpy(&local_info, &g_debug_info, sizeof(DebugInfo_t));
+        CustomMutex_Unlock(&debug_info_mutex);
+        
+        // 发送调试信息
+        debug_printf("%lu,%.2f,%.2f,%.2f,%.2f\n", 
+                     local_info.timestamp,
+                     local_info.target_angle,
+                     local_info.current_yaw,
+                     local_info.angle_adjust,
+                     local_info.base_speed);
+        
+        // 精确延迟
+        vTaskDelayUntil(&xLastWakeTime, xPeriod);
+    }
+}
+
+void decision_task(void) {
+		State_t state;
+    const TickType_t xPeriod = pdMS_TO_TICKS(10); // 决策周期10ms
+    TickType_t xLastWakeTime = xTaskGetTickCount();
+    
+    NavCmd_t nav_cmd = {.base_speed = 0.0f, .target_angle = g_robot_state.global.yaw};
+    
+
+
+    while(1) {
+        // 1. 读取当前循迹模块状态
+        uint8_t sensor_state = 0;
+        
+        // 构建传感器状态字节
+        for(int i = 0; i < 5; i++) {
+            if(etubeCkeck[i] == 0) {
+                sensor_state |= (1 << i);
+            }
+        }
+        
+        // 获取当前偏航角
+        float current_yaw;
+        CustomMutex_Lock(&robot_state_mutex);
+        current_yaw = g_robot_state.global.yaw;
+        CustomMutex_Unlock(&robot_state_mutex);
+        
+        // 2. 状态机处理
+        switch(state) {
+            // 停止状态（检测不到黑线）
+            case STATE_STOPPED:
+                nav_cmd.base_speed = 0.0f;
+                nav_cmd.target_angle = current_yaw;
+                
+                // 如果检测到黑线，进入直行状态
+                if(sensor_state != 0) {
+                    state = STATE_STRAIGHT;
+                    nav_cmd.base_speed = STRAIGHT_SPEED;
+                }
+                break;
+                
+            // 直行状态
+            case STATE_STRAIGHT:
+                nav_cmd.base_speed = STRAIGHT_SPEED;
+                
+                // 根据传感器状态调整方向
+                switch(sensor_state) {
+                    case 0x04: // 00000100 - 只有中间传感器
+                        nav_cmd.target_angle = current_yaw;
+                        break;
+                        
+                    case 0x02: // 00000010 - 只有左1传感器
+                    case 0x06: // 00000110 - 中间和左1
+                        nav_cmd.target_angle = current_yaw - SMALL_ADJUST; // 小幅左转
+                        break;
+                        
+                    case 0x08: // 00001000 - 只有右1传感器
+                    case 0x0C: // 00001100 - 中间和右1
+                        nav_cmd.target_angle = current_yaw + SMALL_ADJUST; // 小幅右转
+                        break;
+                        
+                    case 0x01: // 00000001 - 只有左2传感器
+                        state = STATE_LEFT_TURN;
+                        nav_cmd.base_speed = TURN_SPEED;
+                        nav_cmd.target_angle = current_yaw - LARGE_ADJUST; // 大幅左转
+                        break;
+                        
+                    case 0x10: // 00010000 - 只有右2传感器
+                        state = STATE_RIGHT_TURN;
+                        nav_cmd.base_speed = TURN_SPEED;
+                        nav_cmd.target_angle = current_yaw + LARGE_ADJUST; // 大幅右转
+                        break;
+                        
+                    default:
+                        // 如果所有传感器都未检测到，进入停止状态
+                        if(sensor_state == 0) {
+                            state = STATE_STOPPED;
+                        }
+                        break;
+                }
+                break;
+                
+            // 左转状态
+            case STATE_LEFT_TURN:
+                nav_cmd.base_speed = TURN_SPEED;
+                nav_cmd.target_angle = current_yaw - LARGE_ADJUST; // 持续左转
+                
+                // 检查是否回到直行状态
+                if(sensor_state & 0x04) { // 中间传感器检测到
+                    state = STATE_STRAIGHT;
+                    nav_cmd.base_speed = STRAIGHT_SPEED;
+                }
+                // 检查是否完全丢失线路
+                else if(sensor_state == 0) {
+                    state = STATE_STOPPED;
+                }
+                break;
+                
+            // 右转状态
+            case STATE_RIGHT_TURN:
+                nav_cmd.base_speed = TURN_SPEED;
+                nav_cmd.target_angle = current_yaw + LARGE_ADJUST; // 持续右转
+                
+                // 检查是否回到直行状态
+                if(sensor_state & 0x04) { // 中间传感器检测到
+                    state = STATE_STRAIGHT;
+                    nav_cmd.base_speed = STRAIGHT_SPEED;
+                }
+                // 检查是否完全丢失线路
+                else if(sensor_state == 0) {
+                    state = STATE_STOPPED;
+                }
+                break;
+        }
+        
+        // 3. 更新调试信息
+        CustomMutex_Lock(&debug_info_mutex);
+        g_debug_info.target_angle = nav_cmd.target_angle;
+        g_debug_info.current_yaw = current_yaw;
+        g_debug_info.angle_adjust = nav_cmd.target_angle - current_yaw;
+        g_debug_info.base_speed = nav_cmd.base_speed;
+        g_debug_info.timestamp = xTaskGetTickCount() * portTICK_PERIOD_MS;
+        CustomMutex_Unlock(&debug_info_mutex);
+        
+        // 4. 发送导航指令
+        QueueStatus_t status = CustomQueue_SendTimeout(&nav_cmd_queue, &nav_cmd, 10);
+        if(status != QUEUE_OK) {
+            debug_printf("NavCmd send err:%d\n", status);
+        }
+        
+        // 5. 精确延迟
+        vTaskDelayUntil(&xLastWakeTime, xPeriod);
+    }
+}
+
 void state_update_task(void) {
     const TickType_t xPeriod = pdMS_TO_TICKS(10); // 10ms更新周期
     TickType_t xLastWakeTime = xTaskGetTickCount();
@@ -623,7 +790,6 @@ void state_update_task(void) {
 				// 更新局部速度
 				g_robot_state.local_vel.linear = linear_vel;
 				g_robot_state.local_vel.angular = angular_vel;
-				
 				// 更新系统状态
 				g_robot_state.update_count++;
 				
@@ -632,6 +798,9 @@ void state_update_task(void) {
         // 7. 保存当前值供下次使用
         prev_speed = linear_vel;
         prev_yaw = yaw_rad;
+				
+				g_robot_state.left_speed = left_speed;
+				g_robot_state.right_speed = right_speed;
         
         // 8. 精确延迟
         vTaskDelayUntil(&xLastWakeTime, xPeriod);
@@ -663,6 +832,17 @@ void state_update_task(void) {
 //        vTaskDelay(10); // 10ms周期
 //    }
 //}
+
+void eletube_task(void){
+		const TickType_t xPeriod = pdMS_TO_TICKS(500); // 10ms更新周期
+    TickType_t xLastWakeTime = xTaskGetTickCount();
+	
+		while(1){
+//		Etube_Check();
+    vTaskDelayUntil(&xLastWakeTime, xPeriod);
+		//vTaskDelay(10);
+		}
+}
 
 /* USER CODE END 0 */
 
@@ -762,12 +942,12 @@ CustomQueue_Init(&nav_cmd_queue,
 					(void*          )NULL,
 					(UBaseType_t    )5,
 					(TaskHandle_t*  )&motor_TaskHandle_t);		
-//	xTaskCreate((TaskFunction_t )decision_task,
-//					(const char*    )"decision_task",
-//					(uint16_t       )256,  // 需要较大栈空间
-//					(void*          )NULL,
-//					(UBaseType_t    )4,    // 中等优先级
-//					(TaskHandle_t*  )&decision_TaskHandle_t);	
+	xTaskCreate((TaskFunction_t )decision_task,
+					(const char*    )"decision_task",
+					(uint16_t       )256,  // 需要较大栈空间
+					(void*          )NULL,
+					(UBaseType_t    )4,    // 中等优先级
+					(TaskHandle_t*  )&decision_TaskHandle_t);	
 	xTaskCreate((TaskFunction_t )state_update_task,
 					(const char*    )"state_update_task",
 					(uint16_t       )256,  // 需要较大栈空间
@@ -780,6 +960,19 @@ CustomQueue_Init(&nav_cmd_queue,
 //            (void*          )NULL,
 //            (UBaseType_t    )2,  
 //            (TaskHandle_t*  )NULL);					
+	xTaskCreate((TaskFunction_t )eletube_task,
+					(const char*    )"eletube_task",
+					(uint16_t       )128,  // 
+					(void*          )NULL,
+					(UBaseType_t    )3,    // 中等优先级
+					(TaskHandle_t*  )&eletube_TaskHandle_t);	
+	xTaskCreate((TaskFunction_t )debug_send_task,
+					(const char*    )"debug_send_task",
+					(uint16_t       )128,  // 
+					(void*          )NULL,
+					(UBaseType_t    )3,    // 中等优先级
+					(TaskHandle_t*  )&debug_send_TaskHandle_t);
+					
 					
 	vTaskStartScheduler();  
   /* USER CODE END 2 */

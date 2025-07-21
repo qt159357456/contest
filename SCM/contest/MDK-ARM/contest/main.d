@@ -62,3 +62,5 @@ contest\main.o: ../Hardware/mpu6050.h
 contest\main.o: ../Hardware/imu.h
 contest\main.o: ../Hardware/motor.h
 contest\main.o: ../Algorithm/pid.h
+contest\main.o: ../Hardware/eletube.h
+contest\main.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdbool.h

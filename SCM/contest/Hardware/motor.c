@@ -162,8 +162,8 @@ float getWheelSpeed(TIM_HandleTypeDef *htim, EncoderState *state) {
 }
 
 // ◊Û/”“¬÷ÀŸªÒ»°
-float leftWheelSpeed(void) { return vectorFilter(getWheelSpeed(&RIGHT_MOTOR_ENCODER_TIMER,&left_encoder), &left_rb); }
-float rightWheelSpeed(void) { return vectorFilter(getWheelSpeed(&LEFT_MOTOR_ENCODER_TIMER,&right_encoder), &right_rb); }
+float leftWheelSpeed(void) { return vectorFilter(getWheelSpeed(&LEFT_MOTOR_ENCODER_TIMER,&left_encoder), &left_rb); }
+float rightWheelSpeed(void) { return vectorFilter(getWheelSpeed(&RIGHT_MOTOR_ENCODER_TIMER,&right_encoder), &right_rb); }
 
 
 

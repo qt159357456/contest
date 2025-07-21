@@ -55,7 +55,11 @@ typedef struct {
 		float iOut;
 		float dOut;
 		float TargetChangeThreshold;
+		
+		float IntMinThreshold;
+		
 } PID_t;
+
 
 typedef struct {
 	float Alpha;
@@ -191,7 +195,12 @@ typedef struct {
     
     // 系统状态
     uint32_t update_count;       // 状态更新计数
-		NavState_t nav_state;    // 导航状态
+		NavState_t nav_state;        // 导航状态
+	
+		float left_speed;
+		float right_speed;
+	
+
 } RobotState_t;
 
 // 坐标系结构体
@@ -288,6 +297,22 @@ typedef struct {
     uint8_t data_len;          // 实际数据长度
 } OpenMVDataBytes_t;
 
+// 循迹状态
+typedef enum {
+		STATE_STOPPED,      // 停止状态（检测不到黑线）
+		STATE_STRAIGHT,     // 直行状态
+		STATE_LEFT_TURN,    // 左转状态
+		STATE_RIGHT_TURN    // 右转状态
+}State_t;
+
+// 调试信息结构体
+typedef struct {
+    float target_angle;
+    float current_yaw;
+    float angle_adjust;
+    float base_speed;
+    uint32_t timestamp;
+} DebugInfo_t;
 
 #define LEFT_MOTOR_PWM_TIMER        htim1
 #define LEFT_MOTOR_PWM_CHANNEL      TIM_CHANNEL_1
@@ -299,8 +324,8 @@ typedef struct {
 #define TIME_WAIT 20    // 速度检测间隔（毫秒）
 #define PULSES_NUMBER (2 * 6.3f * 11) // 编码器每转脉冲数
 #define WHEEL_DIAMETER 0.065f // 65mm轮子
-#define WHEELBASE 0.25f      // 前后轮轴距 (单位：米)
-#define TRACK_WIDTH 0.20f    // 后轮轮距 (单位：米)
+#define WHEELBASE 0.12f      // 前后轮轴距 (单位：米)
+#define TRACK_WIDTH 0.18f    // 后轮轮距 (单位：米)
 
 #define NAV_QUEUE_SIZE 5
 
@@ -309,7 +334,13 @@ typedef struct {
 #define OPENMV_RX_BUFFER_SIZE 128
 #define OPENMV_TX_BUFFER_SIZE 128
 
-
+// 循迹控制参数
+#define STRAIGHT_SPEED 0.5f    // 基础前进速度 (m/s)
+#define TURN_SPEED 0.2f    // 弯道速度 (m/s)
+#define MAX_ANGLE_ADJ 60.0f   // 最大角度调整量(度)
+#define LOST_THRESHOLD 15      // 丢失线路计数阈值(约150ms)
+#define SMALL_ADJUST 10.0f;     // 小角度调整量(度)
+#define LARGE_ADJUST 25.0f;     // 大角度调整量(度)
 
 #define squa( Sq )        (((float)Sq)*((float)Sq))
 /********************************************************************************/

@@ -1,0 +1,12 @@
+contest\port.o: contest\FreeRTOS\port\RVDS\ARM_CM3\port.c
+contest\port.o: ./contest/FreeRTOS/include/FreeRTOS.h
+contest\port.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stddef.h
+contest\port.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdint.h
+contest\port.o: ./contest/FreeRTOS/include/FreeRTOSConfig.h
+contest\port.o: ./contest/FreeRTOS/include/projdefs.h
+contest\port.o: ./contest/FreeRTOS/include/portable.h
+contest\port.o: ./contest/FreeRTOS/include/deprecated_definitions.h
+contest\port.o: ./contest/FreeRTOS/port/RVDS/ARM_CM3/portmacro.h
+contest\port.o: ./contest/FreeRTOS/include/mpu_wrappers.h
+contest\port.o: ./contest/FreeRTOS/include/task.h
+contest\port.o: ./contest/FreeRTOS/include/list.h

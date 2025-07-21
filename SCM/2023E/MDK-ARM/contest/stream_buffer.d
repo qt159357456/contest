@@ -1,0 +1,14 @@
+contest\stream_buffer.o: contest\FreeRTOS\src\stream_buffer.c
+contest\stream_buffer.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdint.h
+contest\stream_buffer.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\string.h
+contest\stream_buffer.o: ./contest/FreeRTOS/include/FreeRTOS.h
+contest\stream_buffer.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stddef.h
+contest\stream_buffer.o: ./contest/FreeRTOS/include/FreeRTOSConfig.h
+contest\stream_buffer.o: ./contest/FreeRTOS/include/projdefs.h
+contest\stream_buffer.o: ./contest/FreeRTOS/include/portable.h
+contest\stream_buffer.o: ./contest/FreeRTOS/include/deprecated_definitions.h
+contest\stream_buffer.o: ./contest/FreeRTOS/port/RVDS/ARM_CM3/portmacro.h
+contest\stream_buffer.o: ./contest/FreeRTOS/include/mpu_wrappers.h
+contest\stream_buffer.o: ./contest/FreeRTOS/include/task.h
+contest\stream_buffer.o: ./contest/FreeRTOS/include/list.h
+contest\stream_buffer.o: ./contest/FreeRTOS/include/stream_buffer.h
