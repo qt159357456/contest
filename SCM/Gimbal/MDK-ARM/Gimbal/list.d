@@ -1,0 +1,12 @@
+gimbal\list.o: ..\FreeRTOS\list.c
+gimbal\list.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdlib.h
+gimbal\list.o: ../FreeRTOS/include/FreeRTOS.h
+gimbal\list.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stddef.h
+gimbal\list.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdint.h
+gimbal\list.o: ../FreeRTOS/include/FreeRTOSConfig.h
+gimbal\list.o: ../FreeRTOS/include/projdefs.h
+gimbal\list.o: ../FreeRTOS/include/portable.h
+gimbal\list.o: ../FreeRTOS/include/deprecated_definitions.h
+gimbal\list.o: ../FreeRTOS/portable/RVDS/ARM_CM4F/portmacro.h
+gimbal\list.o: ../FreeRTOS/include/mpu_wrappers.h
+gimbal\list.o: ../FreeRTOS/include/list.h

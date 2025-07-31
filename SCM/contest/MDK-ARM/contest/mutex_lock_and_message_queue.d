@@ -1,0 +1,17 @@
+contest\mutex_lock_and_message_queue.o: ..\Algorithm\mutex_lock_and_message_queue.c
+contest\mutex_lock_and_message_queue.o: ..\Algorithm\mutex_lock_and_message_queue.h
+contest\mutex_lock_and_message_queue.o: ../Core/Inc/global.h
+contest\mutex_lock_and_message_queue.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdint.h
+contest\mutex_lock_and_message_queue.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\math.h
+contest\mutex_lock_and_message_queue.o: ../Algorithm/myMath.h
+contest\mutex_lock_and_message_queue.o: ./contest/FreeRTOS/include/FreeRTOSConfig.h
+contest\mutex_lock_and_message_queue.o: ./contest/FreeRTOS/include/FreeRTOS.h
+contest\mutex_lock_and_message_queue.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stddef.h
+contest\mutex_lock_and_message_queue.o: ./contest/FreeRTOS/include/projdefs.h
+contest\mutex_lock_and_message_queue.o: ./contest/FreeRTOS/include/portable.h
+contest\mutex_lock_and_message_queue.o: ./contest/FreeRTOS/include/deprecated_definitions.h
+contest\mutex_lock_and_message_queue.o: ./contest/FreeRTOS/port/RVDS/ARM_CM3/portmacro.h
+contest\mutex_lock_and_message_queue.o: ./contest/FreeRTOS/include/mpu_wrappers.h
+contest\mutex_lock_and_message_queue.o: ./contest/FreeRTOS/include/task.h
+contest\mutex_lock_and_message_queue.o: ./contest/FreeRTOS/include/list.h
+contest\mutex_lock_and_message_queue.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\string.h

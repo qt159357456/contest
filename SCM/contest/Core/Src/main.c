@@ -41,6 +41,14 @@
 #include "oled.h"
 #include "usart.h"
 #include "mpu6050.h"
+#include "imu.h"
+#include "motor.h"
+#include "pid.h"
+#include "mutex_lock_and_message_queue.h"
+#include "data_protocol.h"
+#include "eletube.h"
+#include <stdbool.h>
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -62,6 +70,19 @@
 
 /* USER CODE BEGIN PV */
 
+// 定义机器人状态互斥锁实例
+CustomMutex_t robot_state_mutex = {
+    .locked = 0,
+    .owner = NULL,
+    .name = "robot_state_mutex",
+    .lock_count = 0
+};
+
+// 定义导航指令消息队列（缓冲区大小为5个消息）
+NavCmd_t nav_queue_buffer[NAV_QUEUE_SIZE];  // 消息缓冲区
+CustomQueue_t nav_cmd_queue;                // 导航指令队列实例
+
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -72,6 +93,9 @@ void debug_printf(const char *fmt, ...);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+
+
+
 TaskHandle_t  led1_TaskHandle_t;
 TaskHandle_t  led2_TaskHandle_t;
 TaskHandle_t  filter_TaskHandle_t;
@@ -79,16 +103,22 @@ TaskHandle_t  servo_TaskHandle_t;
 TaskHandle_t  oled_TaskHandle_t;
 TaskHandle_t  usart_TaskHandle_t;
 TaskHandle_t  mpu6050_TaskHandle_t;
+TaskHandle_t  motor_TaskHandle_t;
+TaskHandle_t  decision_TaskHandle_t;
+TaskHandle_t  state_update_TaskHandle_t;
+TaskHandle_t  openmv_TaskHandle_t;
+TaskHandle_t  eletube_TaskHandle_t;
+TaskHandle_t  debug_send_TaskHandle_t;
+
 
 
 /* 在全局变量区域添加 */
-float g_accel[3] = {0};  // 全局加速度数据
-float g_gyro[3] = {0};   // 全局陀螺仪数据
 //SemaphoreHandle_t xSensorMutex;  // 传感器数据互斥锁
+float pitch, roll, yaw;
+RobotState_t g_robot_state = {0};
+SemaphoreHandle_t xStateMutex;
 
-
-void led1_task(void *argument) {
-  (void)argument;
+void led1_task() {
 	while(1){
 		HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_8);
 		vTaskDelay(1000);
@@ -192,66 +222,30 @@ while(1){
 }
 
 int test_pulse = 600;
+
 //void servo_task(){
-////		const uint16_t servo_positions[] = {
-////			SERVO_MIN_PULSE,   // 0°
-////			SERVO_MIN_PULSE + (SERVO_MAX_PULSE - SERVO_MIN_PULSE) * 1/4,  // 45°
-////			SERVO_MIN_PULSE + (SERVO_MAX_PULSE - SERVO_MIN_PULSE) * 2/4,  // 90°
-////			SERVO_MIN_PULSE + (SERVO_MAX_PULSE - SERVO_MIN_PULSE) * 3/4,  // 135°
-////			SERVO_MAX_PULSE    // 180°			 
-////	};
-//	while(1){
-//			Servo_SetPWM(&htim1, TIM_CHANNEL_1,test_pulse);
-//			vTaskDelay(50);  // FreeRTOS 延时
-//	}
-
-////    for(;;) {
-////        /* 舵机位置循环 */
-////        for(uint8_t pos = 0; pos < 5; pos++) {
-////            Servo_SetPulse(&htim2, TIM_CHANNEL_1, servo_positions[pos]);
-////            vTaskDelay(300);  // FreeRTOS 延时
-////        }
-////        
-////        /* 舵机平滑运动 (180° -> 0°) */
-////        for(uint16_t pulse = SERVO_MAX_PULSE; pulse > SERVO_MIN_PULSE; pulse--) {
-////            Servo_SetPulse(&htim2, TIM_CHANNEL_1, pulse);
-////            vTaskDelay(2);  // 控制运动速度
-////        }
-////        
-////        vTaskDelay(100);
-////        
-////        /* 舵机平滑运动 (0° -> 180°) */
-////        for(uint16_t pulse = SERVO_MIN_PULSE; pulse < SERVO_MAX_PULSE; pulse++) {
-////            Servo_SetPulse(&htim2, TIM_CHANNEL_1, pulse);
-////            vTaskDelay(2);  // 控制运动速度
-////        }
-////    }
-
+//		uint16_t brightness = 0;
+//    int direction = 1; // 1:增加亮度, 0:减小亮度
+//    
+//    while(1) {
+//        // 呼吸灯效果
+//        Servo_SetPWM(&htim1, TIM_CHANNEL_1, brightness);
+//        
+//        if(direction) {
+//            brightness += 100;
+//            if(brightness >= 19999) direction = 0;
+//        } else {
+//            brightness -= 100;
+//            if(brightness == 0) direction = 1;
+//        }
+//        
+//        vTaskDelay(10); // 调整延时控制变化速度
+//    }
 //}
-void servo_task(){
-		uint16_t brightness = 0;
-    int direction = 1; // 1:增加亮度, 0:减小亮度
-    
-    while(1) {
-        // 呼吸灯效果
-        Servo_SetPWM(&htim1, TIM_CHANNEL_1, brightness);
-        
-        if(direction) {
-            brightness += 100;
-            if(brightness >= 19999) direction = 0;
-        } else {
-            brightness -= 100;
-            if(brightness == 0) direction = 1;
-        }
-        
-        vTaskDelay(10); // 调整延时控制变化速度
-    }
-}
 
 
 /* 修改 oled_task 函数 */
 void oled_task() {
-    float accel[3], gyro[3];
     char displayBuffer[64];  // 显示缓冲区
     
     while(1) {
@@ -263,34 +257,19 @@ void oled_task() {
 //            }
 //            xSemaphoreGive(xSensorMutex);
 //        }
-				
-				for(int i = 0; i < 3; i++) {
-						accel[i] = g_accel[i];
-						gyro[i] = g_gyro[i];
-				}
 		
         // 清屏
         OLED_FullyClear();
         
-        // 显示加速度数据
-        snprintf(displayBuffer, sizeof(displayBuffer), "A.X:%.2fg", accel[0]);
-        OLED_ShowStr(0, 0, (unsigned char *)displayBuffer, 1);
-        
-        snprintf(displayBuffer, sizeof(displayBuffer), "A.Y:%.2fg", accel[1]);
-        OLED_ShowStr(0, 10, (unsigned char *)displayBuffer, 1);
-        
-        snprintf(displayBuffer, sizeof(displayBuffer), "A.Z:%.2fg", accel[2]);
-        OLED_ShowStr(0, 20, (unsigned char *)displayBuffer, 1);
-        
         // 显示陀螺仪数据
-        snprintf(displayBuffer, sizeof(displayBuffer), "G.X:%.2f/s", gyro[0]);
-        OLED_ShowStr(0, 35, (unsigned char *)displayBuffer, 1);
+        snprintf(displayBuffer, sizeof(displayBuffer), "pitch:%.2f", Att_Angle.pitch);
+        OLED_ShowStr(0, 0, (unsigned char *)displayBuffer, 2);
         
-        snprintf(displayBuffer, sizeof(displayBuffer), "G.Y:%.2f/s", gyro[1]);
-        OLED_ShowStr(0, 45, (unsigned char *)displayBuffer, 1);
+        snprintf(displayBuffer, sizeof(displayBuffer), "roll:%.2f", Att_Angle.roll);
+        OLED_ShowStr(0, 3, (unsigned char *)displayBuffer, 2);
         
-        snprintf(displayBuffer, sizeof(displayBuffer), "G.Z:%.2f/s", gyro[2]);
-        OLED_ShowStr(0, 55, (unsigned char *)displayBuffer, 1);
+        snprintf(displayBuffer, sizeof(displayBuffer), "yaw:%.2f", Att_Angle.yaw);
+        OLED_ShowStr(0, 6, (unsigned char *)displayBuffer, 2);
         
         vTaskDelay(200); // OLED刷新率控制
     }
@@ -333,17 +312,16 @@ void usart_task(){
     {
       HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);
     }
-		debug_printf("123456\n");
+//		debug_printf("1,2,3,4,5,6\n");
 		vTaskDelay(500);
     // open the uart1 reciver
   }
 }
 
-void mpu6050_task(){      
+void mpu6050_task(){   
+		const TickType_t xPeriod = pdMS_TO_TICKS(10); // 10ms更新周期
+    TickType_t xLastWakeTime = xTaskGetTickCount();
     while(1) {
-        float accel[3], gyro[3];
-        MPU6050_Read_Accel(accel);
-        MPU6050_Read_Gyro(gyro);
 //        convert_uint8_to_uint16(accel,gyro);
         // 使用互斥锁保护全局变量
 //        if(xSemaphoreTake(xSensorMutex, portMAX_DELAY) == pdTRUE) {
@@ -353,21 +331,518 @@ void mpu6050_task(){
 //            }
 //            xSemaphoreGive(xSensorMutex);
 //        }
-				for(int i = 0; i < 3; i++) {
-						g_accel[i] = accel[i];
-						g_gyro[i] = gyro[i];
-				}
-        
-        vTaskDelay(20);
+				Prepare_Data(); 																								//获取姿态解算所需数据
+				IMUupdate(&Gyr_filt,&Acc_filt,&Att_Angle,0.01f); 		
+        // 打印姿态角
+//        debug_printf("Pitch: %.2f, Roll: %.2f, Yaw: %.2f\r\n", Att_Angle.pitch, Att_Angle.roll, Att_Angle.yaw);
+				
+//        vTaskDelay(10);
+				vTaskDelayUntil(&xLastWakeTime, xPeriod);
     }
 }
 
+//QueueHandle_t nav_cmd_queue;  // 导航指令队列
+// 控制器初始化	
+PID_t speed_pid_left = { .Kp=2000, .Ki=100, .Kd=50, .OutMin=-15000, .OutMax=15000 ,.IntMinThreshold=0.03,.ErrorIntMax=10000,.ErrorIntMin=-10000 };
+PID_t speed_pid_right = { .Kp=2000, .Ki=100, .Kd=50, .OutMin=-15000, .OutMax=15000,.IntMinThreshold=0.03,.ErrorIntMax=10000,.ErrorIntMin=-10000 };
+PID_t angle_pid = { .Kp=30, .Ki=0.001, .Kd=850, .OutMin=-5000, .OutMax=5000,.IntMinThreshold=0.5,.ErrorIntMax=10000,.ErrorIntMin=-10000};
+TD angle_td = { .r=250.0f, .h=0.01f, .T=0.01f };
+float target_left;
+float target_right;
+float target_angle;
+float omega_cmd;
+float speedMax = 130;
+
+void motor_task(void) {  
+
+		
+    const TickType_t xPeriod = pdMS_TO_TICKS(10); // 10ms控制周期
+    TickType_t xLastWakeTime = xTaskGetTickCount();
+    RobotState_t local_state;
+		NavCmd_t nav_cmd;
+		
+    while(1) {
+        
+        // 1. 安全获取状态数据
+				CustomMutex_Lock(&robot_state_mutex);
+				memcpy(&local_state, &g_robot_state, sizeof(RobotState_t));
+				CustomMutex_Unlock(&robot_state_mutex);
+        
+        // 2. 获取导航指令（非阻塞接收，有新消息则更新）
+        NavCmd_t new_cmd;
+        QueueStatus_t status = CustomQueue_Receive(&nav_cmd_queue, &new_cmd);
+        if (status == QUEUE_OK) {
+            nav_cmd = new_cmd;  // 更新当前导航指令
+            angle_td.aim = new_cmd.target_angle;  // 应用新的目标角度
+        }
+        
+        // 3. 处理角度指令
+        Clip_TD_Function(&angle_td, speedMax);
+        
+        // 4. 角度环控制
+        angle_pid.Target = angle_td.x1;
+        angle_pid.Actual = local_state.global.yaw;
+        PID_Update(&angle_pid);
+        
+        // 5. 运动学反解
+         omega_cmd = (angle_pid.Out + angle_td.x2 * 0.1f)*AtR;
+         target_left = nav_cmd.base_speed - (omega_cmd * TRACK_WIDTH / 2.0f);
+         target_right = nav_cmd.base_speed + (omega_cmd * TRACK_WIDTH / 2.0f);
+        
+        // 6. 速度环控制
+        speed_pid_left.Target = target_left;
+        speed_pid_left.Actual = local_state.left_speed;
+        PID_Update(&speed_pid_left);
+        leftMotorControl(speed_pid_left.Out);
+        
+				
+				
+        speed_pid_right.Target = target_right;			
+        speed_pid_right.Actual = local_state.right_speed;
+        PID_Update(&speed_pid_right);
+        rightMotorControl(speed_pid_right.Out);
+        
+        // 7. 精确延迟
+        vTaskDelayUntil(&xLastWakeTime, xPeriod);
+				//vTaskDelay(10);
+    }
+}
+
+//void decision_task(void) {
+//    const TickType_t xPeriod = pdMS_TO_TICKS(100); // 100ms决策周期
+//    TickType_t xLastWakeTime = xTaskGetTickCount();
+//    
+//    // 全局路径点序列 (世界坐标系)
+//    const Point2D_t global_waypoints[] = {
+//        {1.0f, 0.0f},   // 前进1米
+//        {1.0f, 1.0f},   // 右转90度
+//        {0.0f, 1.0f},   // 前进2米
+//        {0.0f, 0.0f}    // 回到起点
+//    };
+//    
+//    NavCmd_t nav_cmd = {0};
+//    uint8_t waypoint_count = sizeof(global_waypoints)/sizeof(global_waypoints[0]);
+//		float target_yaw = 0.0f;
+//    float yaw_error = 0.0f;
+
+//    while(1) {
+//				// 使用互斥锁保护状态读取
+//        CustomMutex_Lock(&robot_state_mutex);
+//        RobotState_t local_state = g_robot_state;
+//        CustomMutex_Unlock(&robot_state_mutex);
+
+//        
+//				// 2. 状态机处理
+//        switch(local_state.nav_state) {
+//            // 初始化状态
+//            case STATE_INIT:
+//                // 重置导航状态
+//								g_robot_state.current_waypoint = 0;
+//								g_robot_state.nav_state = STATE_TURNING_IN_PLACE; // 先进行原地旋转
+//						
+//                nav_cmd.base_speed = 0.0f;
+//                nav_cmd.target_angle = local_state.global.yaw;
+//                break;
+//            
+//            // 移动状态 - 前往当前目标点
+//            case STATE_MOVING: {
+//                // 检查是否还有未完成的路径点
+//                if (local_state.current_waypoint >= waypoint_count) {
+//                    // 所有路径点完成
+//										g_robot_state.nav_state = STATE_FINISHED;
+//                    break;
+//                }
+//                
+//                // 获取当前目标点
+//                Point2D_t target = global_waypoints[local_state.current_waypoint];
+//                
+//                // 计算到目标的距离和方向
+//                float dx = target.x - local_state.global.x;
+//                float dy = target.y - local_state.global.y;
+//                float distance = sqrtf(dx*dx + dy*dy);
+//                target_yaw = atan2f(dy, dx) * 180.0f / PI;
+//                
+//                // 检查是否到达目标
+//                if (distance < 0.05f) { // 5cm容差
+//                    // 转换到到达状态
+//										g_robot_state.nav_state = STATE_ARRIVED;
+
+//                    nav_cmd.base_speed = 0.0f;
+//                    nav_cmd.target_angle = target_yaw;
+//                }else {
+//                    // 检查是否需要转向
+//                    yaw_error = fabs(target_yaw - local_state.global.yaw);
+//                    if (yaw_error > 10.0f) { // 角度偏差大于10度需要转向
+//                        g_robot_state.nav_state = STATE_TURNING_IN_PLACE;
+//                        g_robot_state.target_yaw = target_yaw;
+//										}else {
+//												// 设置导航指令
+//												nav_cmd.base_speed = fminf(0.5f, distance * 0.5f); // 接近时减速
+//												nav_cmd.target_angle = target_yaw;
+//												
+//												// 更新全局状态
+//												g_robot_state.target_yaw = target_yaw;
+//												g_robot_state.target_speed = nav_cmd.base_speed;
+//													}
+//											}		
+//                break;
+//            }
+//            // 到达路径点状态 - 短暂停顿
+//            case STATE_ARRIVED:
+//                // 移动到下一个路径点
+//								g_robot_state.current_waypoint++;
+//								
+//								// 检查是否完成所有路径点
+//								if (g_robot_state.current_waypoint >= waypoint_count) {
+//										g_robot_state.nav_state = STATE_FINISHED;
+//								} else {
+//										Point2D_t next_target = global_waypoints[g_robot_state.current_waypoint];
+//                    float dx = next_target.x - g_robot_state.global.x;
+//                    float dy = next_target.y - g_robot_state.global.y;
+//                    g_robot_state.target_yaw = atan2f(dy, dx) * 180.0f / PI;
+//										g_robot_state.nav_state = STATE_MOVING;
+//								}
+//                
+//                // 短暂停顿
+//                vTaskDelay(200);
+//                break;
+//						// 原地旋转状态
+//            case STATE_TURNING_IN_PLACE: {
+//                target_yaw = g_robot_state.target_yaw;
+//                
+//                yaw_error = target_yaw - local_state.global.yaw;
+//                
+//                // 角度容差 ±2度
+//                if (fabs(yaw_error) < 2.0f) {
+//                    g_robot_state.nav_state = STATE_MOVING;
+//                    
+//                    nav_cmd.base_speed = 0.0f;
+//                } else {
+//                    // 原地旋转控制
+//                    nav_cmd.base_speed = 0.0f; // 线速度为0
+//                    
+//                    // 根据角度差设置旋转速度
+//                    float rotation_speed = fminf(30.0f, fabs(yaw_error) * 0.5f);
+//                    rotation_speed = rotation_speed * (yaw_error > 0 ? 1 : -1);
+//                    
+//                    // 发送旋转指令
+//                    // 实际应用中可能需要通过队列发送到电机任务
+//                    // 这里简化为直接设置目标角度
+//                    nav_cmd.target_angle = local_state.global.yaw + rotation_speed;
+//                }
+//                break;
+//            }
+//            
+//            // 完成路径状态 - 保持停止
+//            case STATE_FINISHED:
+//                nav_cmd.base_speed = 0.0f;
+//                nav_cmd.target_angle = local_state.global.yaw;
+//                break;
+//            
+//            // 错误状态 - 安全停止
+//            case STATE_ERROR:
+//            default:
+//                nav_cmd.base_speed = 0.0f;
+//                nav_cmd.target_angle = local_state.global.yaw;
+//                break;
+//        }
+//				
+//        // 3. 发送导航指令（使用带超时的发送）
+//        QueueStatus_t status = CustomQueue_SendTimeout(&nav_cmd_queue, &nav_cmd, 100);
+//        if (status != QUEUE_OK) {
+//            // 发送失败处理（如调试输出）
+//            debug_printf("Queue send failed: %d\n", status);
+//        }
+//        
+//				// 4. 状态调试输出
+//        #ifdef DEBUG_NAV_STATE
+//        debug_printf("State: %d WP: %d/%d Cmd: %.2fm/s %.0f°\n", 
+//                    local_state.nav_state,
+//                    local_state.current_waypoint,
+//                    waypoint_count,
+//                    nav_cmd.base_speed,
+//                    nav_cmd.target_angle);
+//        #endif
+//				
+//        // 5. 精确延迟
+//			vTaskDelayUntil(&xLastWakeTime, xPeriod);
+//				//vTaskDelay(100);
+//    }
+//}
+
+// 全局调试信息变量
+DebugInfo_t g_debug_info;
+CustomMutex_t debug_info_mutex = {.locked = 0,.owner = NULL,.name = "debug_info_mutex",.lock_count = 0};
+
+void debug_send_task(void) {
+    const TickType_t xPeriod = pdMS_TO_TICKS(500); // 发送周期
+    TickType_t xLastWakeTime = xTaskGetTickCount();
+    
+    while(1) {
+        DebugInfo_t local_info;
+        
+        // 安全复制调试信息
+        CustomMutex_Lock(&debug_info_mutex);
+        memcpy(&local_info, &g_debug_info, sizeof(DebugInfo_t));
+        CustomMutex_Unlock(&debug_info_mutex);
+        
+        // 发送调试信息
+        debug_printf("%lu,%.2f,%.2f,%.2f,%.2f\n", 
+                     local_info.timestamp,
+                     local_info.target_angle,
+                     local_info.current_yaw,
+                     local_info.angle_adjust,
+                     local_info.base_speed);
+        
+        // 精确延迟
+        vTaskDelayUntil(&xLastWakeTime, xPeriod);
+    }
+}
+
+void decision_task(void) {
+		State_t state;
+    const TickType_t xPeriod = pdMS_TO_TICKS(10); // 决策周期10ms
+    TickType_t xLastWakeTime = xTaskGetTickCount();
+    
+    NavCmd_t nav_cmd = {.base_speed = 0.0f, .target_angle = g_robot_state.global.yaw};
+    
 
 
+    while(1) {
+        // 1. 读取当前循迹模块状态
+        uint8_t sensor_state = 0;
+        
+        // 构建传感器状态字节
+        for(int i = 0; i < 5; i++) {
+            if(etubeCkeck[i] == 0) {
+                sensor_state |= (1 << i);
+            }
+        }
+        
+        // 获取当前偏航角
+        float current_yaw;
+        CustomMutex_Lock(&robot_state_mutex);
+        current_yaw = g_robot_state.global.yaw;
+        CustomMutex_Unlock(&robot_state_mutex);
+        
+        // 2. 状态机处理
+        switch(state) {
+            // 停止状态（检测不到黑线）
+            case STATE_STOPPED:
+                nav_cmd.base_speed = 0.0f;
+                nav_cmd.target_angle = current_yaw;
+                
+                // 如果检测到黑线，进入直行状态
+                if(sensor_state != 0) {
+                    state = STATE_STRAIGHT;
+                    nav_cmd.base_speed = STRAIGHT_SPEED;
+                }
+                break;
+                
+            // 直行状态
+            case STATE_STRAIGHT:
+                nav_cmd.base_speed = STRAIGHT_SPEED;
+                
+                // 根据传感器状态调整方向
+                switch(sensor_state) {
+                    case 0x04: // 00000100 - 只有中间传感器
+                        nav_cmd.target_angle = current_yaw;
+                        break;
+                        
+                    case 0x02: // 00000010 - 只有左1传感器
+                    case 0x06: // 00000110 - 中间和左1
+                        nav_cmd.target_angle = current_yaw - SMALL_ADJUST; // 小幅左转
+                        break;
+                        
+                    case 0x08: // 00001000 - 只有右1传感器
+                    case 0x0C: // 00001100 - 中间和右1
+                        nav_cmd.target_angle = current_yaw + SMALL_ADJUST; // 小幅右转
+                        break;
+                        
+                    case 0x01: // 00000001 - 只有左2传感器
+                        state = STATE_LEFT_TURN;
+                        nav_cmd.base_speed = TURN_SPEED;
+                        nav_cmd.target_angle = current_yaw - LARGE_ADJUST; // 大幅左转
+                        break;
+                        
+                    case 0x10: // 00010000 - 只有右2传感器
+                        state = STATE_RIGHT_TURN;
+                        nav_cmd.base_speed = TURN_SPEED;
+                        nav_cmd.target_angle = current_yaw + LARGE_ADJUST; // 大幅右转
+                        break;
+                        
+                    default:
+                        // 如果所有传感器都未检测到，进入停止状态
+                        if(sensor_state == 0) {
+                            state = STATE_STOPPED;
+                        }
+                        break;
+                }
+                break;
+                
+            // 左转状态
+            case STATE_LEFT_TURN:
+                nav_cmd.base_speed = TURN_SPEED;
+                nav_cmd.target_angle = current_yaw - LARGE_ADJUST; // 持续左转
+                
+                // 检查是否回到直行状态
+                if(sensor_state & 0x04) { // 中间传感器检测到
+                    state = STATE_STRAIGHT;
+                    nav_cmd.base_speed = STRAIGHT_SPEED;
+                }
+                // 检查是否完全丢失线路
+                else if(sensor_state == 0) {
+                    state = STATE_STOPPED;
+                }
+                break;
+                
+            // 右转状态
+            case STATE_RIGHT_TURN:
+                nav_cmd.base_speed = TURN_SPEED;
+                nav_cmd.target_angle = current_yaw + LARGE_ADJUST; // 持续右转
+                
+                // 检查是否回到直行状态
+                if(sensor_state & 0x04) { // 中间传感器检测到
+                    state = STATE_STRAIGHT;
+                    nav_cmd.base_speed = STRAIGHT_SPEED;
+                }
+                // 检查是否完全丢失线路
+                else if(sensor_state == 0) {
+                    state = STATE_STOPPED;
+                }
+                break;
+        }
+        
+        // 3. 更新调试信息
+        CustomMutex_Lock(&debug_info_mutex);
+        g_debug_info.target_angle = nav_cmd.target_angle;
+        g_debug_info.current_yaw = current_yaw;
+        g_debug_info.angle_adjust = nav_cmd.target_angle - current_yaw;
+        g_debug_info.base_speed = nav_cmd.base_speed;
+        g_debug_info.timestamp = xTaskGetTickCount() * portTICK_PERIOD_MS;
+        CustomMutex_Unlock(&debug_info_mutex);
+        
+        // 4. 发送导航指令
+        QueueStatus_t status = CustomQueue_SendTimeout(&nav_cmd_queue, &nav_cmd, 10);
+        if(status != QUEUE_OK) {
+            debug_printf("NavCmd send err:%d\n", status);
+        }
+        
+        // 5. 精确延迟
+        vTaskDelayUntil(&xLastWakeTime, xPeriod);
+    }
+}
 
+void state_update_task(void) {
+    const TickType_t xPeriod = pdMS_TO_TICKS(10); // 10ms更新周期
+    TickType_t xLastWakeTime = xTaskGetTickCount();
+    
+    // 状态变量
+    float prev_speed = 0.0f;
+    float prev_yaw = 0.0f;
+    
+		float left_speed;
+		float right_speed;
+		float current_yaw;
+		float dt;
+		float linear_vel;
+		float angular_vel;
+		float yaw_rad;
+		float vx;
+		float vy;
+		float delta_x;
+		float delta_y;
+    while(1) {
+        // 1. 获取传感器数据
+         left_speed = leftWheelSpeed();
+         right_speed = rightWheelSpeed();
+         current_yaw = Att_Angle.yaw; // 来自IMU
+        
+        // 2. 计算时间差 (秒)
+         dt = xPeriod * portTICK_PERIOD_MS * 0.001f;
+        
+        // 3. 计算局部速度
+         linear_vel = (left_speed + right_speed) / 2.0f;
+         angular_vel = (right_speed - left_speed) / TRACK_WIDTH;
+        
+        // 4. 计算全局速度
+         yaw_rad = current_yaw * PI / 180.0f; // 转为弧度
+         vx = linear_vel * cosf(yaw_rad);
+         vy = linear_vel * sinf(yaw_rad);
+        
+        // 5. 计算位置变化 (梯形积分提高精度)
+         delta_x = (prev_speed * cosf(prev_yaw) + 
+                       linear_vel * cosf(yaw_rad)) * dt / 2.0f;
+         delta_y = (prev_speed * sinf(prev_yaw) + 
+                       linear_vel * sinf(yaw_rad)) * dt / 2.0f;
+        
+        // 6. 更新全局状态 (带互斥锁保护)
+				CustomMutex_Lock(&robot_state_mutex);
+				// 更新全局位置
+				g_robot_state.global.x += delta_x;
+				g_robot_state.global.y += delta_y;
+				g_robot_state.global.yaw = current_yaw;
+				
+				// 更新全局速度
+				g_robot_state.global.vx = vx;
+				g_robot_state.global.vy = vy;
+				
+				// 更新局部速度
+				g_robot_state.local_vel.linear = linear_vel;
+				g_robot_state.local_vel.angular = angular_vel;
+				// 更新系统状态
+				g_robot_state.update_count++;
+				
+				CustomMutex_Unlock(&robot_state_mutex);
+        
+        // 7. 保存当前值供下次使用
+        prev_speed = linear_vel;
+        prev_yaw = yaw_rad;
+				
+				g_robot_state.left_speed = left_speed;
+				g_robot_state.right_speed = right_speed;
+        
+        // 8. 精确延迟
+        vTaskDelayUntil(&xLastWakeTime, xPeriod);
+				//vTaskDelay(10);
+    }
+}
 
+//void openmv_task(void *pvParameters) {
+//    // 初始化
+//    OpenMVData_t local_openmv_data;
+//    uint32_t last_request_time = 0;
+//    
+//    // 发送初始化命令
+//    uint8_t init_cmd = 0x01; // 启动检测命令
+//    openmv_send_command(0x01, &init_cmd, 1);
+//    
+//    while (1) {
+//        // 周期性请求数据(每50ms一次)
+//        if (xTaskGetTickCount() - last_request_time > 50) {
+//            openmv_send_command(0x02, NULL, 0); // 请求最新检测结果
+//            last_request_time = xTaskGetTickCount();
+//        }
+//        
+//        // 读取OpenMV数据(带互斥锁)
+//        CustomMutex_Lock(&openmv_data_mutex);
+//        memcpy(&local_openmv_data, &g_openmv_data, sizeof(OpenMVData_t));
+//        CustomMutex_Unlock(&openmv_data_mutex);
+//        
+//        vTaskDelay(10); // 10ms周期
+//    }
+//}
 
-
+void eletube_task(void){
+		const TickType_t xPeriod = pdMS_TO_TICKS(500); // 10ms更新周期
+    TickType_t xLastWakeTime = xTaskGetTickCount();
+	
+		while(1){
+//		Etube_Check();
+    vTaskDelayUntil(&xLastWakeTime, xPeriod);
+		//vTaskDelay(10);
+		}
+}
 
 /* USER CODE END 0 */
 
@@ -403,11 +878,22 @@ int main(void)
   MX_USART1_UART_Init();
   MX_TIM1_Init();
   MX_I2C2_Init();
+  MX_TIM2_Init();
+  MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
+	
+	// 初始化自定义消息队列（导航指令队列）
+CustomQueue_Init(&nav_cmd_queue, 
+                nav_queue_buffer, 
+                sizeof(NavCmd_t), 
+                NAV_QUEUE_SIZE, 
+                "nav_cmd_queue");
+								
 //	OLED_Init();
 	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
 	uart_init();
 	MPU6050_Init();
+	motorInit();
 //	xTaskCreate((TaskFunction_t )led1_task,
 //					(const char*    )"led1_task",
 //					(uint16_t       )128,
@@ -418,38 +904,74 @@ int main(void)
 					(const char*    )"led2_task",
 					(uint16_t       )128,
 					(void*          )NULL,
-					(UBaseType_t    )2,
+					(UBaseType_t    )1,
 					(TaskHandle_t*  )&led2_TaskHandle_t); 
-	xTaskCreate((TaskFunction_t )filter_task,
-					(const char*    )"filter_task",
-					(uint16_t       )256,
-					(void*          )NULL,
-					(UBaseType_t    )3,
-					(TaskHandle_t*  )&filter_TaskHandle_t);
- 	xTaskCreate((TaskFunction_t )servo_task,
-					(const char*    )"servo_task",
-					(uint16_t       )256,
-					(void*          )NULL,
-					(UBaseType_t    )4,
-					(TaskHandle_t*  )&servo_TaskHandle_t);
+//	xTaskCreate((TaskFunction_t )filter_task,
+//					(const char*    )"filter_task",
+//					(uint16_t       )128,
+//					(void*          )NULL,
+//					(UBaseType_t    )1,
+//					(TaskHandle_t*  )&filter_TaskHandle_t);
+// 	xTaskCreate((TaskFunction_t )servo_task,
+//					(const char*    )"servo_task",
+//					(uint16_t       )128,
+//					(void*          )NULL,
+//					(UBaseType_t    )1,
+//					(TaskHandle_t*  )&servo_TaskHandle_t);
 //	xTaskCreate((TaskFunction_t )oled_task,
 //					(const char*    )"oled_task",
 //					(uint16_t       )128,
 //					(void*          )NULL,
-//					(UBaseType_t    )5,
+//					(UBaseType_t    )1,
 //					(TaskHandle_t*  )&oled_TaskHandle_t);
 	xTaskCreate((TaskFunction_t )usart_task,
 					(const char*    )"usart_task",
 					(uint16_t       )128,
 					(void*          )NULL,
-					(UBaseType_t    )6,
+					(UBaseType_t    )1,
 					(TaskHandle_t*  )&usart_TaskHandle_t);				
 	xTaskCreate((TaskFunction_t )mpu6050_task,
 					(const char*    )"mpu6050_task",
 					(uint16_t       )128,
 					(void*          )NULL,
-					(UBaseType_t    )7,
+					(UBaseType_t    )3,
 					(TaskHandle_t*  )&mpu6050_TaskHandle_t);				
+	xTaskCreate((TaskFunction_t )motor_task,
+					(const char*    )"motor_task",
+					(uint16_t       )256,
+					(void*          )NULL,
+					(UBaseType_t    )5,
+					(TaskHandle_t*  )&motor_TaskHandle_t);		
+	xTaskCreate((TaskFunction_t )decision_task,
+					(const char*    )"decision_task",
+					(uint16_t       )256,  // 需要较大栈空间
+					(void*          )NULL,
+					(UBaseType_t    )4,    // 中等优先级
+					(TaskHandle_t*  )&decision_TaskHandle_t);	
+	xTaskCreate((TaskFunction_t )state_update_task,
+					(const char*    )"state_update_task",
+					(uint16_t       )256,  // 需要较大栈空间
+					(void*          )NULL,
+					(UBaseType_t    )3,    // 中等优先级
+					(TaskHandle_t*  )&state_update_TaskHandle_t);			
+//	xTaskCreate((TaskFunction_t )openmv_task,
+//            (const char*    )"openmv_task",
+//            (uint16_t       )256,
+//            (void*          )NULL,
+//            (UBaseType_t    )2,  
+//            (TaskHandle_t*  )NULL);					
+	xTaskCreate((TaskFunction_t )eletube_task,
+					(const char*    )"eletube_task",
+					(uint16_t       )128,  // 
+					(void*          )NULL,
+					(UBaseType_t    )3,    // 中等优先级
+					(TaskHandle_t*  )&eletube_TaskHandle_t);	
+	xTaskCreate((TaskFunction_t )debug_send_task,
+					(const char*    )"debug_send_task",
+					(uint16_t       )128,  // 
+					(void*          )NULL,
+					(UBaseType_t    )3,    // 中等优先级
+					(TaskHandle_t*  )&debug_send_TaskHandle_t);
 					
 					
 	vTaskStartScheduler();  
@@ -526,6 +1048,74 @@ void vApplicationStackOverflowHook(TaskHandle_t xTask, char *pcTaskName) {
 void vApplicationIdleHook(void) {
     // 可添加低功耗代码
 }
+
+
+
+//uint8_t MPU6050_InIt(void)
+//{
+//    uint8_t check;
+//    uint8_t Data;
+//    
+//    // 1. 检查设备是否在线
+//    if (HAL_I2C_IsDeviceReady(&hi2c2, MPU6050_ADDR << 1, 3, 100) != HAL_OK) {
+//        return 1; // 设备未响应
+//    }
+//    
+//    // 2. 检查设备ID (WHO_AM_I 寄存器)
+//    if (HAL_I2C_Mem_Read(&hi2c2, MPU6050_ADDR << 1, 0x75, I2C_MEMADD_SIZE_8BIT, &check, 1, 1000) != HAL_OK) {
+//        return 1; // 读取失败
+//    }
+//    
+//    if (check != 0x68) { // 设备ID应为0x68
+//        return 1; // 初始化失败
+//    }
+//    
+//    // 3. 重置设备（可选但推荐）
+//    Data = 0x80; // 复位位
+//    if (HAL_I2C_Mem_Write(&hi2c2, MPU6050_ADDR << 1, 0x6B, I2C_MEMADD_SIZE_8BIT, &Data, 1, 1000) != HAL_OK) {
+//        return 1; // 复位失败
+//    }
+//    
+//    HAL_Delay(100); // 等待复位完成
+//    
+//    // 4. 唤醒MPU6050并选择时钟源
+//    Data = 0x01; // 选择X轴陀螺仪作为时钟源
+//    if (HAL_I2C_Mem_Write(&hi2c2, MPU6050_ADDR << 1, 0x6B, I2C_MEMADD_SIZE_8BIT, &Data, 1, 1000) != HAL_OK) {
+//        return 1; // 唤醒失败
+//    }
+//    
+//    // 5. 设置加速度计量程 (±8g)
+//    Data = 0x10; // ±8g (灵敏度 4096 LSB/g)
+//    if (HAL_I2C_Mem_Write(&hi2c2, MPU6050_ADDR << 1, 0x1C, I2C_MEMADD_SIZE_8BIT, &Data, 1, 1000) != HAL_OK) {
+//        return 1; // 加速度计量程设置失败
+//    }
+//    
+//    // 6. 设置陀螺仪量程 (±2000°/s)
+//    Data = 0x18; // ±2000°/s (灵敏度 16.4 LSB/°/s)
+//    if (HAL_I2C_Mem_Write(&hi2c2, MPU6050_ADDR << 1, 0x1B, I2C_MEMADD_SIZE_8BIT, &Data, 1, 1000) != HAL_OK) {
+//        return 1; // 陀螺仪量程设置失败
+//    }
+//    
+//    // 7. 设置数字低通滤波器 (DLPF)
+//    Data = 0x06; // 带宽 5Hz
+//    if (HAL_I2C_Mem_Write(&hi2c2, MPU6050_ADDR << 1, 0x1A, I2C_MEMADD_SIZE_8BIT, &Data, 1, 1000) != HAL_OK) {
+//        return 1; // 滤波器设置失败
+//    }
+//    
+////    // 8. 禁用所有中断（可选）
+////    Data = 0x00;
+////    if (HAL_I2C_Mem_Write(&hi2c2, MPU6050_ADDR << 1, 0x38, I2C_MEMADD_SIZE_8BIT, &Data, 1, 1000) != HAL_OK) {
+////        return 1; // 中断设置失败
+////    }
+////    
+////    // 9. 禁用FIFO（可选）
+////    Data = 0x00;
+////    if (HAL_I2C_Mem_Write(&hi2c2, MPU6050_ADDR << 1, 0x23, I2C_MEMADD_SIZE_8BIT, &Data, 1, 1000) != HAL_OK) {
+////        return 1; // FIFO设置失败
+////    }
+//    
+//    return 0; // 初始化成功
+//}
 /* USER CODE END 4 */
 
 /**

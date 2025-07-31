@@ -1,0 +1,15 @@
+contest\queue.o: contest\FreeRTOS\src\queue.c
+contest\queue.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdlib.h
+contest\queue.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\string.h
+contest\queue.o: ./contest/FreeRTOS/include/FreeRTOS.h
+contest\queue.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stddef.h
+contest\queue.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdint.h
+contest\queue.o: ./contest/FreeRTOS/include/FreeRTOSConfig.h
+contest\queue.o: ./contest/FreeRTOS/include/projdefs.h
+contest\queue.o: ./contest/FreeRTOS/include/portable.h
+contest\queue.o: ./contest/FreeRTOS/include/deprecated_definitions.h
+contest\queue.o: ./contest/FreeRTOS/port/RVDS/ARM_CM3/portmacro.h
+contest\queue.o: ./contest/FreeRTOS/include/mpu_wrappers.h
+contest\queue.o: ./contest/FreeRTOS/include/task.h
+contest\queue.o: ./contest/FreeRTOS/include/list.h
+contest\queue.o: ./contest/FreeRTOS/include/queue.h

@@ -1,0 +1,15 @@
+gimbal\queue.o: ..\FreeRTOS\queue.c
+gimbal\queue.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdlib.h
+gimbal\queue.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\string.h
+gimbal\queue.o: ../FreeRTOS/include/FreeRTOS.h
+gimbal\queue.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stddef.h
+gimbal\queue.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdint.h
+gimbal\queue.o: ../FreeRTOS/include/FreeRTOSConfig.h
+gimbal\queue.o: ../FreeRTOS/include/projdefs.h
+gimbal\queue.o: ../FreeRTOS/include/portable.h
+gimbal\queue.o: ../FreeRTOS/include/deprecated_definitions.h
+gimbal\queue.o: ../FreeRTOS/portable/RVDS/ARM_CM4F/portmacro.h
+gimbal\queue.o: ../FreeRTOS/include/mpu_wrappers.h
+gimbal\queue.o: ../FreeRTOS/include/task.h
+gimbal\queue.o: ../FreeRTOS/include/list.h
+gimbal\queue.o: ../FreeRTOS/include/queue.h

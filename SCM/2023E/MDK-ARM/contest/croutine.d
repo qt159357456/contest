@@ -1,0 +1,13 @@
+contest\croutine.o: contest\FreeRTOS\src\croutine.c
+contest\croutine.o: ./contest/FreeRTOS/include/FreeRTOS.h
+contest\croutine.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stddef.h
+contest\croutine.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdint.h
+contest\croutine.o: ./contest/FreeRTOS/include/FreeRTOSConfig.h
+contest\croutine.o: ./contest/FreeRTOS/include/projdefs.h
+contest\croutine.o: ./contest/FreeRTOS/include/portable.h
+contest\croutine.o: ./contest/FreeRTOS/include/deprecated_definitions.h
+contest\croutine.o: ./contest/FreeRTOS/port/RVDS/ARM_CM3/portmacro.h
+contest\croutine.o: ./contest/FreeRTOS/include/mpu_wrappers.h
+contest\croutine.o: ./contest/FreeRTOS/include/task.h
+contest\croutine.o: ./contest/FreeRTOS/include/list.h
+contest\croutine.o: ./contest/FreeRTOS/include/croutine.h

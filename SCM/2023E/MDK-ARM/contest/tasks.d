@@ -1,0 +1,16 @@
+contest\tasks.o: contest\FreeRTOS\src\tasks.c
+contest\tasks.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdlib.h
+contest\tasks.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\string.h
+contest\tasks.o: ./contest/FreeRTOS/include/FreeRTOS.h
+contest\tasks.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stddef.h
+contest\tasks.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdint.h
+contest\tasks.o: ./contest/FreeRTOS/include/FreeRTOSConfig.h
+contest\tasks.o: ./contest/FreeRTOS/include/projdefs.h
+contest\tasks.o: ./contest/FreeRTOS/include/portable.h
+contest\tasks.o: ./contest/FreeRTOS/include/deprecated_definitions.h
+contest\tasks.o: ./contest/FreeRTOS/port/RVDS/ARM_CM3/portmacro.h
+contest\tasks.o: ./contest/FreeRTOS/include/mpu_wrappers.h
+contest\tasks.o: ./contest/FreeRTOS/include/task.h
+contest\tasks.o: ./contest/FreeRTOS/include/list.h
+contest\tasks.o: ./contest/FreeRTOS/include/timers.h
+contest\tasks.o: ./contest/FreeRTOS/include/stack_macros.h

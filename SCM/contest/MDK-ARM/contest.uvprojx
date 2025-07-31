@@ -10,14 +10,14 @@
       <TargetName>contest</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pArmCC>5060960::V5.06 update 7 for Certification (build 960)::.\ARMCC</pArmCC>
-      <pCCUsed>5060960::V5.06 update 7 for Certification (build 960)::.\ARMCC</pCCUsed>
+      <pArmCC>5060960::V5.06 update 7 (build 960)::.\ARM_Compiler_5.06u7</pArmCC>
+      <pCCUsed>5060960::V5.06 update 7 (build 960)::.\ARM_Compiler_5.06u7</pCCUsed>
       <uAC6>0</uAC6>
       <TargetOption>
         <TargetCommonOption>
           <Device>STM32F103C8</Device>
           <Vendor>STMicroelectronics</Vendor>
-          <PackID>Keil.STM32F1xx_DFP.2.4.0</PackID>
+          <PackID>Keil.STM32F1xx_DFP.1.0.5</PackID>
           <PackURL>http://www.keil.com/pack/</PackURL>
           <Cpu>IRAM(0x20000000-0x20004FFF) IROM(0x8000000-0x800FFFF)  CLOCK(8000000) CPUTYPE("Cortex-M3") TZ</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
@@ -967,6 +967,36 @@
               <FileType>1</FileType>
               <FilePath>..\Algorithm\filter.c</FilePath>
             </File>
+            <File>
+              <FileName>myMath.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Algorithm\myMath.c</FilePath>
+            </File>
+            <File>
+              <FileName>myMath.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Algorithm\myMath.h</FilePath>
+            </File>
+            <File>
+              <FileName>mutex_lock_and_message_queue.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Algorithm\mutex_lock_and_message_queue.c</FilePath>
+            </File>
+            <File>
+              <FileName>mutex_lock_and_message_queue.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Algorithm\mutex_lock_and_message_queue.h</FilePath>
+            </File>
+            <File>
+              <FileName>data_protocol.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Algorithm\data_protocol.c</FilePath>
+            </File>
+            <File>
+              <FileName>data_protocol.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Algorithm\data_protocol.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -998,16 +1028,6 @@
               <FilePath>..\Hardware\codetap.h</FilePath>
             </File>
             <File>
-              <FileName>mymain.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Hardware\mymain.c</FilePath>
-            </File>
-            <File>
-              <FileName>mymain.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Hardware\mymain.h</FilePath>
-            </File>
-            <File>
               <FileName>mpu6050.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Hardware\mpu6050.c</FilePath>
@@ -1016,6 +1036,36 @@
               <FileName>mpu6050.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Hardware\mpu6050.h</FilePath>
+            </File>
+            <File>
+              <FileName>imu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\imu.c</FilePath>
+            </File>
+            <File>
+              <FileName>imu.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Hardware\imu.h</FilePath>
+            </File>
+            <File>
+              <FileName>motor.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\motor.c</FilePath>
+            </File>
+            <File>
+              <FileName>motor.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Hardware\motor.h</FilePath>
+            </File>
+            <File>
+              <FileName>eletube.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\eletube.c</FilePath>
+            </File>
+            <File>
+              <FileName>eletube.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Hardware\eletube.h</FilePath>
             </File>
           </Files>
         </Group>

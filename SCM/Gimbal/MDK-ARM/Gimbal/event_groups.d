@@ -1,0 +1,15 @@
+gimbal\event_groups.o: ..\FreeRTOS\event_groups.c
+gimbal\event_groups.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdlib.h
+gimbal\event_groups.o: ../FreeRTOS/include/FreeRTOS.h
+gimbal\event_groups.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stddef.h
+gimbal\event_groups.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdint.h
+gimbal\event_groups.o: ../FreeRTOS/include/FreeRTOSConfig.h
+gimbal\event_groups.o: ../FreeRTOS/include/projdefs.h
+gimbal\event_groups.o: ../FreeRTOS/include/portable.h
+gimbal\event_groups.o: ../FreeRTOS/include/deprecated_definitions.h
+gimbal\event_groups.o: ../FreeRTOS/portable/RVDS/ARM_CM4F/portmacro.h
+gimbal\event_groups.o: ../FreeRTOS/include/mpu_wrappers.h
+gimbal\event_groups.o: ../FreeRTOS/include/task.h
+gimbal\event_groups.o: ../FreeRTOS/include/list.h
+gimbal\event_groups.o: ../FreeRTOS/include/timers.h
+gimbal\event_groups.o: ../FreeRTOS/include/event_groups.h
