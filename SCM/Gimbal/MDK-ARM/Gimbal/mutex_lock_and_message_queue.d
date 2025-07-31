@@ -1,11 +1,11 @@
 gimbal\mutex_lock_and_message_queue.o: ..\Algorithm\mutex_lock_and_message_queue.c
 gimbal\mutex_lock_and_message_queue.o: ..\Algorithm\mutex_lock_and_message_queue.h
 gimbal\mutex_lock_and_message_queue.o: ../Core/Inc/global.h
-gimbal\mutex_lock_and_message_queue.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdint.h
-gimbal\mutex_lock_and_message_queue.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\math.h
+gimbal\mutex_lock_and_message_queue.o: D:\project\ARM\ARMCC\Bin\..\include\stdint.h
+gimbal\mutex_lock_and_message_queue.o: D:\project\ARM\ARMCC\Bin\..\include\math.h
 gimbal\mutex_lock_and_message_queue.o: ../FreeRTOS/include/FreeRTOSConfig.h
 gimbal\mutex_lock_and_message_queue.o: ../FreeRTOS/include/FreeRTOS.h
-gimbal\mutex_lock_and_message_queue.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stddef.h
+gimbal\mutex_lock_and_message_queue.o: D:\project\ARM\ARMCC\Bin\..\include\stddef.h
 gimbal\mutex_lock_and_message_queue.o: ../FreeRTOS/include/projdefs.h
 gimbal\mutex_lock_and_message_queue.o: ../FreeRTOS/include/portable.h
 gimbal\mutex_lock_and_message_queue.o: ../FreeRTOS/include/deprecated_definitions.h
@@ -13,7 +13,7 @@ gimbal\mutex_lock_and_message_queue.o: ../FreeRTOS/portable/RVDS/ARM_CM4F/portma
 gimbal\mutex_lock_and_message_queue.o: ../FreeRTOS/include/mpu_wrappers.h
 gimbal\mutex_lock_and_message_queue.o: ../FreeRTOS/include/task.h
 gimbal\mutex_lock_and_message_queue.o: ../FreeRTOS/include/list.h
-gimbal\mutex_lock_and_message_queue.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\string.h
+gimbal\mutex_lock_and_message_queue.o: D:\project\ARM\ARMCC\Bin\..\include\string.h
 gimbal\mutex_lock_and_message_queue.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h
 gimbal\mutex_lock_and_message_queue.o: ../Core/Inc/stm32f4xx_hal_conf.h
 gimbal\mutex_lock_and_message_queue.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h
@@ -43,4 +43,4 @@ gimbal\mutex_lock_and_message_queue.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32
 gimbal\mutex_lock_and_message_queue.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h
 gimbal\mutex_lock_and_message_queue.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
 gimbal\mutex_lock_and_message_queue.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
-gimbal\mutex_lock_and_message_queue.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdlib.h
+gimbal\mutex_lock_and_message_queue.o: D:\project\ARM\ARMCC\Bin\..\include\stdlib.h

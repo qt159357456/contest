@@ -68,9 +68,15 @@
 TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim3;
 
+UART_HandleTypeDef huart4;
 UART_HandleTypeDef huart1;
+UART_HandleTypeDef huart2;
+DMA_HandleTypeDef hdma_uart4_rx;
+DMA_HandleTypeDef hdma_uart4_tx;
 DMA_HandleTypeDef hdma_usart1_rx;
 DMA_HandleTypeDef hdma_usart1_tx;
+DMA_HandleTypeDef hdma_usart2_tx;
+DMA_HandleTypeDef hdma_usart2_rx;
 
 /* USER CODE BEGIN PV */
 CustomMutex_t robot_state_mutex = {
@@ -92,6 +98,8 @@ static void MX_DMA_Init(void);
 static void MX_TIM2_Init(void);
 static void MX_TIM3_Init(void);
 static void MX_USART1_UART_Init(void);
+static void MX_USART2_UART_Init(void);
+static void MX_UART4_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -115,7 +123,7 @@ TaskHandle_t  draw_TaskHandle_t;
 
 void draw_task(void){
 	while(1){
-			DrawSin();
+//			DrawSin();
 	
 	vTaskDelay(10);
 	}
@@ -140,23 +148,20 @@ uint8_t task1_path_cnt = 0;
 volatile uint8_t task1_flag = 0;
 Point2D_t start,end;
 Angles_t path[INTERPOLATION_STEPS];
+
+float test_angle = 30;
 uint8_t path_cmd = 3;
+
+uint8_t motor_enable = 0;
 void motor_task(void) {  
-    while(1) {			
-//				if(task1_flag==1&&keyflag){
-//						if(!motor_x.is_moving&&!motor_y.is_moving){
-//							Move_Angle_Global(&motor_x,path[task1_path_cnt].yaw,100);
-//							Move_Angle_Global(&motor_y,path[task1_path_cnt].pitch,100);
-//							task1_path_cnt++;
-//						}
-//						if(task1_path_cnt==INTERPOLATION_STEPS)
-//								task1_flag = 0;
-//				}
-//				if(arrive_target(xtar,ytar,xcur,ycur,5)==1){
-//						openmv_send_command(&path_cmd,1);
-//				}else{
-//						PID_motors(xtar,ytar,xcur,ycur);
-//				}
+    while(1) {	
+				if(offset_x!=0||offset_y!=0)
+						PID_motors(offset_x,offset_y);
+				else{
+						Motor_Stop_X(0x01,0x00);
+						//vTaskDelay(1);
+						Motor_Stop_Y(0x01,0x00);
+				}
 				vTaskDelay(10);
     }
 
@@ -200,6 +205,7 @@ void decision_task(void) {
 //						}
 //				}
 //					
+				
 				vTaskDelay(10);
     }
 
@@ -238,9 +244,13 @@ int main(void)
   MX_TIM2_Init();
   MX_TIM3_Init();
   MX_USART1_UART_Init();
+  MX_USART2_UART_Init();
+  MX_UART4_Init();
   /* USER CODE BEGIN 2 */
 	
 	uart_init();
+	HAL_Delay(100);
+	Set_Home_Position_Y(0x01,1);	
 	xTaskCreate((TaskFunction_t )decision_task,
 					(const char*    )"decision_task",
 					(uint16_t       )256,
@@ -266,7 +276,7 @@ int main(void)
 					(UBaseType_t    )3,
 					(TaskHandle_t*  )&draw_TaskHandle_t);
 					
-	vTaskStartScheduler();  
+	vTaskStartScheduler(); 				
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -445,6 +455,39 @@ static void MX_TIM3_Init(void)
 }
 
 /**
+  * @brief UART4 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_UART4_Init(void)
+{
+
+  /* USER CODE BEGIN UART4_Init 0 */
+
+  /* USER CODE END UART4_Init 0 */
+
+  /* USER CODE BEGIN UART4_Init 1 */
+
+  /* USER CODE END UART4_Init 1 */
+  huart4.Instance = UART4;
+  huart4.Init.BaudRate = 115200;
+  huart4.Init.WordLength = UART_WORDLENGTH_8B;
+  huart4.Init.StopBits = UART_STOPBITS_1;
+  huart4.Init.Parity = UART_PARITY_NONE;
+  huart4.Init.Mode = UART_MODE_TX_RX;
+  huart4.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart4.Init.OverSampling = UART_OVERSAMPLING_16;
+  if (HAL_UART_Init(&huart4) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN UART4_Init 2 */
+
+  /* USER CODE END UART4_Init 2 */
+
+}
+
+/**
   * @brief USART1 Initialization Function
   * @param None
   * @retval None
@@ -478,6 +521,39 @@ static void MX_USART1_UART_Init(void)
 }
 
 /**
+  * @brief USART2 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_USART2_UART_Init(void)
+{
+
+  /* USER CODE BEGIN USART2_Init 0 */
+
+  /* USER CODE END USART2_Init 0 */
+
+  /* USER CODE BEGIN USART2_Init 1 */
+
+  /* USER CODE END USART2_Init 1 */
+  huart2.Instance = USART2;
+  huart2.Init.BaudRate = 115200;
+  huart2.Init.WordLength = UART_WORDLENGTH_8B;
+  huart2.Init.StopBits = UART_STOPBITS_1;
+  huart2.Init.Parity = UART_PARITY_NONE;
+  huart2.Init.Mode = UART_MODE_TX_RX;
+  huart2.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart2.Init.OverSampling = UART_OVERSAMPLING_16;
+  if (HAL_UART_Init(&huart2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN USART2_Init 2 */
+
+  /* USER CODE END USART2_Init 2 */
+
+}
+
+/**
   * Enable DMA controller clock
   */
 static void MX_DMA_Init(void)
@@ -485,8 +561,21 @@ static void MX_DMA_Init(void)
 
   /* DMA controller clock enable */
   __HAL_RCC_DMA2_CLK_ENABLE();
+  __HAL_RCC_DMA1_CLK_ENABLE();
 
   /* DMA interrupt init */
+  /* DMA1_Stream2_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA1_Stream2_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(DMA1_Stream2_IRQn);
+  /* DMA1_Stream4_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA1_Stream4_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(DMA1_Stream4_IRQn);
+  /* DMA1_Stream5_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA1_Stream5_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(DMA1_Stream5_IRQn);
+  /* DMA1_Stream6_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA1_Stream6_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(DMA1_Stream6_IRQn);
   /* DMA2_Stream2_IRQn interrupt configuration */
   HAL_NVIC_SetPriority(DMA2_Stream2_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(DMA2_Stream2_IRQn);
@@ -508,10 +597,11 @@ static void MX_GPIO_Init(void)
 /* USER CODE END MX_GPIO_Init_1 */
 
   /* GPIO Ports Clock Enable */
-  __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOH_CLK_ENABLE();
+  __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
+  __HAL_RCC_GPIOD_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_3|GPIO_PIN_5|GPIO_PIN_7|GPIO_PIN_9, GPIO_PIN_SET);

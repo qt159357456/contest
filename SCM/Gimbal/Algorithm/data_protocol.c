@@ -21,7 +21,6 @@ uint8_t cmd = 2;
 
 int16_t offset_x,offset_y;
 int flagx,flagy;
-float kpx,kpy;
 // 解析完整的OpenMV帧，采集，决策，驱动
 static void parse_openmv_frame(OpenMVFrame_RX_t* frame) {
 //		my_flag = frame->data[0];
@@ -84,6 +83,56 @@ void Data_Handle1() {
 
     }
 }
+
+
+//处理电机数据
+uint8_t send_speed_x_flag = 0;
+uint8_t send_speed_y_flag = 0;
+void Data_Handle2() {
+    // 获取接收到的数据长度
+    uint16_t data_len = RX_BUFFER_SIZE - __HAL_DMA_GET_COUNTER(&hdma_usart2_rx);
+    if (data_len <= 0) return;
+		
+    switch(handle_Buff2[1]){
+			case CMD_READ_SPEED:
+				Get_Motor_Speed(1,handle_Buff2);
+				break;
+			case CMD_READ_POSITION:
+				Get_Motor_Position(1,handle_Buff2);
+				break;
+			case CMD_SPEED_MODE:
+					if(handle_Buff2[2]==0x02&&handle_Buff2[3]==0x6B){
+							if(handle_Buff2[0]==0x01)
+								send_speed_x_flag = 0;
+					}
+			default:
+				break;
+		}
+}
+
+void Data_Handle4() {
+    // 获取接收到的数据长度
+    uint16_t data_len = RX_BUFFER_SIZE - __HAL_DMA_GET_COUNTER(&hdma_uart4_rx);
+    if (data_len <= 0) return;
+		
+    switch(handle_Buff4[1]){
+			case CMD_READ_SPEED:
+				Get_Motor_Speed(1,handle_Buff4);
+				break;
+			case CMD_READ_POSITION:
+				Get_Motor_Position(1,handle_Buff4);
+				break;
+			case CMD_SPEED_MODE:
+					if(handle_Buff4[2]==0x02&&handle_Buff4[3]==0x6B){
+							if(handle_Buff4[0]==0x01)
+								send_speed_y_flag = 0;
+					}
+			default:
+				break;
+		}
+}
+
+
 
 // 发送数据到OpenMV
 uint8_t send_status = 1;

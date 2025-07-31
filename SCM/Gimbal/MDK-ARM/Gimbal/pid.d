@@ -1,11 +1,11 @@
 gimbal\pid.o: ..\Algorithm\pid.c
 gimbal\pid.o: ..\Algorithm\PID.h
 gimbal\pid.o: ../Core/Inc/global.h
-gimbal\pid.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdint.h
-gimbal\pid.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\math.h
+gimbal\pid.o: D:\project\ARM\ARMCC\Bin\..\include\stdint.h
+gimbal\pid.o: D:\project\ARM\ARMCC\Bin\..\include\math.h
 gimbal\pid.o: ../FreeRTOS/include/FreeRTOSConfig.h
 gimbal\pid.o: ../FreeRTOS/include/FreeRTOS.h
-gimbal\pid.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stddef.h
+gimbal\pid.o: D:\project\ARM\ARMCC\Bin\..\include\stddef.h
 gimbal\pid.o: ../FreeRTOS/include/projdefs.h
 gimbal\pid.o: ../FreeRTOS/include/portable.h
 gimbal\pid.o: ../FreeRTOS/include/deprecated_definitions.h
@@ -13,7 +13,7 @@ gimbal\pid.o: ../FreeRTOS/portable/RVDS/ARM_CM4F/portmacro.h
 gimbal\pid.o: ../FreeRTOS/include/mpu_wrappers.h
 gimbal\pid.o: ../FreeRTOS/include/task.h
 gimbal\pid.o: ../FreeRTOS/include/list.h
-gimbal\pid.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\string.h
+gimbal\pid.o: D:\project\ARM\ARMCC\Bin\..\include\string.h
 gimbal\pid.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h
 gimbal\pid.o: ../Core/Inc/stm32f4xx_hal_conf.h
 gimbal\pid.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h
@@ -43,5 +43,5 @@ gimbal\pid.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h
 gimbal\pid.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h
 gimbal\pid.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
 gimbal\pid.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
-gimbal\pid.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdlib.h
+gimbal\pid.o: D:\project\ARM\ARMCC\Bin\..\include\stdlib.h
 gimbal\pid.o: ..\Algorithm\myMath.h

@@ -397,6 +397,39 @@ typedef struct {
 #define INTERPOLATION_STEPS   20 //路径生成段数
 
 
+/* 电机命令定义 */
+#define X_MOTOR_HUART huart2
+#define Y_MOTOR_HUART huart4
+
+
+#define CMD_ENABLE        0xF3
+#define CMD_SPEED_MODE    0xF6
+#define CMD_POSITION_MODE 0xFD
+#define CMD_STOP          0xFE
+#define CMD_SYNC_MOVE     0xFF
+#define CMD_SET_HOME      0x93
+#define CMD_TRIGGER_HOME  0x9A
+#define CMD_ABORT_HOME    0x9C
+#define CMD_READ_SPEED    0x35
+#define CMD_READ_POSITION 0x36
+/* 电机方向定义 */
+#define DIR_CW   0x00
+#define DIR_CCW  0x01
+
+/* 电机校验字节 */
+#define CHECKSUM 0x6B
+
+/* 电机数据结构定义 */
+typedef struct {
+    uint8_t speed_sign;     // 符号 (0:正, 1:负)
+    uint16_t speed;   // 转速 (RPM)
+		float f_speed; //度/s
+		uint8_t position_sign;     // 符号 (0:正, 1:负)
+    uint32_t position; // 位置值 (脉冲计数)
+    float angle;      // 计算后的角度值
+} MotorData;
+
+
 /********************************************************************************/
 #endif
 
