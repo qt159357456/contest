@@ -1,0 +1,16 @@
+gimbal\tasks.o: ..\FreeRTOS\tasks.c
+gimbal\tasks.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdlib.h
+gimbal\tasks.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\string.h
+gimbal\tasks.o: ../FreeRTOS/include/FreeRTOS.h
+gimbal\tasks.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stddef.h
+gimbal\tasks.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdint.h
+gimbal\tasks.o: ../FreeRTOS/include/FreeRTOSConfig.h
+gimbal\tasks.o: ../FreeRTOS/include/projdefs.h
+gimbal\tasks.o: ../FreeRTOS/include/portable.h
+gimbal\tasks.o: ../FreeRTOS/include/deprecated_definitions.h
+gimbal\tasks.o: ../FreeRTOS/portable/RVDS/ARM_CM4F/portmacro.h
+gimbal\tasks.o: ../FreeRTOS/include/mpu_wrappers.h
+gimbal\tasks.o: ../FreeRTOS/include/task.h
+gimbal\tasks.o: ../FreeRTOS/include/list.h
+gimbal\tasks.o: ../FreeRTOS/include/timers.h
+gimbal\tasks.o: ../FreeRTOS/include/stack_macros.h

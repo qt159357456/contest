@@ -2,12 +2,13 @@
 #define   GLOBAL_H
 #include "stdint.h"
 #include "math.h"
-#include "myMath.h"
+//#include "myMath.h"
 #include "FreeRTOSConfig.h"
 #include "FreeRTOS.h"
 #include "task.h"
 #include "string.h"
-
+#include "stm32f1xx_hal.h"
+#include "stdlib.h"
 
 typedef uint8_t u8;
 
@@ -210,6 +211,11 @@ typedef struct {
     float y;  // Y坐标 (m)
 } Point2D_t;
 
+typedef struct{
+		float pitch;
+		float yaw;
+}Angles_t;
+
 // 自定义互斥锁结构体
 typedef struct {
     volatile uint8_t locked;          // 锁状态：0-未锁定，1-已锁定
@@ -258,17 +264,22 @@ typedef struct {
 } OpenMVData_t;
 
 // 通信协议帧结构
-#define OPENMV_FRAME_HEADER 0xAA
-#define OPENMV_FRAME_TAIL 0x55
-#define OPENMV_MAX_DATA_LEN 10
+#define OPENMV_FRAME_HEADER 0x55
+#define OPENMV_FRAME_TAIL 0x0D
+#define OPENMV_MAX_TX_DATA_LEN 1
+#define OPENMV_MAX_RX_DATA_LEN 10
 
 typedef struct {
-    uint8_t header;        // 帧头(0xAA)
-    uint8_t cmd;           // 命令字
-    uint8_t len;           // 数据长度
-    uint8_t data[OPENMV_MAX_DATA_LEN]; // 数据区
-    uint8_t tail;          // 帧尾(0x55)
-} OpenMVFrame_t;
+    uint8_t header;        // 帧头
+    uint8_t data[OPENMV_MAX_TX_DATA_LEN]; // 数据区
+    uint8_t tail;          // 帧尾
+} OpenMVFrame_TX_t;
+
+typedef struct {
+    uint8_t header;        // 帧头
+    uint8_t data[OPENMV_MAX_RX_DATA_LEN]; // 数据区
+    uint8_t tail;          // 帧尾
+} OpenMVFrame_RX_t;
 
 // 按字节长度分类的数据结构体
 typedef struct {
@@ -294,7 +305,7 @@ typedef struct {
     } byte4;
 
     // 原始数据缓冲区（完整数据备份）
-    uint8_t raw_data[OPENMV_MAX_DATA_LEN];
+    uint8_t raw_data[OPENMV_MAX_RX_DATA_LEN];
     uint8_t data_len;          // 实际数据长度
 } OpenMVDataBytes_t;
 
@@ -315,6 +326,35 @@ typedef struct {
     uint32_t timestamp;
 } DebugInfo_t;
 
+
+
+
+/* 步进电机数据结构体 */
+typedef struct {
+    /* 电机状态 */
+    float current_angle;          // 当前角度位置（度）
+    float target_angle;           // 目标角度位置（度）
+    uint32_t step_target;         // 目标步数
+    uint32_t step_count;          // 当前已走步数
+		int32_t step_sum;             // 走的总的脉冲数 
+    uint8_t direction;            // 转动方向 (0: 正向, 1: 反向)
+    
+    /* 硬件配置 */
+    GPIO_TypeDef* dir_port;       // 方向控制GPIO端口
+    uint16_t dir_pin;             // 方向控制引脚
+    TIM_HandleTypeDef* timer;     // 定时器句柄
+    uint32_t timer_channel;       // 定时器通道
+    
+    /* 电机特性 */
+    float step_angle;             // 步距角（度/步）
+    uint32_t max_frequency;       // 最大驱动频率（Hz）
+    
+    /* 控制标志 */
+    uint8_t is_moving;            // 运动状态标志 (1: 运动中, 0: 停止)
+} StepperMotor;
+
+
+
 #define LEFT_MOTOR_PWM_TIMER        htim1
 #define LEFT_MOTOR_PWM_CHANNEL      TIM_CHANNEL_1
 #define RIGHT_MOTOR_PWM_TIMER       htim1
@@ -333,7 +373,7 @@ typedef struct {
 #define RX_BUFFER_SIZE 128
 #define TX_BUFFER_SIZE 128
 #define OPENMV_RX_BUFFER_SIZE 128
-#define OPENMV_TX_BUFFER_SIZE 128
+#define OPENMV_TX_BUFFER_SIZE 3
 
 // 循迹控制参数
 #define STRAIGHT_SPEED 0.5f    // 基础前进速度 (m/s)
@@ -350,35 +390,10 @@ typedef struct {
 
 
 
-
-
-
-
-// 物理参数定义
-#define SCREEN_DISTANCE  100.0f    // 屏幕距离(cm)
-#define SQUARE_SIZE      50.0f     // 正方形边长(cm)
-#define MAX_ERROR        2.0f      // 允许误差(cm)
-
-// 舵机角度范围
-#define SERVO_MIN_ANGLE  30.0f     // 最小角度(°)
-#define SERVO_MAX_ANGLE  150.0f    // 最大角度(°)
-
-// 运动参数
-#define POINTS_PER_SIDE  20        // 每条边点数
-#define MOVE_DELAY_MS    30        // 点间延时(ms)
-
-typedef struct {
-  float x;  // 屏幕坐标X(cm)
-  float y;  // 屏幕坐标Y(cm)
-} Point;
-
-// 状态机定义
-typedef enum {
-  STATE_IDLE,
-  STATE_RESET,
-  STATE_SQUARE_MOVE,
-  STATE_CUSTOM_PATH
-} SystemState;
+#define SCREEN_DISTANCE 1000  // 云台到屏幕距离1000mm
+#define SCREEN_WIDTH    500   // 屏幕宽度500mm
+#define STEP_ANGLE 0.05625f
+#define INTERPOLATION_STEPS   20 //路径生成段数
 
 
 

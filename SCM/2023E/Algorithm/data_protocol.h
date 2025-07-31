@@ -3,9 +3,10 @@
 #include "global.h"
 #include "mutex_lock_and_message_queue.h"
 #include "usart.h"
+#include "myMath.h"
 
-static void parse_openmv_frame(OpenMVFrame_t* frame);
-void openmv_send_command(uint8_t cmd, const uint8_t* data, uint8_t len);
+static void parse_openmv_frame(OpenMVFrame_RX_t* frame);
+void openmv_send_command(const uint8_t* data, uint8_t len);
 void Data_Handle1(void);
 
 
@@ -16,5 +17,9 @@ extern DMA_HandleTypeDef hdma_usart1_tx;
 // OpenMVÊý¾Ý¼°»¥³âËø
 extern OpenMVData_t g_openmv_data;
 extern CustomMutex_t openmv_data_mutex;
+
+extern int key;
+extern float angle_pitch[5],angle_yaw[5];
+extern float target_x[5],target_y[5];
 #endif
 

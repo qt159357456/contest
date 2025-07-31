@@ -1,0 +1,14 @@
+gimbal\heap_4.o: ..\FreeRTOS\portable\MemMang\heap_4.c
+gimbal\heap_4.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdlib.h
+gimbal\heap_4.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\string.h
+gimbal\heap_4.o: ../FreeRTOS/include/FreeRTOS.h
+gimbal\heap_4.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stddef.h
+gimbal\heap_4.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdint.h
+gimbal\heap_4.o: ../FreeRTOS/include/FreeRTOSConfig.h
+gimbal\heap_4.o: ../FreeRTOS/include/projdefs.h
+gimbal\heap_4.o: ../FreeRTOS/include/portable.h
+gimbal\heap_4.o: ../FreeRTOS/include/deprecated_definitions.h
+gimbal\heap_4.o: ../FreeRTOS/portable/RVDS/ARM_CM4F/portmacro.h
+gimbal\heap_4.o: ../FreeRTOS/include/mpu_wrappers.h
+gimbal\heap_4.o: ../FreeRTOS/include/task.h
+gimbal\heap_4.o: ../FreeRTOS/include/list.h

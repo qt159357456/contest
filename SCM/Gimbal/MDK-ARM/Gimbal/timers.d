@@ -1,0 +1,15 @@
+gimbal\timers.o: ..\FreeRTOS\timers.c
+gimbal\timers.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdlib.h
+gimbal\timers.o: ../FreeRTOS/include/FreeRTOS.h
+gimbal\timers.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stddef.h
+gimbal\timers.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdint.h
+gimbal\timers.o: ../FreeRTOS/include/FreeRTOSConfig.h
+gimbal\timers.o: ../FreeRTOS/include/projdefs.h
+gimbal\timers.o: ../FreeRTOS/include/portable.h
+gimbal\timers.o: ../FreeRTOS/include/deprecated_definitions.h
+gimbal\timers.o: ../FreeRTOS/portable/RVDS/ARM_CM4F/portmacro.h
+gimbal\timers.o: ../FreeRTOS/include/mpu_wrappers.h
+gimbal\timers.o: ../FreeRTOS/include/task.h
+gimbal\timers.o: ../FreeRTOS/include/list.h
+gimbal\timers.o: ../FreeRTOS/include/queue.h
+gimbal\timers.o: ../FreeRTOS/include/timers.h

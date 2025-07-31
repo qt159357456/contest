@@ -1,25 +1,18 @@
 #ifndef _MOTOR_H
 #define _MOTOR_H
- 
-#include "stm32f1xx_hal.h"
 #include "global.h"
 #include "myMath.h"
-
-void motorTest(void);
-void leftMotorControl(int compare_value);
-void rightMotorControl(int compare_value);
-float leftWheelSpeed(void);
-float rightWheelSpeed(void);
-void motorInit(void);
-float getWheelSpeed(TIM_HandleTypeDef *htim, EncoderState *state);
-
-
-
-// 全局编码器状态（左右电机各一个）
-extern EncoderState left_encoder;
-extern EncoderState right_encoder;
-
-
+void Step_Init(void);
+void Set_Direction(StepperMotor* motor, uint8_t dir);
+void Set_Speed(StepperMotor* motor, uint32_t freq_hz);
+void Move_Angle(StepperMotor* motor, float angle, uint32_t freq);
+void Move_Angle_Global(StepperMotor* motor,float angle, uint32_t freq);
+void move_one_step(StepperMotor* motor,uint8_t dir,uint32_t freq);
+void move_steps(StepperMotor* motor,int32_t steps,uint32_t freq);
+void Reset_Position(void) ;
+void generate_linear_path(Point2D_t start, Point2D_t end, Angles_t* path);
+extern StepperMotor motor_x; 
+extern StepperMotor motor_y; 
 #endif
 
 

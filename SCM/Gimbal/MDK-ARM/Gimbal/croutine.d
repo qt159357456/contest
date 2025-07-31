@@ -1,0 +1,13 @@
+gimbal\croutine.o: ..\FreeRTOS\croutine.c
+gimbal\croutine.o: ../FreeRTOS/include/FreeRTOS.h
+gimbal\croutine.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stddef.h
+gimbal\croutine.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdint.h
+gimbal\croutine.o: ../FreeRTOS/include/FreeRTOSConfig.h
+gimbal\croutine.o: ../FreeRTOS/include/projdefs.h
+gimbal\croutine.o: ../FreeRTOS/include/portable.h
+gimbal\croutine.o: ../FreeRTOS/include/deprecated_definitions.h
+gimbal\croutine.o: ../FreeRTOS/portable/RVDS/ARM_CM4F/portmacro.h
+gimbal\croutine.o: ../FreeRTOS/include/mpu_wrappers.h
+gimbal\croutine.o: ../FreeRTOS/include/task.h
+gimbal\croutine.o: ../FreeRTOS/include/list.h
+gimbal\croutine.o: ../FreeRTOS/include/croutine.h

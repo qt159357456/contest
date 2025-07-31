@@ -24,15 +24,12 @@ contest\motor.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma_ex.h
 contest\motor.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h
 contest\motor.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h
 contest\motor.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h
-contest\motor.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_i2c.h
 contest\motor.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h
 contest\motor.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h
 contest\motor.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h
 contest\motor.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
-contest\motor.o: ..\Hardware\motor.h
 contest\motor.o: ../Core/Inc/global.h
 contest\motor.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\math.h
-contest\motor.o: ../Algorithm/myMath.h
 contest\motor.o: ./contest/FreeRTOS/include/FreeRTOSConfig.h
 contest\motor.o: ./contest/FreeRTOS/include/FreeRTOS.h
 contest\motor.o: ./contest/FreeRTOS/include/projdefs.h
@@ -43,6 +40,9 @@ contest\motor.o: ./contest/FreeRTOS/include/mpu_wrappers.h
 contest\motor.o: ./contest/FreeRTOS/include/task.h
 contest\motor.o: ./contest/FreeRTOS/include/list.h
 contest\motor.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\string.h
-contest\motor.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdio.h
 contest\motor.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdlib.h
-contest\motor.o: ../Algorithm/filter.h
+contest\motor.o: ../Core/Inc/gpio.h
+contest\motor.o: ../Configuration/timer.h
+contest\motor.o: ../Core/Inc/tim.h
+contest\motor.o: ..\Hardware\motor.h
+contest\motor.o: ../Algorithm/myMath.h

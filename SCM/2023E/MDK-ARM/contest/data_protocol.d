@@ -3,7 +3,6 @@ contest\data_protocol.o: ..\Algorithm\data_protocol.h
 contest\data_protocol.o: ../Core/Inc/global.h
 contest\data_protocol.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdint.h
 contest\data_protocol.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\math.h
-contest\data_protocol.o: ../Algorithm/myMath.h
 contest\data_protocol.o: ./contest/FreeRTOS/include/FreeRTOSConfig.h
 contest\data_protocol.o: ./contest/FreeRTOS/include/FreeRTOS.h
 contest\data_protocol.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stddef.h
@@ -15,9 +14,6 @@ contest\data_protocol.o: ./contest/FreeRTOS/include/mpu_wrappers.h
 contest\data_protocol.o: ./contest/FreeRTOS/include/task.h
 contest\data_protocol.o: ./contest/FreeRTOS/include/list.h
 contest\data_protocol.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\string.h
-contest\data_protocol.o: ..\Algorithm\mutex_lock_and_message_queue.h
-contest\data_protocol.o: ../Core/Inc/usart.h
-contest\data_protocol.o: ../Core/Inc/main.h
 contest\data_protocol.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h
 contest\data_protocol.o: ../Core/Inc/stm32f1xx_hal_conf.h
 contest\data_protocol.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h
@@ -40,11 +36,15 @@ contest\data_protocol.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma_e
 contest\data_protocol.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h
 contest\data_protocol.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h
 contest\data_protocol.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h
-contest\data_protocol.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_i2c.h
 contest\data_protocol.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h
 contest\data_protocol.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h
 contest\data_protocol.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h
 contest\data_protocol.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
+contest\data_protocol.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdlib.h
+contest\data_protocol.o: ..\Algorithm\mutex_lock_and_message_queue.h
+contest\data_protocol.o: ../Core/Inc/usart.h
+contest\data_protocol.o: ../Core/Inc/main.h
 contest\data_protocol.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdio.h
 contest\data_protocol.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdarg.h
 contest\data_protocol.o: ../Algorithm/data_protocol.h
+contest\data_protocol.o: ..\Algorithm\myMath.h

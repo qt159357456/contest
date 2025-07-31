@@ -25,7 +25,6 @@ contest\usart.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma_ex.h
 contest\usart.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h
 contest\usart.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h
 contest\usart.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h
-contest\usart.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_i2c.h
 contest\usart.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h
 contest\usart.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h
 contest\usart.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h
@@ -36,7 +35,6 @@ contest\usart.o: ./contest/FreeRTOS/include/FreeRTOSConfig.h
 contest\usart.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdarg.h
 contest\usart.o: ../Core/Inc/global.h
 contest\usart.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\math.h
-contest\usart.o: ../Algorithm/myMath.h
 contest\usart.o: ./contest/FreeRTOS/include/FreeRTOS.h
 contest\usart.o: ./contest/FreeRTOS/include/projdefs.h
 contest\usart.o: ./contest/FreeRTOS/include/portable.h
@@ -45,6 +43,8 @@ contest\usart.o: ./contest/FreeRTOS/port/RVDS/ARM_CM3/portmacro.h
 contest\usart.o: ./contest/FreeRTOS/include/mpu_wrappers.h
 contest\usart.o: ./contest/FreeRTOS/include/task.h
 contest\usart.o: ./contest/FreeRTOS/include/list.h
+contest\usart.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdlib.h
 contest\usart.o: ../Algorithm/data_protocol.h
 contest\usart.o: ../Algorithm/mutex_lock_and_message_queue.h
 contest\usart.o: ../Core/Inc/usart.h
+contest\usart.o: ../Algorithm/myMath.h

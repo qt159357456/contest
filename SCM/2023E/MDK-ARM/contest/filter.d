@@ -3,7 +3,6 @@ contest\filter.o: ..\Algorithm\filter.h
 contest\filter.o: ../Core/Inc/global.h
 contest\filter.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdint.h
 contest\filter.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\math.h
-contest\filter.o: ../Algorithm/myMath.h
 contest\filter.o: ./contest/FreeRTOS/include/FreeRTOSConfig.h
 contest\filter.o: ./contest/FreeRTOS/include/FreeRTOS.h
 contest\filter.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stddef.h
@@ -15,7 +14,6 @@ contest\filter.o: ./contest/FreeRTOS/include/mpu_wrappers.h
 contest\filter.o: ./contest/FreeRTOS/include/task.h
 contest\filter.o: ./contest/FreeRTOS/include/list.h
 contest\filter.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\string.h
-contest\filter.o: ../Core/Inc/main.h
 contest\filter.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h
 contest\filter.o: ../Core/Inc/stm32f1xx_hal_conf.h
 contest\filter.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h
@@ -38,9 +36,9 @@ contest\filter.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma_ex.h
 contest\filter.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h
 contest\filter.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h
 contest\filter.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h
-contest\filter.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_i2c.h
 contest\filter.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h
 contest\filter.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h
 contest\filter.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h
 contest\filter.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
 contest\filter.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdlib.h
+contest\filter.o: ../Core/Inc/main.h

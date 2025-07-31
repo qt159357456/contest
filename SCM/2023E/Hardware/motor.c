@@ -1,180 +1,146 @@
 #include "main.h"
-#include "motor.h"
-#include "stdio.h"
-#include "stdlib.h"
 #include "global.h"
-#include "filter.h"
+#include "gpio.h"
+#include "timer.h"
+#include "tim.h"
+#include "motor.h"
+/* 全局电机实例 */
+StepperMotor motor_x = {
+    .current_angle = 0.0f,
+    .target_angle = 0.0f,
+    .step_target = 0,
+    .step_count = 0,
+		.step_sum = 0,
+    .direction = 0,
+    .dir_port = GPIOA,
+    .dir_pin = GPIO_PIN_1,
+    .timer = &htim2,
+    .timer_channel = TIM_CHANNEL_4,
+    .step_angle = STEP_ANGLE,     // 0.05625度/步
+    .max_frequency = 20000,       // 20kHz最大频率
+    .is_moving = 0
+};
 
-//// 全局编码器状态（左右电机各一个）
-//EncoderState left_encoder = {0};
-//EncoderState right_encoder = {0};
+StepperMotor motor_y = {
+    .current_angle = 0.0f,
+    .target_angle = 0.0f,
+    .step_target = 0,
+    .step_count = 0,
+		.step_sum = 0,
+    .direction = 0,
+    .dir_port = GPIOA,
+    .dir_pin = GPIO_PIN_4,
+    .timer = &htim3,
+    .timer_channel = TIM_CHANNEL_4,
+    .step_angle = STEP_ANGLE,     // 0.05625度/步
+    .max_frequency = 20000,       // 20kHz最大频率
+    .is_moving = 0
+};
 
-///**
-// * @brief 初始化电机控制相关外设
-// * @note 包括：
-// *       1. 启动定时器3的PWM输出（通道3和4）
-// *       2. 配置定时器2和4的编码器接口
-// */
-//void motorInit(void)
-//{
-//    // 启动定时器1的PWM输出（通道2用于右电机，通道1用于左电机）
-//    HAL_TIM_PWM_Start(&RIGHT_MOTOR_PWM_TIMER, RIGHT_MOTOR_PWM_CHANNEL); // 右电机PWM通道
-//    HAL_TIM_PWM_Start(&LEFT_MOTOR_PWM_TIMER, LEFT_MOTOR_PWM_CHANNEL); // 左电机PWM通道
-
-//    // 配置定时器2为增量式编码器接口（A/B相正交信号）
-//    HAL_TIM_Encoder_Start(&RIGHT_MOTOR_ENCODER_TIMER, TIM_CHANNEL_ALL); // 右电机编码器
-
-//    // 配置定时器3为增量式编码器接口（A/B相正交信号）
-//    HAL_TIM_Encoder_Start(&LEFT_MOTOR_ENCODER_TIMER, TIM_CHANNEL_ALL); // 左电机编码器
-//}
-
-///**
-// * @brief 左电机控制函数
-// * @param compare_value PWM占空比值（范围：-1000~1000）
-// * @note  通过GPIO控制电机方向，通过定时器3通道4设置PWM占空比
-// */
-//void leftMotorControl(int compare_value)
-//{
-//    // 方向控制逻辑（基于H桥电路）：
-//    if (compare_value > 0)
-//    {
-//        // 正转：IN1高电平，IN2低电平
-//        HAL_GPIO_WritePin(GPIOB, GPIO_PIN_13, GPIO_PIN_SET);   // IN1
-//        HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_RESET); // IN2
-//    }
-//    else
-//    {
-//        // 反转：IN1低电平，IN2高电平
-//        HAL_GPIO_WritePin(GPIOB, GPIO_PIN_13, GPIO_PIN_RESET); // IN1
-//        HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_SET);   // IN2
-//    }
-
-//    // 将占空比限制在有效范围内并设置PWM
-//    compare_value = abs(compare_value);                         // 取绝对值
-//    __HAL_TIM_SetCompare(&LEFT_MOTOR_PWM_TIMER, LEFT_MOTOR_PWM_CHANNEL, compare_value); // 更新PWM占空比
-//}
-
-///**
-// * @brief 右电机控制函数
-// * @param compare_value PWM占空比值（范围：-1000~1000）
-// * @note  通过GPIO控制电机方向，通过定时器3通道3设置PWM占空比
-// */
-//void rightMotorControl(int compare_value)
-//{
-//    // 方向控制逻辑（基于H桥电路）：
-//    if (compare_value > 0)
-//    {
-//        // 正转：IN1高电平，IN2低电平
-//        HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, GPIO_PIN_SET);   // IN1
-//        HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, GPIO_PIN_RESET); // IN2
-//    }
-//    else
-//    {
-//        // 反转：IN1低电平，IN2高电平
-//        HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, GPIO_PIN_RESET); // IN1
-//        HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, GPIO_PIN_SET);   // IN2
-//    }
-
-//    // 将占空比限制在有效范围内并设置PWM
-//    compare_value = abs(compare_value);                         // 取绝对值
-//    __HAL_TIM_SetCompare(&RIGHT_MOTOR_PWM_TIMER, RIGHT_MOTOR_PWM_CHANNEL, compare_value); // 更新PWM占空比
-//}
+void Step_Init()
+{
+    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_2, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
+}
 
 
-//// 全局滤波器缓冲区（左右电机各一个）
-//static float left_speed_buf[FILTER_DEPTH] = {0};  // 左电机速度缓冲区
-//static float right_speed_buf[FILTER_DEPTH] = {0}; // 右电机速度缓冲区
-//static int left_idx = 0;                          // 左电机缓冲区索引
-//static int right_idx = 0;                         // 右电机缓冲区索引
-//static float left_sum = 0.0f;                     // 左电机速度累计和
-//static float right_sum = 0.0f;                    // 右电机速度累计和
+void Set_Direction(StepperMotor* motor, uint8_t dir) {
+    motor->direction = dir;
+    HAL_GPIO_WritePin(motor->dir_port, motor->dir_pin, 
+                      dir ? GPIO_PIN_RESET : GPIO_PIN_SET);
+}
 
-//// 初始化环形缓冲区
-//static AVG_Flt_t left_rb = {left_speed_buf, &left_idx, &left_sum, FILTER_DEPTH};
-//static AVG_Flt_t right_rb = {right_speed_buf, &right_idx, &right_sum, FILTER_DEPTH};
-
-
-///**
-// * @brief 获取编码器计数值并重置计数器
-// * @param htim 定时器句柄指针
-// * @return 当前计数值（已转换为脉冲数）
-// */
-//float encodeGetCount(TIM_HandleTypeDef *htim)
-//{
-//    // 获取当前计数值（自动转换为有符号整数）
-//    float count = (int16_t)__HAL_TIM_GET_COUNTER(htim);
-
-//    // 重置计数器（清零）
-//    __HAL_TIM_SET_COUNTER(htim, 0);
-
-//    return count;
-//}
-
-///**
-// * @brief 获取编码器相对计数值
-// * @param htim 定时器句柄指针
-// * @param state 编码器状态结构体
-// * @return 自上次读取以来的脉冲增量
-// */
-//int32_t getEncoderDelta(TIM_HandleTypeDef *htim, EncoderState *state) {
-//    // 读取当前计数值（有符号16位）
-//    int16_t current_count = (int16_t)__HAL_TIM_GET_COUNTER(htim);
-//    
-//    // 计算相对增量（处理16位溢出)
-//    int32_t delta = (int32_t)current_count - state->last_count;
-//    
-//    // 处理计数器溢出（0xFFFF -> 0x0000 或 0x0000 -> 0xFFFF）
-//    if (delta > 32767) {         // 正向溢出
-//        delta -= 65536;
-//    } else if (delta < -32768) { // 负向溢出
-//        delta += 65536;
-//    }
-//    
-//    // 更新状态
-//    state->last_count = current_count;
-//    state->total_pulses += delta;  // 累计总脉冲
-//    
-//    return delta;
-//}
-
-///**
-// * @brief 获取轮子线速度
-// * @param htim 定时器句柄指针
-// * @param state 编码器状态结构体
-// * @return 线速度 (m/s)
-// */
-//float getWheelSpeed(TIM_HandleTypeDef *htim, EncoderState *state) {
-//    // 获取当前时间
-//    uint32_t current_tick = uwTick;
-//    
-//    // 计算时间差 (秒)
-//    float time_diff = (current_tick - state->last_tick) * 0.001f;
-//    state->last_tick = current_tick;
-//    
-//    // 获取脉冲增量
-//    int32_t pulse_diff = getEncoderDelta(htim, state);
-//    
-//    // 计算线速度 (m/s)
-//    // 轮子线速度 = (脉冲增量/总脉冲) × 轮周长 ÷ 时间
-//    float speed = (pulse_diff / (float)PULSES_NUMBER) * (PI * WHEEL_DIAMETER) / time_diff;
-//    
-//    return speed;
-//}
-
-//// 左/右轮速获取
-//float leftWheelSpeed(void) { return vectorFilter(getWheelSpeed(&LEFT_MOTOR_ENCODER_TIMER,&left_encoder), &left_rb); }
-//float rightWheelSpeed(void) { return vectorFilter(getWheelSpeed(&RIGHT_MOTOR_ENCODER_TIMER,&right_encoder), &right_rb); }
+// freq_hz: 步进频率（步/秒）
+// 设置驱动频率
+void Set_Speed(StepperMotor* motor, uint32_t freq_hz) {
+    // 限制频率不超过最大值
+    freq_hz = (freq_hz > motor->max_frequency) ? motor->max_frequency : freq_hz;
+    
+    uint32_t arr = 1000000 / freq_hz;  // 1MHz定时器
+    __HAL_TIM_SET_AUTORELOAD(motor->timer, arr - 1);
+    __HAL_TIM_SET_COMPARE(motor->timer, motor->timer_channel, arr / 2);
+}
 
 
+// 控制电机转动指定角度
+// 角度转步数: 每步 0.05625°
+void Move_Angle(StepperMotor* motor, float angle, uint32_t freq) {
+    // 1. 计算转动方向
+    uint8_t dir = (angle >= 0) ? 0 : 1;
+    Set_Direction(motor, dir);
+    
+    // 2. 计算目标步数
+    float abs_angle = fabsf(angle);
+    motor->step_target = (uint32_t)(abs_angle / motor->step_angle + 0.5f);
+    motor->step_count = 0;
+    
+    // 3. 设置驱动频率
+    Set_Speed(motor, freq);
+    
+    // 4. 启动定时器
+    motor->is_moving = 1;
+    HAL_TIM_Base_Start_IT(motor->timer);
+    HAL_TIM_PWM_Start_IT(motor->timer, motor->timer_channel);
+}
+
+void Move_Angle_Global(StepperMotor* motor,float angle, uint32_t freq)
+{
+		Move_Angle(motor,angle-motor->current_angle,freq);
+}
 
 
-///**
-// * @brief 电机控制测试函数
-// */
-//void motorTest(void)
-//{
-//    motorInit();            // 初始化电机系统
-////    leftMotorControl(500);  // 左电机50%占空比
-////    rightMotorControl(500); // 右电机50%占空比
-//}
+void move_one_step(StepperMotor* motor,uint8_t dir,uint32_t freq){
+		Set_Direction(motor,dir);
+		motor->step_target = 1;
+		motor->step_count = 0;
+		Set_Speed(motor, freq);
+		motor->is_moving = 1;
+		HAL_TIM_Base_Start_IT(motor->timer);
+    HAL_TIM_PWM_Start_IT(motor->timer, motor->timer_channel);
+}
 
+
+void move_steps(StepperMotor* motor,int32_t steps,uint32_t freq){
+	Set_Direction(motor,steps>=0?0:1);
+		motor->step_target = steps;
+		motor->step_count = 0;
+		Set_Speed(motor, freq);
+		motor->is_moving = 1;
+		HAL_TIM_Base_Start_IT(motor->timer);
+    HAL_TIM_PWM_Start_IT(motor->timer, motor->timer_channel);
+}
+
+
+void Reset_Position(void) {
+		motor_x.step_sum = 0;
+		motor_x.step_count = 0;
+		motor_x.step_target = 0;
+		motor_x.current_angle = 0.0f;
+		motor_x.target_angle = 0.0f;
+		motor_x.is_moving = 0;
+		motor_x.direction = 0;
+
+		motor_y.step_sum = 0;
+		motor_y.step_count = 0;
+		motor_y.step_target = 0;
+		motor_y.current_angle = 0.0f;
+		motor_y.target_angle = 0.0f;
+		motor_y.is_moving = 0;
+		motor_y.direction = 0;
+}
+
+// 生成包含起点和终点的完整路径
+Point2D_t interp;
+void generate_linear_path(Point2D_t start, Point2D_t end, Angles_t* path) {
+    
+    
+    // 生成中间点
+    for (uint16_t i = 0; i < INTERPOLATION_STEPS-1; i++) {
+        float ratio = (float)i / (float)(INTERPOLATION_STEPS-1);
+				interp.x = start.x + ratio * (end.x - start.x);
+				interp.y = start.y + ratio * (end.y - start.y);
+				distance_to_angle2(interp,&path[i]);
+    }
+    // 添加终点
+		distance_to_angle2(end,&path[INTERPOLATION_STEPS-1]);
+}
