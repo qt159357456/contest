@@ -131,6 +131,19 @@ void my_move_steps(StepperMotor* motor,uint32_t steps,uint8_t dir,uint32_t freq)
     HAL_TIM_PWM_Start_IT(motor->timer, motor->timer_channel);
 }
 
+void StepperMotor_Stop(StepperMotor* motor) {
+    // 停止PWM输出和中断
+    HAL_TIM_PWM_Stop_IT(motor->timer, motor->timer_channel);
+    
+    // 新增关键步骤：强制重置定时器状态
+    __HAL_TIM_DISABLE(motor->timer);          // 禁用定时器
+    __HAL_TIM_SET_COUNTER(motor->timer, 0);   // 重置计数器
+    __HAL_TIM_CLEAR_FLAG(motor->timer, TIM_FLAG_UPDATE); // 清除更新标志
+    
+    // 可选：使能定时器但不启动PWM
+    // __HAL_TIM_ENABLE(motor->timer);
+}
+
 
 int arrive_target(uint16_t x_t,uint16_t y_t,uint16_t x_c,uint16_t y_c,int dis){
 		return (abs(x_t-x_c)<dis&&abs(y_t-y_c)<dis);

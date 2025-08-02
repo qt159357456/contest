@@ -20,7 +20,7 @@ int key;
 uint8_t cmd = 2;
 
 int16_t offset_x,offset_y;
-uint8_t move_status,pre_move_status;
+uint8_t move_status=255,pre_move_status = 255;
 int flagx,flagy;
 // 解析完整的OpenMV帧，采集，决策，驱动
 static void parse_openmv_frame(OpenMVFrame_RX_t* frame) {
@@ -157,10 +157,10 @@ void Data_Handle4() {
 
 // 发送数据到OpenMV
 uint8_t send_status = 1;
+OpenMVFrame_TX_t frame;
 void openmv_send_command(const uint8_t* data, uint8_t len) {
     if (len > OPENMV_MAX_TX_DATA_LEN) return;
     
-    OpenMVFrame_TX_t frame;
     frame.header = OPENMV_FRAME_HEADER;
 		frame.status = send_status;
 		send_status++;

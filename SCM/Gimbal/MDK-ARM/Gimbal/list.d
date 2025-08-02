@@ -1,8 +1,8 @@
 gimbal\list.o: ..\FreeRTOS\list.c
-gimbal\list.o: D:\project\ARM\ARMCC\Bin\..\include\stdlib.h
+gimbal\list.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdlib.h
 gimbal\list.o: ../FreeRTOS/include/FreeRTOS.h
-gimbal\list.o: D:\project\ARM\ARMCC\Bin\..\include\stddef.h
-gimbal\list.o: D:\project\ARM\ARMCC\Bin\..\include\stdint.h
+gimbal\list.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stddef.h
+gimbal\list.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdint.h
 gimbal\list.o: ../FreeRTOS/include/FreeRTOSConfig.h
 gimbal\list.o: ../FreeRTOS/include/projdefs.h
 gimbal\list.o: ../FreeRTOS/include/portable.h

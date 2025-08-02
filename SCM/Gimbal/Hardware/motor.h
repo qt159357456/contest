@@ -14,6 +14,7 @@ void generate_linear_path(Point2D_t start, Point2D_t end, Angles_t* path);
 void Reset_Gimbal(void);
 void PID_motors(int16_t offset_x,int16_t offset_y);
 void PID_motors2(int16_t offset_x,int16_t offset_y);
+void StepperMotor_Stop(StepperMotor* motor);
 HAL_StatusTypeDef Motor_Enable_X(uint8_t address, uint8_t enable, uint8_t sync_flag);
 HAL_StatusTypeDef Speed_Mode_X(uint8_t address, uint8_t direction, uint16_t speed, uint8_t acceleration, uint8_t sync_flag);
 HAL_StatusTypeDef Position_Mode_X(uint8_t address, uint8_t direction, uint16_t speed, uint8_t acceleration, uint32_t pulses, uint8_t abs_mode, uint8_t sync_flag);

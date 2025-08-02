@@ -1,5 +1,5 @@
 gimbal\draw.o: ..\Algorithm\draw.c
 gimbal\draw.o: ..\Algorithm\draw.h
-gimbal\draw.o: D:\project\ARM\ARMCC\Bin\..\include\stdint.h
-gimbal\draw.o: D:\project\ARM\ARMCC\Bin\..\include\math.h
-gimbal\draw.o: D:\project\ARM\ARMCC\Bin\..\include\stdlib.h
+gimbal\draw.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdint.h
+gimbal\draw.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\math.h
+gimbal\draw.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdlib.h

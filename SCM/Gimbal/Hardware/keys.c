@@ -48,12 +48,12 @@ int keyflag = 0;
 //					vTaskDelay(1);
 //			}	
 //}
-
 int task_num = 0;
 void key1(void){
 			if(task_num==1){
 				point=1;
 				openmv_send_command(&point,1);
+				enable_laser(0);
 				task_num = 0;
 			}
 }
@@ -62,7 +62,9 @@ void key2(void){
 			if(task_num==2){
 				point=2;
 				openmv_send_command(&point,1);
+				enable_laser(0);
 				task_num = 0;
+				
 			}
 }
 
@@ -70,6 +72,7 @@ void key3(void){
 			if(task_num==3){
 				point=3;
 				openmv_send_command(&point,1);
+				enable_laser(0);
 				task_num = 0;
 			}
 }
@@ -78,6 +81,7 @@ void key4(void){
 			if(task_num==4){
 				point=4;
 				openmv_send_command(&point,1);
+				enable_laser(0);
 				task_num = 0;
 			}
 }
@@ -86,7 +90,9 @@ void key5(void){
 			if(task_num==5){
 				point=5;
 				openmv_send_command(&point,1);
+				enable_laser(0);
 				task_num = 0;
+				
 			}
 }
 

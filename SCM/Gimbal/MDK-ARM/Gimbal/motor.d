@@ -7,7 +7,7 @@ gimbal\motor.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h
 gimbal\motor.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h
 gimbal\motor.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h
 gimbal\motor.o: ../Drivers/CMSIS/Include/core_cm4.h
-gimbal\motor.o: D:\project\ARM\ARMCC\Bin\..\include\stdint.h
+gimbal\motor.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdint.h
 gimbal\motor.o: ../Drivers/CMSIS/Include/cmsis_version.h
 gimbal\motor.o: ../Drivers/CMSIS/Include/cmsis_compiler.h
 gimbal\motor.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
@@ -15,7 +15,7 @@ gimbal\motor.o: ../Drivers/CMSIS/Include/mpu_armv7.h
 gimbal\motor.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h
 gimbal\motor.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h
 gimbal\motor.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
-gimbal\motor.o: D:\project\ARM\ARMCC\Bin\..\include\stddef.h
+gimbal\motor.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stddef.h
 gimbal\motor.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc_ex.h
 gimbal\motor.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h
 gimbal\motor.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio_ex.h
@@ -32,12 +32,12 @@ gimbal\motor.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h
 gimbal\motor.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
 gimbal\motor.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
 gimbal\motor.o: ../Configuration/usart.h
-gimbal\motor.o: D:\project\ARM\ARMCC\Bin\..\include\stdio.h
-gimbal\motor.o: D:\project\ARM\ARMCC\Bin\..\include\string.h
+gimbal\motor.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdio.h
+gimbal\motor.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\string.h
 gimbal\motor.o: ../FreeRTOS/include/FreeRTOSConfig.h
-gimbal\motor.o: D:\project\ARM\ARMCC\Bin\..\include\stdarg.h
+gimbal\motor.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdarg.h
 gimbal\motor.o: ../Core/Inc/global.h
-gimbal\motor.o: D:\project\ARM\ARMCC\Bin\..\include\math.h
+gimbal\motor.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\math.h
 gimbal\motor.o: ../FreeRTOS/include/FreeRTOS.h
 gimbal\motor.o: ../FreeRTOS/include/projdefs.h
 gimbal\motor.o: ../FreeRTOS/include/portable.h
@@ -46,7 +46,7 @@ gimbal\motor.o: ../FreeRTOS/portable/RVDS/ARM_CM4F/portmacro.h
 gimbal\motor.o: ../FreeRTOS/include/mpu_wrappers.h
 gimbal\motor.o: ../FreeRTOS/include/task.h
 gimbal\motor.o: ../FreeRTOS/include/list.h
-gimbal\motor.o: D:\project\ARM\ARMCC\Bin\..\include\stdlib.h
+gimbal\motor.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdlib.h
 gimbal\motor.o: ../Algorithm/data_protocol.h
 gimbal\motor.o: ../Algorithm/mutex_lock_and_message_queue.h
 gimbal\motor.o: ../Configuration/usart.h

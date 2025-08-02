@@ -1,7 +1,7 @@
 gimbal\croutine.o: ..\FreeRTOS\croutine.c
 gimbal\croutine.o: ../FreeRTOS/include/FreeRTOS.h
-gimbal\croutine.o: D:\project\ARM\ARMCC\Bin\..\include\stddef.h
-gimbal\croutine.o: D:\project\ARM\ARMCC\Bin\..\include\stdint.h
+gimbal\croutine.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stddef.h
+gimbal\croutine.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdint.h
 gimbal\croutine.o: ../FreeRTOS/include/FreeRTOSConfig.h
 gimbal\croutine.o: ../FreeRTOS/include/projdefs.h
 gimbal\croutine.o: ../FreeRTOS/include/portable.h

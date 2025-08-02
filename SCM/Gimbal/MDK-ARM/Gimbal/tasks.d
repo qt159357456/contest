@@ -1,9 +1,9 @@
 gimbal\tasks.o: ..\FreeRTOS\tasks.c
-gimbal\tasks.o: D:\project\ARM\ARMCC\Bin\..\include\stdlib.h
-gimbal\tasks.o: D:\project\ARM\ARMCC\Bin\..\include\string.h
+gimbal\tasks.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdlib.h
+gimbal\tasks.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\string.h
 gimbal\tasks.o: ../FreeRTOS/include/FreeRTOS.h
-gimbal\tasks.o: D:\project\ARM\ARMCC\Bin\..\include\stddef.h
-gimbal\tasks.o: D:\project\ARM\ARMCC\Bin\..\include\stdint.h
+gimbal\tasks.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stddef.h
+gimbal\tasks.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdint.h
 gimbal\tasks.o: ../FreeRTOS/include/FreeRTOSConfig.h
 gimbal\tasks.o: ../FreeRTOS/include/projdefs.h
 gimbal\tasks.o: ../FreeRTOS/include/portable.h

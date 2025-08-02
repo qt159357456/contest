@@ -7,7 +7,7 @@ gimbal\stm32f4xx_it.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h
 gimbal\stm32f4xx_it.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h
 gimbal\stm32f4xx_it.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h
 gimbal\stm32f4xx_it.o: ../Drivers/CMSIS/Include/core_cm4.h
-gimbal\stm32f4xx_it.o: D:\project\ARM\ARMCC\Bin\..\include\stdint.h
+gimbal\stm32f4xx_it.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdint.h
 gimbal\stm32f4xx_it.o: ../Drivers/CMSIS/Include/cmsis_version.h
 gimbal\stm32f4xx_it.o: ../Drivers/CMSIS/Include/cmsis_compiler.h
 gimbal\stm32f4xx_it.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
@@ -15,7 +15,7 @@ gimbal\stm32f4xx_it.o: ../Drivers/CMSIS/Include/mpu_armv7.h
 gimbal\stm32f4xx_it.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h
 gimbal\stm32f4xx_it.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h
 gimbal\stm32f4xx_it.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
-gimbal\stm32f4xx_it.o: D:\project\ARM\ARMCC\Bin\..\include\stddef.h
+gimbal\stm32f4xx_it.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stddef.h
 gimbal\stm32f4xx_it.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc_ex.h
 gimbal\stm32f4xx_it.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h
 gimbal\stm32f4xx_it.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio_ex.h
@@ -33,12 +33,12 @@ gimbal\stm32f4xx_it.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.
 gimbal\stm32f4xx_it.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
 gimbal\stm32f4xx_it.o: ../Core/Inc/stm32f4xx_it.h
 gimbal\stm32f4xx_it.o: ../Configuration/usart.h
-gimbal\stm32f4xx_it.o: D:\project\ARM\ARMCC\Bin\..\include\stdio.h
-gimbal\stm32f4xx_it.o: D:\project\ARM\ARMCC\Bin\..\include\string.h
+gimbal\stm32f4xx_it.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdio.h
+gimbal\stm32f4xx_it.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\string.h
 gimbal\stm32f4xx_it.o: ../FreeRTOS/include/FreeRTOSConfig.h
-gimbal\stm32f4xx_it.o: D:\project\ARM\ARMCC\Bin\..\include\stdarg.h
+gimbal\stm32f4xx_it.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdarg.h
 gimbal\stm32f4xx_it.o: ../Core/Inc/global.h
-gimbal\stm32f4xx_it.o: D:\project\ARM\ARMCC\Bin\..\include\math.h
+gimbal\stm32f4xx_it.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\math.h
 gimbal\stm32f4xx_it.o: ../FreeRTOS/include/FreeRTOS.h
 gimbal\stm32f4xx_it.o: ../FreeRTOS/include/projdefs.h
 gimbal\stm32f4xx_it.o: ../FreeRTOS/include/portable.h
@@ -47,7 +47,7 @@ gimbal\stm32f4xx_it.o: ../FreeRTOS/portable/RVDS/ARM_CM4F/portmacro.h
 gimbal\stm32f4xx_it.o: ../FreeRTOS/include/mpu_wrappers.h
 gimbal\stm32f4xx_it.o: ../FreeRTOS/include/task.h
 gimbal\stm32f4xx_it.o: ../FreeRTOS/include/list.h
-gimbal\stm32f4xx_it.o: D:\project\ARM\ARMCC\Bin\..\include\stdlib.h
+gimbal\stm32f4xx_it.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdlib.h
 gimbal\stm32f4xx_it.o: ../Algorithm/data_protocol.h
 gimbal\stm32f4xx_it.o: ../Algorithm/mutex_lock_and_message_queue.h
 gimbal\stm32f4xx_it.o: ../Configuration/usart.h

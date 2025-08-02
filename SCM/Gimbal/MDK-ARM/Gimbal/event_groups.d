@@ -1,8 +1,8 @@
 gimbal\event_groups.o: ..\FreeRTOS\event_groups.c
-gimbal\event_groups.o: D:\project\ARM\ARMCC\Bin\..\include\stdlib.h
+gimbal\event_groups.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdlib.h
 gimbal\event_groups.o: ../FreeRTOS/include/FreeRTOS.h
-gimbal\event_groups.o: D:\project\ARM\ARMCC\Bin\..\include\stddef.h
-gimbal\event_groups.o: D:\project\ARM\ARMCC\Bin\..\include\stdint.h
+gimbal\event_groups.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stddef.h
+gimbal\event_groups.o: D:\keil\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdint.h
 gimbal\event_groups.o: ../FreeRTOS/include/FreeRTOSConfig.h
 gimbal\event_groups.o: ../FreeRTOS/include/projdefs.h
 gimbal\event_groups.o: ../FreeRTOS/include/portable.h
