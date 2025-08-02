@@ -101,10 +101,10 @@ HAL_StatusTypeDef Send_Motor_Command_X(uint8_t* data, uint16_t size) {
 /*
  * 中断处理回调函数
  */
-void USAR_UART_IDLECallback(void)
+void USAR_UART_IDLECallback(UART_HandleTypeDef* huart)
 {
     // 判断是否是空闲中断
-    if (RESET != __HAL_UART_GET_FLAG(&huart1, UART_FLAG_IDLE))
+    if (huart==&huart1&&RESET != __HAL_UART_GET_FLAG(&huart1, UART_FLAG_IDLE))
     {
         // 清除空闲中断标志（否则会一直不断进入中断）
         __HAL_UART_CLEAR_IDLEFLAG(&huart1);
@@ -121,7 +121,7 @@ void USAR_UART_IDLECallback(void)
         // 重新开启DMA
         HAL_UART_Receive_DMA(&huart1, (uint8_t*)receive_Buff1, RX_BUFFER_SIZE);
     }
-		if (RESET != __HAL_UART_GET_FLAG(&huart2, UART_FLAG_IDLE)){
+		else if (huart==&huart2&&RESET != __HAL_UART_GET_FLAG(&huart2, UART_FLAG_IDLE)){
         // 清除空闲中断标志（否则会一直不断进入中断）
         __HAL_UART_CLEAR_IDLEFLAG(&huart2);
         // 暂时关闭DMA
@@ -138,7 +138,7 @@ void USAR_UART_IDLECallback(void)
         HAL_UART_Receive_DMA(&huart2, (uint8_t*)receive_Buff2, RX_BUFFER_SIZE);
     }
 		
-		if (RESET != __HAL_UART_GET_FLAG(&huart4, UART_FLAG_IDLE)){
+		else if (huart==&huart4&&RESET != __HAL_UART_GET_FLAG(&huart4, UART_FLAG_IDLE)){
         // 清除空闲中断标志（否则会一直不断进入中断）
         __HAL_UART_CLEAR_IDLEFLAG(&huart4);
         // 暂时关闭DMA

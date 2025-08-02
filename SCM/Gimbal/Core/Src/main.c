@@ -153,14 +153,59 @@ float test_angle = 30;
 uint8_t path_cmd = 3;
 
 uint8_t motor_enable = 0;
+uint8_t x_stop_flag = 0;
 void motor_task(void) {  
     while(1) {	
-				if(offset_x!=0||offset_y!=0)
-						PID_motors(offset_x,offset_y);
-				else{
-						Motor_Stop_X(0x01,0x00);
-						//vTaskDelay(1);
-						Motor_Stop_Y(0x01,0x00);
+//				my_move_steps(&motor_x,1000,0x00,2000);
+				if(move_status==0){//找到靶心，然后射击
+					if(pre_move_status!=move_status){
+							pre_move_status = move_status;
+							HAL_TIM_PWM_Stop_IT(motor_x.timer, motor_x.timer_channel);
+							motor_x.is_moving = 0;
+					}
+					if(offset_x!=0||offset_y!=0){
+							PID_motors(offset_x,offset_y);
+							x_stop_flag = 1;
+					}
+					else{
+							if(x_stop_flag){
+								HAL_TIM_PWM_Stop_IT(motor_x.timer, motor_x.timer_channel);
+								motor_x.is_moving = 0;
+								x_stop_flag=0;
+								enable_laser(1);
+							}
+					}
+				}else if(move_status==1){//顺时针旋转
+						enable_laser(0);
+						pre_move_status = move_status;
+						my_move_steps(&motor_x,1000,0x00,2000);
+				}else if(move_status==2){//保持在中心不变
+						//todo ti板子发送结束变量，然后给树莓派发送6代表结束
+						if(pre_move_status != move_status){
+							pre_move_status = move_status;
+							HAL_TIM_PWM_Stop_IT(motor_x.timer, motor_x.timer_channel);
+							motor_x.is_moving = 0;
+						}
+						enable_laser(1);
+						PID_motors2(offset_x,offset_y);
+//						uint8_t point=5;
+//						openmv_send_command(&point,1);
+				}else if(move_status==3){//移动不画激光
+						enable_laser(0);
+						if(pre_move_status != move_status){
+							pre_move_status = move_status;
+							HAL_TIM_PWM_Stop_IT(motor_x.timer, motor_x.timer_channel);
+							motor_x.is_moving = 0;
+						}
+						PID_motors2(offset_x,offset_y);
+				}else if(move_status==4){//移动画激光
+						enable_laser(1);
+						if(pre_move_status != move_status){
+							pre_move_status = move_status;
+							HAL_TIM_PWM_Stop_IT(motor_x.timer, motor_x.timer_channel);
+							motor_x.is_moving = 0;
+						}
+						PID_motors2(offset_x,offset_y);
 				}
 				vTaskDelay(10);
     }
@@ -606,16 +651,19 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_3|GPIO_PIN_5|GPIO_PIN_7|GPIO_PIN_9, GPIO_PIN_SET);
 
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_RESET);
+
   /*Configure GPIO pins : PC0 PC1 PC2 */
   GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_2;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
   /*Configure GPIO pin : PA1 */
   GPIO_InitStruct.Pin = GPIO_PIN_1;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pins : PB3 PB5 PB7 PB9 */
@@ -623,6 +671,13 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : PB4 */
+  GPIO_InitStruct.Pin = GPIO_PIN_4;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
 /* USER CODE BEGIN MX_GPIO_Init_2 */

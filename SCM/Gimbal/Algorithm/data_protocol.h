@@ -10,6 +10,7 @@ void openmv_send_command(const uint8_t* data, uint8_t len);
 void Data_Handle1(void);
 void Data_Handle2(void);
 void Data_Handle4(void); 
+void ti_send_command(const uint8_t* data, uint8_t len);
 
 extern uint8_t openmv_rx_buf[OPENMV_RX_BUFFER_SIZE];
 extern uint16_t openmv_rx_len;
@@ -25,5 +26,7 @@ extern float target_x[5],target_y[5];
 extern uint16_t xtar,ytar,xcur,ycur;
 extern int16_t offset_x,offset_y;
 extern uint8_t send_speed_x_flag,send_speed_y_flag;
+extern uint8_t move_status,pre_move_status;
+extern uint8_t ti_status;
 #endif
 

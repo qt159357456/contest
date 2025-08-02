@@ -1,8 +1,8 @@
 Dependencies for Project 'Gimbal', Target 'Gimbal': (DO NOT MODIFY !)
 CompilerVersion: 5060960::V5.06 update 7 for Certification (build 960)::.\ARMCC
-F (startup_stm32f407xx.s)(0x688B894D)(--cpu Cortex-M4.fp.sp -g --apcs=interwork -I.\RTE\_Gimbal-ID:\project\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\project\PACK\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include--pd "__UVISION_VERSION SETA 538" --pd "_RTE_ SETA 1" --pd "STM32F407xx SETA 1" --pd "_RTE_ SETA 1"--list startup_stm32f407xx.lst --xref -o gimbal\startup_stm32f407xx.o --depend gimbal\startup_stm32f407xx.d)
-F (..\Core\Inc\global.h)(0x688B90EC)()
-F (../Core/Src/main.c)(0x688BB49F)(--c99 -c --cpu Cortex-M4.fp.sp -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../FreeRTOS/include -I ../FreeRTOS/portable/RVDS/ARM_CM4F -I ../Algorithm -I ../Configuration -I ../Hardware-I.\RTE\_Gimbal-ID:\project\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\project\PACK\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o gimbal\main.o --omf_browse gimbal\main.crf --depend gimbal\main.d)
+F (startup_stm32f407xx.s)(0x688E091A)(--cpu Cortex-M4.fp.sp -g --apcs=interwork -I.\RTE\_Gimbal-ID:\project\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\project\PACK\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include--pd "__UVISION_VERSION SETA 538" --pd "_RTE_ SETA 1" --pd "STM32F407xx SETA 1" --pd "_RTE_ SETA 1"--list startup_stm32f407xx.lst --xref -o gimbal\startup_stm32f407xx.o --depend gimbal\startup_stm32f407xx.d)
+F (..\Core\Inc\global.h)(0x688C1DC0)()
+F (../Core/Src/main.c)(0x688E0B17)(--c99 -c --cpu Cortex-M4.fp.sp -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../FreeRTOS/include -I ../FreeRTOS/portable/RVDS/ARM_CM4F -I ../Algorithm -I ../Configuration -I ../Hardware-I.\RTE\_Gimbal-ID:\project\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\project\PACK\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o gimbal\main.o --omf_browse gimbal\main.crf --depend gimbal\main.d)
 I (../Core/Inc/main.h)(0x688B9428)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x688AE351)
 I (../Core/Inc/stm32f4xx_hal_conf.h)(0x688AE356)
@@ -34,7 +34,7 @@ I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h)(0x688AE351)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h)(0x688AE351)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h)(0x688AE351)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h)(0x688AE351)
-I (../Core/Inc/global.h)(0x688B90EC)
+I (../Core/Inc/global.h)(0x688C1DC0)
 I (D:\project\ARM\ARMCC\include\math.h)(0x5E8E3CC2)
 I (../FreeRTOS/include/FreeRTOSConfig.h)(0x688AE0D2)
 I (../FreeRTOS/include/FreeRTOS.h)(0x688AE0D2)
@@ -54,20 +54,20 @@ I (D:\project\ARM\ARMCC\include\stdarg.h)(0x5E8E3CC2)
 I (../Algorithm/filter.h)(0x688AE0D0)
 I (../Hardware/servo.h)(0x688AE0D2)
 I (../Hardware/oled.h)(0x688AE0D2)
-I (../Configuration/usart.h)(0x688BA92C)
-I (../Algorithm/data_protocol.h)(0x688B8AF7)
+I (../Configuration/usart.h)(0x688C0562)
+I (../Algorithm/data_protocol.h)(0x688DC237)
 I (../Algorithm/mutex_lock_and_message_queue.h)(0x688AE0D0)
 I (../Algorithm/myMath.h)(0x688AE0D0)
 I (../Hardware/mpu6050.h)(0x688AE0D2)
 I (../Hardware/imu.h)(0x688AE0D2)
-I (../Hardware/motor.h)(0x688BA906)
+I (../Hardware/motor.h)(0x688C5C0C)
 I (../Algorithm/pid.h)(0x688AE0D0)
 I (../Hardware/eletube.h)(0x688AE0D2)
 I (../Configuration/timer.h)(0x688AE0D0)
 I (D:\project\ARM\ARMCC\include\stdbool.h)(0x5E8E3CC2)
-I (../Hardware/keys.h)(0x688AE0D2)
+I (../Hardware/keys.h)(0x688E09D5)
 I (../Algorithm/draw.h)(0x688AE0D0)
-F (../Core/Src/stm32f4xx_it.c)(0x688B894A)(--c99 -c --cpu Cortex-M4.fp.sp -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../FreeRTOS/include -I ../FreeRTOS/portable/RVDS/ARM_CM4F -I ../Algorithm -I ../Configuration -I ../Hardware-I.\RTE\_Gimbal-ID:\project\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\project\PACK\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o gimbal\stm32f4xx_it.o --omf_browse gimbal\stm32f4xx_it.crf --depend gimbal\stm32f4xx_it.d)
+F (../Core/Src/stm32f4xx_it.c)(0x688C05B6)(--c99 -c --cpu Cortex-M4.fp.sp -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../FreeRTOS/include -I ../FreeRTOS/portable/RVDS/ARM_CM4F -I ../Algorithm -I ../Configuration -I ../Hardware-I.\RTE\_Gimbal-ID:\project\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\project\PACK\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o gimbal\stm32f4xx_it.o --omf_browse gimbal\stm32f4xx_it.crf --depend gimbal\stm32f4xx_it.d)
 I (../Core/Inc/main.h)(0x688B9428)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x688AE351)
 I (../Core/Inc/stm32f4xx_hal_conf.h)(0x688AE356)
@@ -100,12 +100,12 @@ I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h)(0x688AE351)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h)(0x688AE351)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h)(0x688AE351)
 I (../Core/Inc/stm32f4xx_it.h)(0x688B894A)
-I (../Configuration/usart.h)(0x688BA92C)
+I (../Configuration/usart.h)(0x688C0562)
 I (D:\project\ARM\ARMCC\include\stdio.h)(0x5E8E3CC2)
 I (D:\project\ARM\ARMCC\include\string.h)(0x5E8E3CC2)
 I (../FreeRTOS/include/FreeRTOSConfig.h)(0x688AE0D2)
 I (D:\project\ARM\ARMCC\include\stdarg.h)(0x5E8E3CC2)
-I (../Core/Inc/global.h)(0x688B90EC)
+I (../Core/Inc/global.h)(0x688C1DC0)
 I (D:\project\ARM\ARMCC\include\math.h)(0x5E8E3CC2)
 I (../FreeRTOS/include/FreeRTOS.h)(0x688AE0D2)
 I (../FreeRTOS/include/projdefs.h)(0x688AE0D2)
@@ -116,7 +116,7 @@ I (../FreeRTOS/include/mpu_wrappers.h)(0x688AE0D2)
 I (../FreeRTOS/include/task.h)(0x688AE0D2)
 I (../FreeRTOS/include/list.h)(0x688AE0D2)
 I (D:\project\ARM\ARMCC\include\stdlib.h)(0x5E8E3CC2)
-I (../Algorithm/data_protocol.h)(0x688B8AF7)
+I (../Algorithm/data_protocol.h)(0x688DC237)
 I (../Algorithm/mutex_lock_and_message_queue.h)(0x688AE0D0)
 I (../Algorithm/myMath.h)(0x688AE0D0)
 F (../Core/Src/stm32f4xx_hal_msp.c)(0x688B894B)(--c99 -c --cpu Cortex-M4.fp.sp -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../FreeRTOS/include -I ../FreeRTOS/portable/RVDS/ARM_CM4F -I ../Algorithm -I ../Configuration -I ../Hardware-I.\RTE\_Gimbal-ID:\project\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\project\PACK\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o gimbal\stm32f4xx_hal_msp.o --omf_browse gimbal\stm32f4xx_hal_msp.crf --depend gimbal\stm32f4xx_hal_msp.d)
@@ -821,9 +821,9 @@ I (../FreeRTOS/portable/RVDS/ARM_CM4F/portmacro.h)(0x688AE0D2)
 I (../FreeRTOS/include/mpu_wrappers.h)(0x688AE0D2)
 I (../FreeRTOS/include/task.h)(0x688AE0D2)
 I (../FreeRTOS/include/list.h)(0x688AE0D2)
-F (..\Algorithm\data_protocol.c)(0x688B940B)(--c99 -c --cpu Cortex-M4.fp.sp -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../FreeRTOS/include -I ../FreeRTOS/portable/RVDS/ARM_CM4F -I ../Algorithm -I ../Configuration -I ../Hardware-I.\RTE\_Gimbal-ID:\project\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\project\PACK\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o gimbal\data_protocol.o --omf_browse gimbal\data_protocol.crf --depend gimbal\data_protocol.d)
-I (..\Algorithm\data_protocol.h)(0x688B8AF7)
-I (../Core/Inc/global.h)(0x688B90EC)
+F (..\Algorithm\data_protocol.c)(0x688DC228)(--c99 -c --cpu Cortex-M4.fp.sp -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../FreeRTOS/include -I ../FreeRTOS/portable/RVDS/ARM_CM4F -I ../Algorithm -I ../Configuration -I ../Hardware-I.\RTE\_Gimbal-ID:\project\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\project\PACK\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o gimbal\data_protocol.o --omf_browse gimbal\data_protocol.crf --depend gimbal\data_protocol.d)
+I (..\Algorithm\data_protocol.h)(0x688DC237)
+I (../Core/Inc/global.h)(0x688C1DC0)
 I (D:\project\ARM\ARMCC\include\stdint.h)(0x5E8E3CC2)
 I (D:\project\ARM\ARMCC\include\math.h)(0x5E8E3CC2)
 I (../FreeRTOS/include/FreeRTOSConfig.h)(0x688AE0D2)
@@ -867,17 +867,17 @@ I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h)(0x688AE351)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h)(0x688AE351)
 I (D:\project\ARM\ARMCC\include\stdlib.h)(0x5E8E3CC2)
 I (..\Algorithm\mutex_lock_and_message_queue.h)(0x688AE0D0)
-I (../Configuration/usart.h)(0x688BA92C)
+I (../Configuration/usart.h)(0x688C0562)
 I (../Core/Inc/main.h)(0x688B9428)
 I (D:\project\ARM\ARMCC\include\stdio.h)(0x5E8E3CC2)
 I (D:\project\ARM\ARMCC\include\stdarg.h)(0x5E8E3CC2)
-I (../Algorithm/data_protocol.h)(0x688B8AF7)
+I (../Algorithm/data_protocol.h)(0x688DC237)
 I (..\Algorithm\myMath.h)(0x688AE0D0)
-I (../Hardware/motor.h)(0x688BA906)
-F (..\Algorithm\data_protocol.h)(0x688B8AF7)()
+I (../Hardware/motor.h)(0x688C5C0C)
+F (..\Algorithm\data_protocol.h)(0x688DC237)()
 F (..\Algorithm\filter.c)(0x688AE0D0)(--c99 -c --cpu Cortex-M4.fp.sp -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../FreeRTOS/include -I ../FreeRTOS/portable/RVDS/ARM_CM4F -I ../Algorithm -I ../Configuration -I ../Hardware-I.\RTE\_Gimbal-ID:\project\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\project\PACK\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o gimbal\filter.o --omf_browse gimbal\filter.crf --depend gimbal\filter.d)
 I (..\Algorithm\filter.h)(0x688AE0D0)
-I (../Core/Inc/global.h)(0x688B90EC)
+I (../Core/Inc/global.h)(0x688C1DC0)
 I (D:\project\ARM\ARMCC\include\stdint.h)(0x5E8E3CC2)
 I (D:\project\ARM\ARMCC\include\math.h)(0x5E8E3CC2)
 I (../FreeRTOS/include/FreeRTOSConfig.h)(0x688AE0D2)
@@ -924,7 +924,7 @@ I (../Core/Inc/main.h)(0x688B9428)
 F (..\Algorithm\filter.h)(0x688AE0D0)()
 F (..\Algorithm\mutex_lock_and_message_queue.c)(0x688AE0D0)(--c99 -c --cpu Cortex-M4.fp.sp -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../FreeRTOS/include -I ../FreeRTOS/portable/RVDS/ARM_CM4F -I ../Algorithm -I ../Configuration -I ../Hardware-I.\RTE\_Gimbal-ID:\project\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\project\PACK\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o gimbal\mutex_lock_and_message_queue.o --omf_browse gimbal\mutex_lock_and_message_queue.crf --depend gimbal\mutex_lock_and_message_queue.d)
 I (..\Algorithm\mutex_lock_and_message_queue.h)(0x688AE0D0)
-I (../Core/Inc/global.h)(0x688B90EC)
+I (../Core/Inc/global.h)(0x688C1DC0)
 I (D:\project\ARM\ARMCC\include\stdint.h)(0x5E8E3CC2)
 I (D:\project\ARM\ARMCC\include\math.h)(0x5E8E3CC2)
 I (../FreeRTOS/include/FreeRTOSConfig.h)(0x688AE0D2)
@@ -971,7 +971,7 @@ F (..\Algorithm\mutex_lock_and_message_queue.h)(0x688AE0D0)()
 F (..\Algorithm\myMath.c)(0x688AE0D0)(--c99 -c --cpu Cortex-M4.fp.sp -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../FreeRTOS/include -I ../FreeRTOS/portable/RVDS/ARM_CM4F -I ../Algorithm -I ../Configuration -I ../Hardware-I.\RTE\_Gimbal-ID:\project\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\project\PACK\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o gimbal\mymath.o --omf_browse gimbal\mymath.crf --depend gimbal\mymath.d)
 I (..\Algorithm\myMath.h)(0x688AE0D0)
 I (D:\project\ARM\ARMCC\include\math.h)(0x5E8E3CC2)
-I (../Core/Inc/global.h)(0x688B90EC)
+I (../Core/Inc/global.h)(0x688C1DC0)
 I (D:\project\ARM\ARMCC\include\stdint.h)(0x5E8E3CC2)
 I (../FreeRTOS/include/FreeRTOSConfig.h)(0x688AE0D2)
 I (../FreeRTOS/include/FreeRTOS.h)(0x688AE0D2)
@@ -1016,7 +1016,7 @@ I (D:\project\ARM\ARMCC\include\stdlib.h)(0x5E8E3CC2)
 F (..\Algorithm\myMath.h)(0x688AE0D0)()
 F (..\Algorithm\pid.c)(0x688AE0D0)(--c99 -c --cpu Cortex-M4.fp.sp -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../FreeRTOS/include -I ../FreeRTOS/portable/RVDS/ARM_CM4F -I ../Algorithm -I ../Configuration -I ../Hardware-I.\RTE\_Gimbal-ID:\project\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\project\PACK\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o gimbal\pid.o --omf_browse gimbal\pid.crf --depend gimbal\pid.d)
 I (..\Algorithm\PID.h)(0x688AE0D0)
-I (../Core/Inc/global.h)(0x688B90EC)
+I (../Core/Inc/global.h)(0x688C1DC0)
 I (D:\project\ARM\ARMCC\include\stdint.h)(0x5E8E3CC2)
 I (D:\project\ARM\ARMCC\include\math.h)(0x5E8E3CC2)
 I (../FreeRTOS/include/FreeRTOSConfig.h)(0x688AE0D2)
@@ -1074,9 +1074,9 @@ I (D:\project\ARM\ARMCC\include\stdio.h)(0x5E8E3CC2)
 F (..\Hardware\eletube.h)(0x688AE0D2)()
 F (..\Hardware\imu.c)(0x688AE0D2)(--c99 -c --cpu Cortex-M4.fp.sp -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../FreeRTOS/include -I ../FreeRTOS/portable/RVDS/ARM_CM4F -I ../Algorithm -I ../Configuration -I ../Hardware-I.\RTE\_Gimbal-ID:\project\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\project\PACK\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o gimbal\imu.o --omf_browse gimbal\imu.crf --depend gimbal\imu.d)
 F (..\Hardware\imu.h)(0x688AE0D2)()
-F (..\Hardware\keys.c)(0x688BB45F)(--c99 -c --cpu Cortex-M4.fp.sp -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../FreeRTOS/include -I ../FreeRTOS/portable/RVDS/ARM_CM4F -I ../Algorithm -I ../Configuration -I ../Hardware-I.\RTE\_Gimbal-ID:\project\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\project\PACK\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o gimbal\keys.o --omf_browse gimbal\keys.crf --depend gimbal\keys.d)
-I (..\Hardware\keys.h)(0x688AE0D2)
-I (../Core/Inc/global.h)(0x688B90EC)
+F (..\Hardware\keys.c)(0x688E09C7)(--c99 -c --cpu Cortex-M4.fp.sp -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../FreeRTOS/include -I ../FreeRTOS/portable/RVDS/ARM_CM4F -I ../Algorithm -I ../Configuration -I ../Hardware-I.\RTE\_Gimbal-ID:\project\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\project\PACK\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o gimbal\keys.o --omf_browse gimbal\keys.crf --depend gimbal\keys.d)
+I (..\Hardware\keys.h)(0x688E09D5)
+I (../Core/Inc/global.h)(0x688C1DC0)
 I (D:\project\ARM\ARMCC\include\stdint.h)(0x5E8E3CC2)
 I (D:\project\ARM\ARMCC\include\math.h)(0x5E8E3CC2)
 I (../FreeRTOS/include/FreeRTOSConfig.h)(0x688AE0D2)
@@ -1119,16 +1119,16 @@ I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h)(0x688AE351)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h)(0x688AE351)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h)(0x688AE351)
 I (D:\project\ARM\ARMCC\include\stdlib.h)(0x5E8E3CC2)
-I (../Algorithm/data_protocol.h)(0x688B8AF7)
+I (../Algorithm/data_protocol.h)(0x688DC237)
 I (../Algorithm/mutex_lock_and_message_queue.h)(0x688AE0D0)
-I (../Configuration/usart.h)(0x688BA92C)
+I (../Configuration/usart.h)(0x688C0562)
 I (../Core/Inc/main.h)(0x688B9428)
 I (D:\project\ARM\ARMCC\include\stdio.h)(0x5E8E3CC2)
 I (D:\project\ARM\ARMCC\include\stdarg.h)(0x5E8E3CC2)
 I (../Algorithm/myMath.h)(0x688AE0D0)
-I (..\Hardware\motor.h)(0x688BA906)
-F (..\Hardware\keys.h)(0x688AE0D2)()
-F (..\Hardware\motor.c)(0x688BB013)(--c99 -c --cpu Cortex-M4.fp.sp -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../FreeRTOS/include -I ../FreeRTOS/portable/RVDS/ARM_CM4F -I ../Algorithm -I ../Configuration -I ../Hardware-I.\RTE\_Gimbal-ID:\project\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\project\PACK\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o gimbal\motor.o --omf_browse gimbal\motor.crf --depend gimbal\motor.d)
+I (..\Hardware\motor.h)(0x688C5C0C)
+F (..\Hardware\keys.h)(0x688E09D5)()
+F (..\Hardware\motor.c)(0x688CB82C)(--c99 -c --cpu Cortex-M4.fp.sp -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../FreeRTOS/include -I ../FreeRTOS/portable/RVDS/ARM_CM4F -I ../Algorithm -I ../Configuration -I ../Hardware-I.\RTE\_Gimbal-ID:\project\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\project\PACK\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o gimbal\motor.o --omf_browse gimbal\motor.crf --depend gimbal\motor.d)
 I (../Core/Inc/main.h)(0x688B9428)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x688AE351)
 I (../Core/Inc/stm32f4xx_hal_conf.h)(0x688AE356)
@@ -1160,12 +1160,12 @@ I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h)(0x688AE351)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h)(0x688AE351)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h)(0x688AE351)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h)(0x688AE351)
-I (../Configuration/usart.h)(0x688BA92C)
+I (../Configuration/usart.h)(0x688C0562)
 I (D:\project\ARM\ARMCC\include\stdio.h)(0x5E8E3CC2)
 I (D:\project\ARM\ARMCC\include\string.h)(0x5E8E3CC2)
 I (../FreeRTOS/include/FreeRTOSConfig.h)(0x688AE0D2)
 I (D:\project\ARM\ARMCC\include\stdarg.h)(0x5E8E3CC2)
-I (../Core/Inc/global.h)(0x688B90EC)
+I (../Core/Inc/global.h)(0x688C1DC0)
 I (D:\project\ARM\ARMCC\include\math.h)(0x5E8E3CC2)
 I (../FreeRTOS/include/FreeRTOS.h)(0x688AE0D2)
 I (../FreeRTOS/include/projdefs.h)(0x688AE0D2)
@@ -1176,12 +1176,12 @@ I (../FreeRTOS/include/mpu_wrappers.h)(0x688AE0D2)
 I (../FreeRTOS/include/task.h)(0x688AE0D2)
 I (../FreeRTOS/include/list.h)(0x688AE0D2)
 I (D:\project\ARM\ARMCC\include\stdlib.h)(0x5E8E3CC2)
-I (../Algorithm/data_protocol.h)(0x688B8AF7)
+I (../Algorithm/data_protocol.h)(0x688DC237)
 I (../Algorithm/mutex_lock_and_message_queue.h)(0x688AE0D0)
 I (../Algorithm/myMath.h)(0x688AE0D0)
 I (../Configuration/timer.h)(0x688AE0D0)
-I (..\Hardware\motor.h)(0x688BA906)
-F (..\Hardware\motor.h)(0x688BA906)()
+I (..\Hardware\motor.h)(0x688C5C0C)
+F (..\Hardware\motor.h)(0x688C5C0C)()
 F (..\Hardware\mpu6050.c)(0x688AE0D2)(--c99 -c --cpu Cortex-M4.fp.sp -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../FreeRTOS/include -I ../FreeRTOS/portable/RVDS/ARM_CM4F -I ../Algorithm -I ../Configuration -I ../Hardware-I.\RTE\_Gimbal-ID:\project\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\project\PACK\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o gimbal\mpu6050.o --omf_browse gimbal\mpu6050.crf --depend gimbal\mpu6050.d)
 F (..\Hardware\mpu6050.h)(0x688AE0D2)()
 F (..\Hardware\oled.c)(0x688AE0D2)(--c99 -c --cpu Cortex-M4.fp.sp -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../FreeRTOS/include -I ../FreeRTOS/portable/RVDS/ARM_CM4F -I ../Algorithm -I ../Configuration -I ../Hardware-I.\RTE\_Gimbal-ID:\project\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\project\PACK\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o gimbal\oled.o --omf_browse gimbal\oled.crf --depend gimbal\oled.d)
@@ -1221,7 +1221,7 @@ I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h)(0x688AE351)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h)(0x688AE351)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h)(0x688AE351)
 I (..\Configuration\timer.h)(0x688AE0D0)
-I (../Core/Inc/global.h)(0x688B90EC)
+I (../Core/Inc/global.h)(0x688C1DC0)
 I (D:\project\ARM\ARMCC\include\math.h)(0x5E8E3CC2)
 I (../FreeRTOS/include/FreeRTOSConfig.h)(0x688AE0D2)
 I (../FreeRTOS/include/FreeRTOS.h)(0x688AE0D2)
@@ -1235,8 +1235,8 @@ I (../FreeRTOS/include/list.h)(0x688AE0D2)
 I (D:\project\ARM\ARMCC\include\string.h)(0x5E8E3CC2)
 I (D:\project\ARM\ARMCC\include\stdlib.h)(0x5E8E3CC2)
 F (..\Configuration\timer.h)(0x688AE0D0)()
-F (..\Configuration\usart.c)(0x688BA3B1)(--c99 -c --cpu Cortex-M4.fp.sp -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../FreeRTOS/include -I ../FreeRTOS/portable/RVDS/ARM_CM4F -I ../Algorithm -I ../Configuration -I ../Hardware-I.\RTE\_Gimbal-ID:\project\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\project\PACK\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o gimbal\usart.o --omf_browse gimbal\usart.crf --depend gimbal\usart.d)
-I (..\Configuration\usart.h)(0x688BA92C)
+F (..\Configuration\usart.c)(0x688C0552)(--c99 -c --cpu Cortex-M4.fp.sp -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../FreeRTOS/include -I ../FreeRTOS/portable/RVDS/ARM_CM4F -I ../Algorithm -I ../Configuration -I ../Hardware-I.\RTE\_Gimbal-ID:\project\PACK\ARM\CMSIS\5.9.0\CMSIS\Core\Include-ID:\project\PACK\Keil\STM32F4xx_DFP\2.16.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="538" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o gimbal\usart.o --omf_browse gimbal\usart.crf --depend gimbal\usart.d)
+I (..\Configuration\usart.h)(0x688C0562)
 I (../Core/Inc/main.h)(0x688B9428)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x688AE351)
 I (../Core/Inc/stm32f4xx_hal_conf.h)(0x688AE356)
@@ -1272,7 +1272,7 @@ I (D:\project\ARM\ARMCC\include\stdio.h)(0x5E8E3CC2)
 I (D:\project\ARM\ARMCC\include\string.h)(0x5E8E3CC2)
 I (../FreeRTOS/include/FreeRTOSConfig.h)(0x688AE0D2)
 I (D:\project\ARM\ARMCC\include\stdarg.h)(0x5E8E3CC2)
-I (../Core/Inc/global.h)(0x688B90EC)
+I (../Core/Inc/global.h)(0x688C1DC0)
 I (D:\project\ARM\ARMCC\include\math.h)(0x5E8E3CC2)
 I (../FreeRTOS/include/FreeRTOS.h)(0x688AE0D2)
 I (../FreeRTOS/include/projdefs.h)(0x688AE0D2)
@@ -1283,8 +1283,8 @@ I (../FreeRTOS/include/mpu_wrappers.h)(0x688AE0D2)
 I (../FreeRTOS/include/task.h)(0x688AE0D2)
 I (../FreeRTOS/include/list.h)(0x688AE0D2)
 I (D:\project\ARM\ARMCC\include\stdlib.h)(0x5E8E3CC2)
-I (../Algorithm/data_protocol.h)(0x688B8AF7)
+I (../Algorithm/data_protocol.h)(0x688DC237)
 I (../Algorithm/mutex_lock_and_message_queue.h)(0x688AE0D0)
-I (../Configuration/usart.h)(0x688BA92C)
+I (../Configuration/usart.h)(0x688C0562)
 I (../Algorithm/myMath.h)(0x688AE0D0)
-F (..\Configuration\usart.h)(0x688BA92C)()
+F (..\Configuration\usart.h)(0x688C0562)()

@@ -116,6 +116,21 @@ void move_steps(StepperMotor* motor,int32_t steps,uint32_t freq){
     HAL_TIM_PWM_Start_IT(motor->timer, motor->timer_channel);
 }
 
+void my_move_steps(StepperMotor* motor,uint32_t steps,uint8_t dir,uint32_t freq){
+		if(motor->is_moving||steps==0)
+				return;
+		Set_Direction(motor,dir);
+		motor->step_target = steps;
+		if(motor->step_target==0)
+				return;
+		motor->step_count = 0;
+		Set_Speed(motor, freq);
+		motor->is_moving = 1;
+		__HAL_TIM_CLEAR_IT(motor->timer, TIM_IT_UPDATE);
+    HAL_TIM_Base_Start_IT(motor->timer);
+    HAL_TIM_PWM_Start_IT(motor->timer, motor->timer_channel);
+}
+
 
 int arrive_target(uint16_t x_t,uint16_t y_t,uint16_t x_c,uint16_t y_c,int dis){
 		return (abs(x_t-x_c)<dis&&abs(y_t-y_c)<dis);
@@ -555,21 +570,52 @@ HAL_StatusTypeDef Move_Absolute_Angle_Y(uint8_t address, float angle, uint16_t s
 
 
 
-float kp_x = 1,kp_y = 1;
+float kp_x = 0.15,kp_y = 1;
 int steps_x,steps_y;
+uint32_t x_steps;
 uint8_t acceleration = 0x0A;
 void PID_motors(int16_t offset_x,int16_t offset_y){
-	uint8_t dir_x = offset_x>=0?0x01:0x00;//
-	uint8_t dir_y = offset_y>=0?0x00:0x01;//y轴朝上正
-	uint16_t speed_x = (uint16_t)(constrain(abs(offset_x)*kp_x,0,30));//转每分钟
-	uint16_t speed_y = (uint16_t)(constrain(abs(offset_y)*kp_y,0,30));
-	if(speed_y&&!send_speed_y_flag){
-		Speed_Mode_Y(0x01, dir_y, speed_y, acceleration, 0x00);//y
-		send_speed_y_flag = 1;
-		//vTaskDelay(1);
+	uint8_t dir_x = offset_x>=0?0x00:0x01;//
+//	uint8_t dir_y = offset_y>=0?0x00:0x01;//y轴朝上正
+//	uint16_t speed_x = (uint16_t)(constrain(abs(offset_x)*kp_x,0,30));//转每分钟
+//	uint16_t speed_y = (uint16_t)(constrain(abs(offset_y)*kp_y,0,30));
+//	if(speed_y&&!send_speed_y_flag){
+//		Speed_Mode_Y(0x01, dir_y, speed_y, acceleration, 0x00);//y
+//		send_speed_y_flag = 1;
+//		//vTaskDelay(1);
+//	}
+//	if(speed_x&&!send_speed_x_flag){
+//		Speed_Mode_X(0x01, dir_x, speed_x,acceleration, 0x00);//x
+//		send_speed_x_flag = 1;
+//	}
+//	offset_x = abs(offset_x);
+//	if(offset_x>50)
+//			kp_x = 1;
+//	else
+//			kp_x = 0.1;
+//	x_steps = (uint32_t)(kp_x*offset_x);
+//	if(x_steps==0)
+//		x_steps=1;
+	offset_x = abs(offset_x);
+	if(offset_x>100){
+			x_steps = 5;
 	}
-	if(speed_x&&!send_speed_x_flag){
-		Speed_Mode_X(0x01, dir_x, speed_x,acceleration, 0x00);//x
-		send_speed_x_flag = 1;
-	}
+	else if(offset_x>50)
+			x_steps = 2;
+	else
+			x_steps = 1;
+	my_move_steps(&motor_x,x_steps,dir_x,2000);
+}
+
+
+void PID_motors2(int16_t offset_x,int16_t offset_y){
+	uint8_t dir_x = offset_x>=0?0x00:0x01;//
+	offset_x = abs(offset_x);
+	if(offset_x>50)
+			x_steps = 2;
+	else if(offset_x>8)
+			x_steps = 1;
+	else
+			x_steps = 0;
+	my_move_steps(&motor_x,x_steps,dir_x,1000);
 }

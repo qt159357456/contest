@@ -13,6 +13,7 @@ void Reset_Position(void);
 void generate_linear_path(Point2D_t start, Point2D_t end, Angles_t* path);
 void Reset_Gimbal(void);
 void PID_motors(int16_t offset_x,int16_t offset_y);
+void PID_motors2(int16_t offset_x,int16_t offset_y);
 HAL_StatusTypeDef Motor_Enable_X(uint8_t address, uint8_t enable, uint8_t sync_flag);
 HAL_StatusTypeDef Speed_Mode_X(uint8_t address, uint8_t direction, uint16_t speed, uint8_t acceleration, uint8_t sync_flag);
 HAL_StatusTypeDef Position_Mode_X(uint8_t address, uint8_t direction, uint16_t speed, uint8_t acceleration, uint32_t pulses, uint8_t abs_mode, uint8_t sync_flag);
@@ -44,7 +45,7 @@ HAL_StatusTypeDef Move_Relative_Angle_Y(uint8_t address, float angle, uint16_t s
 /* 角度控制函数（绝对角度） */
 HAL_StatusTypeDef Move_Absolute_Angle_Y(uint8_t address, float angle, uint16_t speed);
 
-
+void my_move_steps(StepperMotor* motor,uint32_t steps,uint8_t dir,uint32_t freq);
 
 
 int arrive_target(uint16_t x_t,uint16_t y_t,uint16_t x_c,uint16_t y_c,int dis);

@@ -19,7 +19,7 @@ extern uint8_t receive_Buff4[RX_BUFFER_SIZE]; //接收数据直接区
 extern uint8_t handle_Buff4[RX_BUFFER_SIZE]; //接收数据缓冲区
  
 void uart_init(void); //串口初始化函数
-void USAR_UART_IDLECallback(void); //串口中断回调函数
+void USAR_UART_IDLECallback(UART_HandleTypeDef* huart); //串口中断回调函数
 void debug_printf(const char *fmt, ...);//打印函数
 void UART_Transmit_DMA_Safe(uint8_t *data, uint16_t len);// 线程安全的DMA发送函数调函数
 
